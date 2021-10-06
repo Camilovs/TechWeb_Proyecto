@@ -39,7 +39,7 @@
 #### Configurar mongo en Node
 - Instalar mongoose para poder trabajar con base de datos mongo.
   ```npm i mongoose```
-- Crear Modelos
+- Crear directorio de modelos donde se guardaran los modelos de mongo.
 
 
 ## Utils
