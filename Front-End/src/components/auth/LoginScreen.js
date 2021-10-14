@@ -5,7 +5,7 @@ export default class LoginScreen extends Component {
     return (
       <form>
         <div class="text-center">
-          <h3>Iniciar sesión</h3>
+          <h3>Iniciar Sesión</h3>
         </div>
         <div class="mb-4">
           <label for="email" class="form-label">
@@ -24,21 +24,23 @@ export default class LoginScreen extends Component {
           <label for="connected" class="form-check-label">
             Mantener sesión
           </label>
-        </div>
-        <div class="d-grid">
-          <button type="submit" class="btn btn-primary">
-            Iniciar sesión
-          </button>
-        </div>
-        <div class="my-3">
-          <span>
-            No tienes cuenta? <a href="#">Registrarse</a>
-          </span>
-          <br />
           <span>
             {" "}
             <a href="#">Recuperar contraseña</a>
           </span>
+        </div>
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">
+            Iniciar Sesión
+          </button>
+        </div>
+        <div class="text-center">
+        <div class="my-3">
+          <span>
+            ¿No tienes cuenta? <a href="#">Registrarse</a>
+          </span>
+          <br />
+        </div>
         </div>
       </form>
     );

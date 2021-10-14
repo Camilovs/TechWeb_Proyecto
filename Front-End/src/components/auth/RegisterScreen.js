@@ -34,7 +34,7 @@ export default class LoginScreen extends Component {
             Registrarse
           </button>
         </div>
-        <div class="my-3 ">
+        <div class="my-3 text-center">
           <span>
             {" "}
             <a href="#">Volver</a>
