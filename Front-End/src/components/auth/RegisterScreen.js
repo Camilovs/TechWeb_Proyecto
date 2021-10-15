@@ -4,37 +4,37 @@ export default class LoginScreen extends Component {
   render() {
     return (
       <form>
-        <div class="text-center">
+        <div className="text-center">
           <h3>Registrarse</h3>
         </div>
-        <div class="mb-4">
-          <label for="email" class="form-label">
+        <div className="mb-4">
+          <label for="email" className="form-label">
             Correo electrónico
           </label>
-          <input type="email" class="form-control" name="email" />
+          <input type="email" className="form-control" name="email" />
         </div>
-        <div class="mb-4">
-          <label for="password" class="form-label">
+        <div className="mb-4">
+          <label for="password" className="form-label">
             Contraseña
           </label>
-          <input type="password" class="form-control" name="password" />
+          <input type="password" className="form-control" name="password" />
         </div>
-        <div class="mb-4">
-          <label for="password" class="form-label">
+        <div className="mb-4">
+          <label for="password" className="form-label">
             Confirmar contraseña
           </label>
           <input
             type="password"
-            class="form-control"
+            className="form-control"
             name="confirmar-password"
           />
         </div>
-        <div class="d-grid">
-          <button type="submit" class="btn btn-primary">
+        <div className="d-grid">
+          <button type="submit" className="btn btn-primary">
             Registrarse
           </button>
         </div>
-        <div class="my-3 text-center">
+        <div className="my-3 text-center">
           <span>
             {" "}
             <a href="#">Volver</a>

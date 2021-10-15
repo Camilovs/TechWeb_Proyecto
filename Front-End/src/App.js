@@ -29,16 +29,16 @@ function App() {
           </div>
         </nav>
 
-        <div class="container w-75 bg-primary mt-5 rounded shadow fixed-center">
-          <div class="row align-items-stretch">
-            <div class="col bg d-none d-lg-block col-md-5 col-lg-5 col-xl-6 rounded"></div>
-            <div class="col bg-white p-5 rounded-end">
-              <div class="text-end">
+        <div className="container w-75 bg-primary mt-5 rounded shadow fixed-center">
+          <div className="row align-items-stretch">
+            <div className="col bg d-none d-lg-block col-md-5 col-lg-5 col-xl-6 rounded"></div>
+            <div className="col bg-white p-5 rounded-end">
+              <div className="text-end">
               </div>
-              <h2 class="fw-bold text-center pt-1 mb-3">
-                <img src="https://i.imgur.com/RnnsK1K.jpg" width="150" />
+              <h2 className="fw-bold text-center pt-1 mb-3">
+                <img src="https://i.imgur.com/RnnsK1K.jpg" alt="login" width="150" />
               </h2>
-              <Switch class="col-6">
+              <Switch className="col-6">
                 <Route exact path="/" component={LoginScreen} />
                 <Route path="/sign-in" component={LoginScreen} />
                 <Route path="/sign-up" component={RegisterScreen} />
@@ -47,8 +47,8 @@ function App() {
           </div>
         </div>
       </div>
-      <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-dark text-white-50 fixed-bottom">
-        <div class="container text-center">
+      <footer id="sticky-footer" className="flex-shrink-0 py-4 bg-dark text-white-50 fixed-bottom">
+        <div className="container text-center">
           <small>Copyright Tecnologías Web &copy; Me Anoto</small>
         </div>
       </footer>
