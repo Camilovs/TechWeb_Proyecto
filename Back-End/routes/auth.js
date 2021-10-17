@@ -2,12 +2,12 @@
 
 const {Router} = require('express');
 const { check } = require('express-validator');
-const { crearUsuario, loginUsuario, revalidarToken } = require('../controllers/auth');
+const { crearEstudiante, loginUsuario, revalidarToken } = require('../controllers/auth');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 const router = Router();
 
-// crear usuarios
+// crear estudiante
 router.post(
   '/new', //url
   [ //middlewares
@@ -16,7 +16,7 @@ router.post(
     check('pass', 'El password debe ser de 6 caracteres').isLength({min:6}), //el email debe ser formato email
     validarCampos //si validarCampos encuentra un error, no permite que se ejecute el controlador crearUsuario.
   ], 
-  crearUsuario //controlador
+  crearEstudiante //controlador
 );
 
 // verificar y revalidar el token de usuario

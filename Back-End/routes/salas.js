@@ -54,7 +54,7 @@ actualizarAforo);
 
 router.put('/updateOcupado/:id',
 [
-  // check('ocupada','los bloques ocupados deben ser un array').isArray(),
+  check('ocupada','los bloques ocupados deben ser un array').isArray(),
   validarCampos
 ],
 agregarBloqueOcupado);
