@@ -143,7 +143,7 @@ const eliminarSala = async(req, res = response) => {
     console.log(error);
     res.status(500).json({
         ok: false,
-        msg: 'Error en bd actualizar sala'
+        msg: 'Error en bd eliminar sala'
     });
   }
 
