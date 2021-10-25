@@ -4,7 +4,8 @@ const base_url = 'https://me-anoto.herokuapp.com/api';
 
 const fetchSinToken = async(endpoint, data, method = 'GET') => {
 
-  const url = `${base_url}/${endpoint}`;
+  // const url = `${base_url}/${endpoint}`;
+  const url = `${process.env.REACT_APP_BASE_URL}/${endpoint}`;
 
   if(method==='GET'){
     return fetch(url);
