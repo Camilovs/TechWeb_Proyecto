@@ -26,6 +26,8 @@ const crearUsuario = async (req, res = response) => {
     const salt = bcrypt.genSaltSync();
     usuario.pass = bcrypt.hashSync(pass, salt);
 
+    usuario.rol = 'Estudiante'
+
     await usuario.save()
 
     const token = await generarJWT(usuario.id, usuario.nombre);
@@ -109,7 +111,7 @@ const revalidarToken = async (req, res = response) => {
 }
 
 module.exports = {
-  crearUsuario,
+  crearEstudiante,
   loginUsuario,
   revalidarToken
 }
