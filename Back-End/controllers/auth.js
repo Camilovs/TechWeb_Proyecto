@@ -6,7 +6,7 @@ const { generarJWT } = require('../helpers/jwt');
 
 
 const crearUsuario = async (req, res = response) => {
-
+  console.log('Creando usuario...')
   const {email,pass} = req.body;
 
   try {
@@ -19,7 +19,6 @@ const crearUsuario = async (req, res = response) => {
         msg:"Ya existe un usario con ese correo"
       })
     }
-
 
     usuario = new Usuario(req.body); 
 
