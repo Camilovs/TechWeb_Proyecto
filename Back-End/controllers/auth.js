@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const { generarJWT } = require('../helpers/jwt');
 
 
-const crearUsuario = async (req, res = response) => {
+const crearEstudiante = async (req, res = response) => {
   console.log('Creando usuario...')
   const {email,pass} = req.body;
 
