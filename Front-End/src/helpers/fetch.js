@@ -1,8 +1,11 @@
-const base_url = 'http://localhost:4040/api';
+const base_url_local = 'http://localhost:4040/api';
+const base_url = 'https://me-anoto.herokuapp.com/api';
+// const base_url = 'http://mrrojano97.ddns.net:40404/api';
 
 const fetchSinToken = async(endpoint, data, method = 'GET') => {
 
-  const url = `${base_url}/${endpoint}`;
+  // const url = `${base_url}/${endpoint}`;
+  const url = `${process.env.REACT_APP_BASE_URL}/${endpoint}`;
 
   if(method==='GET'){
     return fetch(url);

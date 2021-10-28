@@ -22,6 +22,8 @@ server.use(express.json());
 server.use('/api/auth', require('./routes/auth'));
 server.use('/api/salas', require('./routes/salas'));
 server.use('/api/bloques', require('./routes/bloques'));
+server.use('/api/usuarios', require('./routes/usuarios'));
+server.use('/api/modulos', require('./routes/modulos'));
 
 
 // Listening peticiones

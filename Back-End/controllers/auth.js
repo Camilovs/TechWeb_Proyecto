@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const { generarJWT } = require('../helpers/jwt');
 
 
-const crearUsuario = async (req, res = response) => {
+const crearEstudiante = async (req, res = response) => {
   console.log('Creando usuario...')
   const {email,pass} = req.body;
 
@@ -25,6 +25,8 @@ const crearUsuario = async (req, res = response) => {
     // Encriptar contraseña
     const salt = bcrypt.genSaltSync();
     usuario.pass = bcrypt.hashSync(pass, salt);
+
+    usuario.rol = 'Estudiante'
 
     await usuario.save()
 
@@ -109,7 +111,7 @@ const revalidarToken = async (req, res = response) => {
 }
 
 module.exports = {
-  crearUsuario,
+  crearEstudiante,
   loginUsuario,
   revalidarToken
 }

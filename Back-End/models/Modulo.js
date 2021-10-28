@@ -8,15 +8,13 @@ const ModuloSchema = Schema({
   integrantes:{
     type:Number
   },
-  horario:{
-    inicio: {
-      type:Schema.Types.ObjectId,
-      ref:'Bloque'
-    },
-    fin: {
-      type:Schema.Types.ObjectId,
-      ref:'Bloque'
-    }
+  bloque_inicio: {
+    type:Schema.Types.ObjectId,
+    ref:'Bloque'
+  },
+  bloque_fin: {
+    type:Schema.Types.ObjectId,
+    ref:'Bloque'
   },
   profesor:{
     type:Schema.Types.ObjectId,
