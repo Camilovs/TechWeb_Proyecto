@@ -1,6 +1,55 @@
 import React, { useState } from "react";
 import { Route, Router, Switch, useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import { fetchSinToken } from "../../helpers/fetch";
+import { passwordStrength } from 'check-password-strength'
+import { Alert } from 'bootstrap'
+
+var emailTrue = require("email-validator");
+
+const loginUsuario = async() => {
+  console.log("Cargando información a Backend");
+  const resp = await fetchSinToken('auth', {"email":"admin@correo.com", "pass":"123456"}, 'POST')
+  const body = await resp.json();
+  console.log(body)
+}
+
+const verifInfoRegistro = async() => {
+  console.log("Verificando información ingresada")
+
+  var pass1 = document.getElementById('registerPassword1')
+  var pass2 = document.getElementById('registerPassword2')
+  var email = document.getElementById('registerEmail')
+
+  if (emailTrue.validate(email.value)) {
+      console.log("Correo valido")
+      email.setCustomValidity('')
+
+    if (passwordStrength(pass1.value).id >= 1) {
+      console.log("Contraseña Cumple")
+      pass1.setCustomValidity('')
+
+      if (pass1.value==pass2.value) {
+        console.log("Las contraseñas son iguales")
+        pass2.setCustomValidity('')
+      }
+
+      else {
+        console.log("ERROR: Contraseñas distintas")
+        pass2.setCustomValidity("Las contraseñas deben ser iguales");
+      }
+    }
+    else {
+        console.log("ERROR: Contraseña no cumple seguridad")
+        pass1.setCustomValidity("La contraseña debe tener al menos 6 caracteres entre letras y números")
+    }
+  }
+
+  else {
+    console.log("ERROR: Correo no válido")
+    email.setCustomValidity('Ingrese un correo válido')
+  }
+}
 
 export const Auth = () => {
   const [vistaAuth, setvistaAuth] = useState("login");
@@ -30,7 +79,7 @@ export const Auth = () => {
                 />
               </h2>
               {vistaAuth === "registro" ? (
-                <form>
+                <form id="formulario_registro">
                   <div className="text-center">
                     <h3>Registrarse</h3>
                   </div>
@@ -38,16 +87,18 @@ export const Auth = () => {
                     <label for="email" className="form-label">
                       Correo electrónico
                     </label>
-                    <input type="email" className="form-control" name="email" />
+                    <input id="registerEmail" type="email" className="form-control" name="email" required />
                   </div>
                   <div className="mb-4">
                     <label for="password" className="form-label">
                       Contraseña
                     </label>
                     <input
+                      id="registerPassword1"
                       type="password"
                       className="form-control"
-                      name="password"
+                      name="password_register1"
+                      required
                     />
                   </div>
                   <div className="mb-4">
@@ -55,16 +106,19 @@ export const Auth = () => {
                       Confirmar contraseña
                     </label>
                     <input
+                      id="registerPassword2"
                       type="password"
                       className="form-control"
-                      name="confirmar-password"
+                      name="password_register2"
+                      required
                     />
                   </div>
+                  <a onClick={() => verifInfoRegistro()}>
                   <div className="d-grid">
                     <button type="submit" className="btn btn-primary">
-                      Registrarse
+                          Registrarse
                     </button>
-                  </div>
+                  </div> </a>
                   <div className="my-3 text-center">
                     <span>
                       {" "}
@@ -81,7 +135,7 @@ export const Auth = () => {
                     <label htmlFor="email" className="form-label">
                       Correo electrónico
                     </label>
-                    <input type="email" className="form-control" name="email" />
+                    <input type="email" className="form-control" name="email" required />
                   </div>
                   <div className="mb-4">
                     <label htmlFor="password" className="form-label">
@@ -91,6 +145,7 @@ export const Auth = () => {
                       type="password"
                       className="form-control"
                       name="email"
+                      required
                     />
                   </div>
                   <div className="mb-4 form-check">
