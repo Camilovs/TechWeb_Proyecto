@@ -1,17 +1,34 @@
 import React, { useState } from "react";
 import { Route, Router, Switch, useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { fetchSinToken } from "../../helpers/fetch";
+import { fetchLogin } from "../../helpers/fetch";
 import { passwordStrength } from 'check-password-strength'
 import { Alert } from 'bootstrap'
 
 var emailTrue = require("email-validator");
 
 const loginUsuario = async() => {
-  console.log("Cargando información a Backend");
-  const resp = await fetchSinToken('auth', {"email":"admin@correo.com", "pass":"123456"}, 'POST')
-  const body = await resp.json();
-  console.log(body)
+  var email = document.getElementById('loginEmail')
+  var pass = document.getElementById('loginPassword')
+  
+
+  if (email.value!='' & pass.value!='') {
+
+    console.log("Cargando información a Backend");
+    const resp = await fetchLogin('auth', {"email":email.value, "pass":pass.value}, 'POST')
+    const body = await resp.json();
+
+    console.log(body.ok)
+    if (body.ok == false){
+      email.setCustomValidity('Correo o Contraseña Ingresados son Incorrectos')
+    }
+    else {
+      console.log(body.token)
+      email.setCustomValidity('')
+      localStorage.setItem('userToken', body.token)
+      
+    }
+  }
 }
 
 const verifInfoRegistro = async() => {
@@ -135,13 +152,14 @@ export const Auth = () => {
                     <label htmlFor="email" className="form-label">
                       Correo electrónico
                     </label>
-                    <input type="email" className="form-control" name="email" required />
+                    <input id="loginEmail" type="email" className="form-control" name="email" required  />
                   </div>
                   <div className="mb-4">
                     <label htmlFor="password" className="form-label">
                       Contraseña
                     </label>
                     <input
+                      id="loginPassword"
                       type="password"
                       className="form-control"
                       name="email"
@@ -162,11 +180,12 @@ export const Auth = () => {
                       <a href="#">Recuperar contraseña</a>
                     </span>
                   </div>
+                  <a onClick={() => loginUsuario()}>
                   <div className="d-grid">
                     <button type="submit" className="btn btn-primary">
                       Iniciar Sesión
                     </button>
-                  </div>
+                  </div> </a>
                   <div className="text-center">
                     <div className="my-3">
                       <span>
