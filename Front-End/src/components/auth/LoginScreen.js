@@ -1,9 +1,17 @@
 import React, { Component } from "react";
+import { fetchSinToken } from "../../helpers/fetch";
+
+const loginUsuario = async() => {
+    const resp = await fetchSinToken('auth', {"email":"admin@correo.com", "pass":"123456"}, 'POST')
+    const body = await resp.json();
+    console.log(body)
+}
 
 export default class LoginScreen extends Component {
-  render() {
+  render ()  {
+    loginUsuario()
     return (
-      <form>
+      <form >
         <div className="text-center">
           <h3>Iniciar Sesión</h3>
         </div>
@@ -30,7 +38,7 @@ export default class LoginScreen extends Component {
           </span>
         </div>
         <div className="d-grid">
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary"  >
             Iniciar Sesión
           </button>
         </div>
