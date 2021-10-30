@@ -149,39 +149,6 @@ const eliminarSala = async(req, res = response) => {
 
 }
 
-const actualizarAforo = async(req,res = response) => {
-  
-  const salaId = req.params.id;
-  try {
-    
-    const sala = await Sala.findById(salaId);
-
-    if(!sala){
-      return res.status(404).json({
-        ok:false,
-        msg:"La sala no existe"
-      })
-    }
-
-    // sala.aforo = req.aforo;
-    // await sala.save()
-    await Sala.updateOne({_id:salaId},{aforo:req.body.aforo});
-
-    res.json({
-      ok:true,
-      msg:"Aforo actualizado"
-    })
-
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-        ok: false,
-        msg: 'Error en bd actualizar aforo'
-    });
-  }
-
-}
-
 const agregarBloqueOcupado = async(req, res = response) => {
 
   const salaId = req.params.id;
@@ -227,6 +194,5 @@ module.exports = {
   actualizarSala,
   eliminarSala,
   getSalas,
-  actualizarAforo,
   agregarBloqueOcupado
 }

@@ -18,7 +18,11 @@ const crearModulo = async(req, res = response) => {
     })
 
   } catch (error) {
-    
+    console.log(error)
+    res.status(500).json({
+      ok: false,
+      msg: 'Error en bd crear Modulo'
+    });
   }
   
 }
@@ -129,7 +133,11 @@ const eliminarModulo = async(req, res = response) => {
       msg:'Modulo eliminado correctamente'
     })
   } catch (error) {
-    
+    console.log(error)
+    res.status(500).json({
+      ok:false,
+      msg:"error en bd, eliminar modulos"
+    })
   }
  
 
