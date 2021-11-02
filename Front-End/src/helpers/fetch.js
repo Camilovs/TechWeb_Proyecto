@@ -1,8 +1,8 @@
 const base_url_local = 'http://localhost:4040/api';
 const base_url = 'https://me-anoto.herokuapp.com/api';
-// const base_url = 'http://mrrojano97.ddns.net:40404/api';
+//const base_url = 'http://mrrojano97.ddns.net:40404/api';
 
-const fetchSinToken = async(endpoint, data, method = 'GET') => {
+const fetchLogin = async(endpoint, data, method = 'GET') => {
 
   // const url = `${base_url}/${endpoint}`;
   const url = `${process.env.REACT_APP_BASE_URL}/${endpoint}`;
@@ -21,7 +21,7 @@ const fetchSinToken = async(endpoint, data, method = 'GET') => {
   }
 }
 
-export {fetchSinToken}
+export {fetchLogin}
 
 //AXIOS Y FETCH
 
