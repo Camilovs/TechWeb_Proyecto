@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import { fetchLogin } from '../../helpers/fetch';
+import { fetchSinToken } from '../../helpers/fetch';
 
 const LogoMeAnoto = styled.div`
   text-align: center;
@@ -27,28 +27,45 @@ export const Login = ({changeVista}) => {
   
   const handleSubmitForm = async(e) =>{
     e.preventDefault();
+
     if (email!=='' & password!=='') {
       
-      var emailInput = document.getElementById('email')
+      // var emailInput = document.getElementById('email')
   
       console.log("Cargando información a Backend");
       console.log(email, password)
-      const resp = await fetchLogin('auth', {"email":email, "pass":password}, 'POST')
-      const body = await resp.json();
+      const resp = await fetchSinToken('auth', {"email":email, "pass":password}, 'POST')
+      const usuario = await resp.json();
       
-      if (body.ok === false){
+      if (usuario.ok === false){
         console.log("ERROR")
         // emailInput.setCustomValidity('Correo o Contraseña Ingresados son Incorrectos')
         setFormValues(initialValue)
       }
       else {
-        console.log(body.token)
-        localStorage.setItem('userToken', body.token)
-        history.push('/administrador')
+        console.log(usuario)
+        localStorage.setItem('userToken', usuario.token)
+        RedirectTo(usuario.rol)
       }
     }
   };
 
+  const RedirectTo = (usuario) => {
+
+    if(usuario==='Admin'){
+      history.push('/administrador')
+    }
+    else if(usuario==='Encargado'){
+      history.push('/encargado')
+    }
+    else if(usuario==='Profesor'){
+      history.push('/profesor')
+    }
+    else if(usuario==='Estudiante'){
+      history.push('/estudiante')
+    }
+  }
+  
   return (
     <Fragment>
       <LogoMeAnoto>

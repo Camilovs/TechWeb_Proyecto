@@ -1,12 +1,13 @@
-const base_url_local = 'http://localhost:4040/api';
-const base_url = 'https://me-anoto.herokuapp.com/api';
-//const base_url = 'http://mrrojano97.ddns.net:40404/api';
+// URL Local = 'http://localhost:4040/api';
+// URL Heroku = 'https://me-anoto.herokuapp.com/api';
+// URL Elias = 'http://mrrojano97.ddns.net:40404/api';
 
-const fetchLogin = async(endpoint, data, method = 'GET') => {
 
-  // const url = `${base_url}/${endpoint}`;
-  const url = `${process.env.REACT_APP_BASE_URL}/${endpoint}`;
+//Fetch que no necesita un token para consultar las apis, como ej: Autenticacion
+const fetchSinToken = async(endpoint, data, method = 'GET') => {
 
+  console.log("Haciendo fetch hacia ", process.env.REACT_APP_BASE_URL_LOCAL,"/",endpoint)
+  const url = `${process.env.REACT_APP_BASE_URL_LOCAL}/${endpoint}`;
   if(method==='GET'){
     return fetch(url);
   }
@@ -21,44 +22,29 @@ const fetchLogin = async(endpoint, data, method = 'GET') => {
   }
 }
 
-export {fetchLogin}
+//Fetch que si necesita un token para consultar las apis. El token se envia en los headers que es analizado en el Back.
+//Ej: Todas las acciones del CRUD de cualquier usuario requieren un token activo y valido.
+const fetchConToken = async(endpoint, data, method = 'GET', token) => {
 
-//AXIOS Y FETCH
+  console.log("Haciendo fetch hacia ", process.env.REACT_APP_BASE_URL_LOCAL,"/",endpoint)
+  const url = `${process.env.REACT_APP_BASE_URL_LOCAL}/${endpoint}`;
+  if(method==='GET'){
+    return fetch(url);
+  }
+  else{
+    return await fetch(url,{
+      method,
+      headers:{
+        'Content-type': 'application/json',
+        'x-token':token
+      },
+      body: JSON.stringify(data)
+    })
+  }
+}
 
-// import axios from 'axios';
+export {
+  fetchSinToken,
+  fetchConToken
+}
 
-// const dataExample = {
-  
-//   email:"admin@correo.com",
-//   pass:"123456"
-
-// };
-// const postUsuarioAxios = async (data = dataExample) => {
-  
-//   await axios.post('http://localhost:4040/api/auth', data)
-//     .then( res =>{
-//       console.log(res.data);
-//     }).catch(err =>{
-//       console.log(err)
-//     })
-// }
-
-// const postUsuarioFetch = async (data = dataExample) => {
-
-//   await fetch('http://localhost:4040/api/auth', {
-//     method:'post',
-//     headers:{
-//       'Content-type': 'application/json'
-//     },
-//     body: JSON.stringify(data)
-//   }).then( response =>{
-//     return response.json()
-//   }).then(data =>{
-//     console.log(data)
-//   });
-
-//   // console.log(resp.json())
-
-// }
-
-// export {postUsuarioAxios, postUsuarioFetch};

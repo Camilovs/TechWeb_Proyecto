@@ -1,17 +1,22 @@
 import React, { Fragment, useState } from 'react'
 import styled from 'styled-components';
 import { passwordStrength } from 'check-password-strength'
+import { fetchSinToken } from '../../helpers/fetch';
+import { useHistory } from 'react-router';
+
 const Logo = styled.div`
   text-align: center;
   padding: 5vh;
 `;
 export const Registro = ({changeVista}) => {
-  const [formValues, setFormValues] = useState({
+  let history = useHistory();
+  const initialValue={
     email:'',
     password:'',
     name:'',
     password2:''
-  })  
+  }
+  const [formValues, setFormValues] = useState(initialValue)  
   const {email, password, name, password2} = formValues;
 
   const handleInputChange = ({target}) => {
@@ -22,9 +27,34 @@ export const Registro = ({changeVista}) => {
     })
   }
   
-  const handleSubmitForm = (e) =>{
+  const handleSubmitForm = async(e) =>{
     e.preventDefault(); 
     console.log(formValues);
+    if (email!=='' & password!=='' & name!=='') {
+      
+      console.log("Cargando información a Backend");
+      console.log(email, password, name);
+      const resp = await fetchSinToken(
+        'auth/new', 
+        {
+          "nombre":name, 
+          "email":email, 
+          "pass":password
+        }, 
+        'POST');
+      const body = await resp.json();
+      
+      if (body.ok === false){
+        console.log("ERROR")
+        // emailInput.setCustomValidity('Correo o Contraseña Ingresados son Incorrectos')
+        setFormValues(initialValue)
+      }
+      else {
+        console.log(body.token)
+        localStorage.setItem('userToken', body.token)
+        history.push('/estudiante')
+      }
+    }
   };
 
   const validarInputs = (e) => {

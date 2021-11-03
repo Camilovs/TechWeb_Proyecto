@@ -81,6 +81,7 @@ const loginUsuario = async(req, res = response) => {
       msg:'Inicio de sesion correcto',
       uid:usuario.id, 
       nombre:usuario.nombre,
+      rol:usuario.rol,
       token
 
     })

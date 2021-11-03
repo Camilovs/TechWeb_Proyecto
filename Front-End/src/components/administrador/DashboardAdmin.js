@@ -1,89 +1,26 @@
 import React from "react";
 import { useHistory } from "react-router";
+import { NavBar } from "../shared/NavBar";
 
 export const DashboardAdmin = () => {
   let history = useHistory();
   return (
     <div>
-      <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <div className="container-fluid">
-            <a className="navbar-brand" href="#">
-              logo
-            </a>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div
-              className="collapse navbar-collapse"
-              id="navbarSupportedContent"
-            >
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <a className="nav-link active" aria-current="page" href="#">
-                    Plantillas
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Gestión de usuarios
-                  </a>
-                </li>
-              </ul>
-              <div class="dropdown">
-                <button
-                  class="btn btn-secondary dropdown-toggle"
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  usuario
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Action
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" onClick={() => history.push("/")}>
-                      Cerrar sesión
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </nav>
-      </div>
+      <NavBar/>
       <br />
-      <div class="containter " style={{ marginLeft: "10px" }}>
-        <div class="row">
-          <div class="col align-self-center">
+      <div className="containter " style={{ marginLeft: "10px" }}>
+        <div className="row">
+          <div className="col align-self-center">
             <button
               type="button"
-              class="btn btn-light m"
+              className="btn btn-light m"
               style={{ margin: "4px" }}
             >
               Seleccionar plantilla
             </button>
             <button
               type="button"
-              class="btn btn-primary"
+              className="btn btn-primary"
               style={{ margin: "4px" }}
             >
               + Crear plantilla
@@ -92,13 +29,13 @@ export const DashboardAdmin = () => {
         </div>
       </div>
       <br />
-      <div class="container">
-        <div class="row">
-          <div class="col-sm">
-            <div class="card" style={{ width: "20rem", height: "25rem" }}>
-              <div class="card-body">
-                <h5 class="card-title">Propiedades plantilla</h5>
-                <h6 class="card-subtitle mb-2 text-muted ">Card subtitle</h6>
+      <div className="container">
+        <div className="row">
+          <div className="col-sm">
+            <div className="card" style={{ width: "20rem", height: "25rem" }}>
+              <div className="card-body">
+                <h5 className="card-title">Propiedades plantilla</h5>
+                <h6 className="card-subtitle mb-2 text-muted ">Card subtitle</h6>
                 <h7>nombre:</h7>
                 <br />
                 <h7>Tipo:</h7>
@@ -116,14 +53,14 @@ export const DashboardAdmin = () => {
               </div>
             </div>
           </div>
-          <div class="col-sm">
+          <div className="col-sm">
             <div
-              class="card"
+              className="card"
               style={{ width: "20rem", height: "25rem", marginTop: "5px" }}
             >
-              <div class="card-body">
-                <h5 class="card-title">Edición plantilla</h5>
-                <h6 class="card-subtitle mb-2 text-muted ">Card subtitle</h6>
+              <div className="card-body">
+                <h5 className="card-title">Edición plantilla</h5>
+                <h6 className="card-subtitle mb-2 text-muted ">Card subtitle</h6>
                 <h7>nombre:</h7>
                 <br />
                 <h7>Tipo:</h7>
@@ -141,14 +78,14 @@ export const DashboardAdmin = () => {
               </div>
             </div>
           </div>
-          <div class="col-sm">
+          <div className="col-sm">
             <div
-              class="card"
+              className="card"
               style={{ width: "20rem", height: "25rem", marginTop: "5px" }}
             >
-              <div class="card-body">
-                <h5 class="card-title">Comentarios edicion</h5>
-                <h6 class="card-subtitle mb-2 text-muted ">Card subtitle</h6>
+              <div className="card-body">
+                <h5 className="card-title">Comentarios edicion</h5>
+                <h6 className="card-subtitle mb-2 text-muted ">Card subtitle</h6>
                 <h7>nombre:</h7>
                 <br />
                 <h7>Tipo:</h7>

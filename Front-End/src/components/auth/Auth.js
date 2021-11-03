@@ -14,6 +14,11 @@ const BoxLogin = styled.div`
   border-radius: 10px;
   box-shadow:5px 10px 18px #888888;
 `
+const Fondo = styled.div`
+  background-color: #959da4;
+  height: 100vh;
+  width: 100vw;
+`;
 export const Auth = () => {
 
   const [vistaAuth, setVistaAuth] = useState("login");
@@ -24,6 +29,7 @@ export const Auth = () => {
   }
   console.log(vistaAuth)
   return (
+    <Fondo>
       <BoxLogin className="container position-absolute top-50 start-50 translate-middle" >
         <div className="row " style={{height:"100%"}}>
           <ImagenUTAL className="col rounded" />
@@ -37,6 +43,8 @@ export const Auth = () => {
           </div>   
         </div>
       </BoxLogin>
+
+    </Fondo>
     
   )
 }
