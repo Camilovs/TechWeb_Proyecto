@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 import { Login } from './Login';
 import { Registro } from './Registro';
@@ -15,7 +15,8 @@ const BoxLogin = styled.div`
   box-shadow:5px 10px 18px #888888;
 `
 const Fondo = styled.div`
-  background-color: #959da4;
+  /* background-color: #959da4; */
+  background-color: #303e4e;
   height: 100vh;
   width: 100vw;
 `;

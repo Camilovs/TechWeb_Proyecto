@@ -5,7 +5,7 @@ import { fetchSinToken } from '../../helpers/fetch';
 
 const LogoMeAnoto = styled.div`
   text-align: center;
-  padding: 5vh;
+  padding: 35px;
 `;
 
 export const Login = ({changeVista}) => {
@@ -72,7 +72,7 @@ export const Login = ({changeVista}) => {
         <img
           src="https://i.imgur.com/RnnsK1K.jpg"
           alt="login"
-          width="130"
+          width="200"
         />
       </LogoMeAnoto>
       <h2 className="text-center"> Bienvenido/a </h2>
@@ -105,7 +105,7 @@ export const Login = ({changeVista}) => {
             <label className="form-check-label" htmlFor="remember">Recuérdame</label>
           </div>
           <div className="d-grid col-6 mx-auto">
-            <button className="btn btn-primary" type="submit">
+            <button className="btn btn-custom-primary" type="submit">
               Iniciar Sesión
             </button>
           </div>

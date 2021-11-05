@@ -6,7 +6,7 @@ import { useHistory } from 'react-router';
 
 const Logo = styled.div`
   text-align: center;
-  padding: 5vh;
+  padding: 35px;
 `;
 export const Registro = ({changeVista}) => {
   let history = useHistory();
@@ -95,7 +95,7 @@ export const Registro = ({changeVista}) => {
         <img
           src="https://i.imgur.com/RnnsK1K.jpg"
           alt="login"
-          width="130"
+          width="200"
         />
       </Logo>
       <h2 className="text-center"> Bienvenido/a </h2>
@@ -146,7 +146,7 @@ export const Registro = ({changeVista}) => {
             onChange={handleInputChange}  
           />
           <div className="d-grid col-6 mx-auto mt-3 mb-3">
-            <button className="btn btn-primary" type="submit">
+            <button className="btn btn-custom-primary" type="submit">
               Crear Cuenta
             </button>
           </div>

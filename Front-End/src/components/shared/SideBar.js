@@ -9,21 +9,37 @@ export const SideBar = ({MenuItems, setMenuSelect, menuSelected}) => {
   }
   
   return (
-    <div class="d-flex flex-column flex-shrink-0 p-3 bg-white " style={{width: "280px", height:"100%"}}>
-      <a href="/encargado" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-        {/* <i className="fa fa-home" style={{width:"30px"}}></i> */}
-        <span class="fs-4">Bienvenido/a</span>
-      </a>
+  <div className="d-flex flex-column flex-shrink-0 p-3 bg-white " 
+    style={{
+        // minWidth: "20vw", 
+        // height:"100%",
+        // width: "20vw",
+        // maxWidth:"20vw"
+    }}>
+    <a href="/encargado" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+      <span className="fs-4">Bienvenido/a</span>
+    </a>
     <hr/>
-    <ul class="nav nav-pills flex-column mb-auto">
-      {MenuItems.map((menu)=>{
+    <ul className="nav nav-pills red flex-column mb-auto w-100">
+      {MenuItems.map((menu,i)=>{
         return(
-          <li>
+          <li key={i}>
             <a
-              href=""
+              href="#"
               name={menu.label}
-              className={`nav-link link-dark ${(menuSelected === menu.label) && "active"} `}
+              className={`nav-link link-dark`}
               onClick={handleSelectMenu}
+              style={{
+                fontSize:18, 
+                fontWeight:"", 
+                height:50, 
+                cursor: 'pointer',
+                backgroundColor:`${(menuSelected === menu.label) ? "#E6E6E6" : "white"} `,
+                // color:`${(menuSelected === menu.label) ? "white" : "black"} `,
+                display:'flex',
+                alignItems:'center',
+                margin: 2
+              }}
             >
               <i className={menu.icon} style={{marginRight:"10px"}}/>
             {menu.label}

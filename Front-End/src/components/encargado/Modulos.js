@@ -1,12 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { Fragment, useState } from 'react'
+import { TablaCRUD } from '../shared/TablaCRUD'
+import { AddModulo } from './vistaModulo/AddModulo'
+import { BorrarModulo } from './vistaModulo/BorrarModulo'
+import { EditarModulo } from './vistaModulo/EditarModulo'
+import { VerModulo } from './vistaModulo/VerModulo'
 
-const BoxModulos = styled.div`
-  width: 98%;
-  height: 95%;
-  background-color: white;
-`;
-
+//ESTE ARREGLO DE OBJETOS SE DEBE REEMPLAZAR POR LA RESPUESTA DE 
+//LA QUERY QUE OBTIENE LOS MODULOS.
 const ejemploModulos=[
   {
     id:"1234",
@@ -51,70 +51,104 @@ const ejemploModulos=[
     profesor:"Bastian Ulloa"
   },
 ]
+const head=[
+  {
+    id:'nombre',
+    label:'Nombre'
+  },
+  {
+    id:'integrantes',
+    label:'Nro. Alumnos'
+  },
+  {
+    id:'profesor',
+    label:'Profesor'
+  },
+  
+  
+]
 export const Modulos = () => {
-  return (
-    <BoxModulos className="card">
-    <div className="card-header">
-      <h3 style={{marginLeft:"20px", padding:"10px"}}>Modulos</h3>
-    </div>
-      <div className="container mt-5">
-        <div className="row">
-          <div className="col">
-            <button className="btn btn-primary" style={{marginBottom:"20px"}}>
-              <i className="fa fa-plus" style={{marginRight:"10px"}}></i>
-              Agregar
-            </button>
-          </div>
-          <div className="col-3">
-            <div className="input-group">
-            <span className="input-group-text">
-              <i  className="fa fa-search"/>
-            </span>
-            <input 
-              className="form-control"
-              placeholder="Buscar..."
+
+  const [accion, setAccion] = useState('crud');
+  const [idModulo, setIdModulo] = useState('sin id');
+  
+  const CrudModulos = () => {
+    return(
+      <>
+        <div className="container mt-5">
+          <div className="row">
+            <div className="col">
+              <button className="btn btn-custom-primary" 
+                style={{marginBottom:"20px"}}
+                onClick={()=>setAccion('agregar')}
               >
-            </input>
+                <i className="fa fa-plus" style={{marginRight:"10px"}}></i>
+                Agregar
+              </button>
+            </div>
+            <div className="col-sm-3 col-md-6 col-lg-3" style={{marginBottom:"20px"}}>
+              <div className="input-group">
+              <span className="input-group-text">
+                <i  className="fa fa-search"/>
+              </span>
+              <input 
+                className="form-control"
+                placeholder="Buscar..."
+                >
+              </input>
+              </div>
             </div>
           </div>
+          <TablaCRUD
+            head={head}
+            data={ejemploModulos}
+            updateAccion = {setAccion}
+            updateId = {setIdModulo}
+            tipo="Modulo"
+          />
         </div>
-        <div className="table-responsive">
-          <table className="table table-striped table-hover ">
-            <thead className="table-primary">
-            <tr>
-              <th scope="col"> Nombre </th>
-              <th scope="col"> Nro. Alumnos </th>
-              <th scope="col"> Profesor </th>
-              <th scope="col"> Acción </th>
-            </tr>
-            </thead>
-            <tbody>
-              {ejemploModulos.map( (modulo,i)=>{
-                return(
-                  <tr key={i}>
-                    <td>{modulo.nombre}</td>
-                    <td>{modulo.integrantes}</td>
-                    <td>{modulo.profesor}</td>
-                    <td>
-                      <div className="btn-group">
-                        <button className="btn btn-danger btn-sm">
-                          <i className="fa fa-trash-alt"></i>
-                        </button>
-                        <button className="btn btn-success btn-sm">
-                          <i className="fa fa-edit"></i>
-                        </button>
-                        <button className="btn btn-primary btn-sm">
-                          <i className="fa fa-eye"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                )
-              } )}
-            </tbody>
-          </table>
-        </div>
+        
+      </>
+    ) 
+  }
+  return (
+    <Fragment>
+      <div className="card-header">
+        <h3 style={{marginLeft:"20px", padding:"10px"}}>Módulos</h3>
       </div>
-    </BoxModulos>
+
+      {(accion==='crud') && 
+        CrudModulos()
+      }
+
+      {(accion==='ver') && 
+        <VerModulo 
+          updateAccion = {setAccion}
+          id = {idModulo}
+        />
+      }
+
+      {(accion==='editar') && 
+        <>
+          {/* Se renderiza denuevo la tabla al fondo del modal */}
+          {CrudModulos()} 
+          <EditarModulo 
+            updateAccion = {setAccion}
+            id = {idModulo}
+          />
+        </>
+      }
+      {(accion==='agregar') && 
+        <>
+          {/* Se renderiza denuevo la tabla al fondo del modal */}
+          {CrudModulos()} 
+          <AddModulo 
+            updateAccion = {setAccion}
+            id = {idModulo}
+          />
+        </>
+      }
+
+    </Fragment>
   )
 }

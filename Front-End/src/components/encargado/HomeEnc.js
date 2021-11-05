@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import styled from 'styled-components'
 import { Footer } from '../shared/Footer';
+// import { NavBar } from '../shared/NavBar_OLD'
 import { NavBar } from '../shared/NavBar'
 import { SideBar } from '../shared/SideBar';
 import { Modulos } from './Modulos'
@@ -14,18 +15,21 @@ const Container = styled.div`
   padding: 0;
   height: 88.5vh;
 `;
+const Box= styled.div`
+  width: 98%;
+  height: 95%;
+  background-color: white;
+`;
 export const HomeEnc = () => {
 
-  const [menuSelect, setMenuSelect] = useState('Modulos')
+  const [menuSelect, setMenuSelect] = useState('Módulos')
   console.log("menuSelect: ", menuSelect)
 
-  // const MenuItems = ['Modulos', 'Salas'];
   const MenuItems = [
     {
-      label:"Modulos",
+      label:"Módulos",
       icon:"fa fa-archive"
     },
-    
     {
       label:"Salas",
       icon:"fa fa-university"
@@ -37,22 +41,22 @@ export const HomeEnc = () => {
       <NavBar/>
 
       <div className="row m-0">
-        <div className="col-auto p-0" >
+        <div className="col-sm-2  p-0" >
           <SideBar  
             MenuItems = {MenuItems}
             setMenuSelect = {setMenuSelect}
             menuSelected={menuSelect}
           />
         </div>
-        <Container className="col">
-        
-          {(menuSelect==='Modulos') && (
-            <Modulos/>
-          )}
-
-          {(menuSelect==='Salas') && (
-            <Salas/>
-          )}
+        <Container className="col-sm-10 ">
+          <Box className="card">
+            {(menuSelect==='Módulos') && (
+              <Modulos/>
+            )}
+            {(menuSelect==='Salas') && (
+              <Salas/>
+            )}
+          </Box>
         </Container> 
         
       </div>
