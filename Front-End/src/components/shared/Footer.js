@@ -11,7 +11,6 @@ const FooterBox = styled.div`
 export const Footer = () => {
   return (
       <FooterBox
-        // className="bg-dark text-white-50 py-4 position-fixed bottom-0 w-100"
         className="navbar navbar-fixed-bottom text-white-50 bg-dark py-2 "
       >
       <div className="container-fluid">

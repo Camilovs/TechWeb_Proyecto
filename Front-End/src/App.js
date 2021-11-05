@@ -8,7 +8,7 @@ import { ConfirmProvider } from "material-ui-confirm";
 import styled from 'styled-components';
 
 const Base = styled.div`
-  background-color: red;
+  background-color: #E4E4E4;
   height: 100vh;
   display: flex;
   flex-direction: column;
