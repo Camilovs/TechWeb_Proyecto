@@ -1,9 +1,15 @@
 import React, { Fragment, useState } from 'react'
 import { TablaCRUD } from '../shared/TablaCRUD'
 import { AddModulo } from './vistaModulo/AddModulo'
-import { BorrarModulo } from './vistaModulo/BorrarModulo'
 import { EditarModulo } from './vistaModulo/EditarModulo'
-import { VerModulo } from './vistaModulo/VerModulo'
+import { VerModulo } from './vistaModulo/VerModulos/VerModulo'
+import styled from 'styled-components';
+
+const Box= styled.div`
+  width: 98%;
+  height: 95%;
+  background-color: white;
+`;
 
 //ESTE ARREGLO DE OBJETOS SE DEBE REEMPLAZAR POR LA RESPUESTA DE 
 //LA QUERY QUE OBTIENE LOS MODULOS.
@@ -67,14 +73,16 @@ const head=[
   
   
 ]
-export const Modulos = () => {
+export const Modulos = ({accion, setAccion}) => {
 
-  const [accion, setAccion] = useState('crud');
   const [idModulo, setIdModulo] = useState('sin id');
   
   const CrudModulos = () => {
     return(
-      <>
+      <Box className="card">
+        <div className="card-header">
+          <h3 style={{marginLeft:"20px", padding:"10px"}}>Módulos</h3>
+        </div>
         <div className="container mt-5">
           <div className="row">
             <div className="col">
@@ -108,14 +116,12 @@ export const Modulos = () => {
           />
         </div>
         
-      </>
+      </Box>
     ) 
   }
   return (
     <Fragment>
-      <div className="card-header">
-        <h3 style={{marginLeft:"20px", padding:"10px"}}>Módulos</h3>
-      </div>
+     
 
       {(accion==='crud') && 
         CrudModulos()

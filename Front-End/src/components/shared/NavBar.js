@@ -107,11 +107,10 @@ export const NavBar = () => {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box >
       <AppBar  position="static" style={{backgroundColor:"#303e4e"}}>
         <Toolbar>
           <i className="fa fa-feather-alt" style={{fontSize:25, marginRight:20, marginLeft:20}}>
-
           </i>
           <Typography
             noWrap

@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import styled from 'styled-components'
 import { Footer } from '../shared/Footer';
+import { Header } from '../shared/Header';
 // import { NavBar } from '../shared/NavBar_OLD'
 import { NavBar } from '../shared/NavBar'
 import { SideBar } from '../shared/SideBar';
@@ -11,21 +12,38 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #BABABA;
+  background-color: #E4E4E4;
   padding: 0;
-  height: 88.5vh;
+  /* height: 88.5vh; */
+  height: 100%;
 `;
-const Box= styled.div`
-  width: 98%;
-  height: 95%;
-  background-color: white;
+
+const Body = styled.div`
+  height: 100%;
+`;
+
+const Content = styled.div`
+  background-color: red;
+  display: flex;
+  flex-direction: column;
 `;
 export const HomeEnc = () => {
 
-  const [menuSelect, setMenuSelect] = useState('Módulos')
-  console.log("menuSelect: ", menuSelect)
+  const [rutasHeader, setRutasHeader] = useState([
+    {
+      label:"Home",
+      icon:'fa fa-plus',
+      seccion:"Módulos",
+      accion:"crud"
+    },
+  ]
+  )
+  const [accion, setAccion] = useState('crud');
+  const [sideBarSelect, setSideBarSelect] = useState('Módulos')
 
-  const MenuItems = [
+  console.log("sideBarSelect: ", sideBarSelect)
+
+  const SideBarItems = [
     {
       label:"Módulos",
       icon:"fa fa-archive"
@@ -39,30 +57,30 @@ export const HomeEnc = () => {
     <Fragment>
 
       <NavBar/>
-
-      <div className="row m-0">
-        <div className="col-sm-2  p-0" >
+      
+      <Body className="row m-0">
+        <div className="col-sm-2 p-0" >
           <SideBar  
-            MenuItems = {MenuItems}
-            setMenuSelect = {setMenuSelect}
-            menuSelected={menuSelect}
+            MenuItems = {SideBarItems}
+            setMenuSelect = {setSideBarSelect}
+            menuSelected={sideBarSelect}
           />
         </div>
-        <Container className="col-sm-10 ">
-          <Box className="card">
-            {(menuSelect==='Módulos') && (
-              <Modulos/>
-            )}
-            {(menuSelect==='Salas') && (
-              <Salas/>
-            )}
-          </Box>
-        </Container> 
-        
-      </div>
+        <Content className="col-sm-10 p-0">
+          <Header setAccion={setAccion}/>
+          <Container>
+              {(sideBarSelect==='Módulos') && (
+                <Modulos accion={accion} setAccion={setAccion}/>
+              )}
+              {(sideBarSelect==='Salas') && (
+                <Salas/>
+              )}
+          </Container> 
+        </Content>   
+      </Body>
 
       <Footer/>
-
+      
     </Fragment>
   )
 }

@@ -123,7 +123,7 @@ export const TablaCRUD = (
   };
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: '45vh' }}>
+      <TableContainer >
         <Table stickyHeader aria-label="sticky table">
           {/* Titulos de la tabla */}
           <TableHead >
