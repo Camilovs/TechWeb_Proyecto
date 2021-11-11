@@ -1,3 +1,4 @@
+//RUTA /api/modulos
 const { Router } = require("express");
 const { check } = require("express-validator");
 const { crearModulo, actualizarModulo, getModulos, eliminarModulo} = require("../controllers/modulos");

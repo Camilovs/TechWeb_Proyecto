@@ -75,11 +75,50 @@ export const AddModulo = ({updateAccion}) => {
 
   const guardarModulo = (e) => {
     e.preventDefault()
-    console.log("Agregando objeto...")
+    console.log("Agregando objeto...", modulo)
     //LOGICA DE QUERY
     updateAccion('crud')
   }
-  
+  const handleInputChange = ({target}) => {
+    setModulo({
+      ...modulo,
+      [target.name]:target.value
+    })
+  }
+  const handleDiaChange = ({target}) => {
+    setModulo({
+      ...modulo,
+      bloque_fin:{
+        ...modulo.bloque_fin,
+        dia:target.value
+      },
+      bloque_inicio:{
+        ...modulo.bloque_inicio,
+        dia:target.value
+      }
+    })
+  }
+  const handleBloqueChange = ({target}) => {
+    if(target.name==='bloque_inicio'){
+      setModulo({
+        ...modulo,
+        bloque_inicio:{
+          ...modulo.bloque_inicio,
+          numero:parseInt(target.value)-1
+        }
+      })
+    }else{
+      setModulo({
+        ...modulo,
+        bloque_fin:{
+          ...modulo.bloque_fin,
+          numero:parseInt(target.value)-1
+        }
+      })
+    }
+
+  }
+  // console.log(bloquesDefecto[modulo.bloque_inicio.numero-1])
   return (
     <Modal
       open={true}
@@ -106,31 +145,38 @@ export const AddModulo = ({updateAccion}) => {
               <h5 className="mt-3 mb-3">Información General</h5>
               <div className="col">
                 <label 
-                htmlFor="nombre" class="form-label">Nombre</label>
+                htmlFor="nombre" className="form-label">Nombre</label>
                 <input 
                   id="nombre" 
                   name="nombre"
                   type="text" 
                   className="form-control"
+                  value={modulo.nombre}
+                  onChange={handleInputChange}
                 />
               </div>
               <div className="col">
-                <label htmlFor="integrantes" class="form-label">Integrantes</label>
+                <label htmlFor="integrantes" className="form-label">Integrantes</label>
                 <input 
                   id="integrantes" 
                   type="number" 
                   className="form-control"
                   name="integrantes"   
+                  value={modulo.integrantes}
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
             <div className="row mt-2">
               <div className="col-6">
-                <label htmlFor="dia" class="form-label"> Profesor </label>
+                <label htmlFor="profesor" className="form-label"> Profesor </label>
                 <select 
-                  id="dia" 
+                  id="profesor" 
                   type="text" 
                   className="form-select"
+                  name='profesor'
+                  value={modulo.profesor}
+                  onChange={handleInputChange}
                 >
                   {profesoresDefecto.map((profe, i) => (
                     <option key={i} value={profe.nombre}>
@@ -143,11 +189,14 @@ export const AddModulo = ({updateAccion}) => {
             <div className="row mt-2">
               <h5 className="mt-3 mb-3">Horario</h5>
               <div className="col-6">
-                <label htmlFor="dia" class="form-label"> Día</label>
+                <label htmlFor="dia" className="form-label"> Día</label>
                 <select 
                   id="dia" 
                   type="text" 
                   className="form-select"
+                  name='dia'
+                  onChange={handleDiaChange}
+                  value={modulo.bloque_inicio.dia}
                 >
                   {diasDefecto.map((dia, i) => (
                     <option key={i} value={dia}>
@@ -159,11 +208,14 @@ export const AddModulo = ({updateAccion}) => {
             </div>
             <div className="row mt-2">
               <div className="col">
-                <label htmlFor="bloque_inicio" class="form-label">Bloque Inicio</label>
+                <label htmlFor="bloque_inicio" className="form-label">Bloque Inicio</label>
                 <select 
                   id="bloque_inicio" 
                   type="text" 
                   className="form-select"
+                  name='bloque_inicio'
+                  onChange={handleBloqueChange}
+                  value={bloquesDefecto[modulo.bloque_inicio.numero].numero}
                 >
                   {bloquesDefecto.map((bloque,i) => (
                     <option  key={i}  value={bloque.numero}>
@@ -173,11 +225,14 @@ export const AddModulo = ({updateAccion}) => {
                 </select>
               </div>
               <div className="col">
-                <label htmlFor="bloque_fin" class="form-label">Bloque Fin</label>
+                <label htmlFor="bloque_fin" className="form-label">Bloque Fin</label>
                 <select 
                   id="bloque_fin" 
                   type="text" 
                   className="form-select"
+                  name='bloque_fin'
+                  onChange={handleBloqueChange}
+                  value={bloquesDefecto[modulo.bloque_fin.numero].numero}
                 >
                   {bloquesDefecto.map((bloque,i) => (
                     <option key={i}  value={bloque.numero}>
@@ -191,7 +246,7 @@ export const AddModulo = ({updateAccion}) => {
               <div className="col-auto">
                 <button 
                   type="submit" 
-                  class="btn btn-custom-primary"
+                  className="btn btn-custom-primary"
                 >
                   Guardar
                 </button>

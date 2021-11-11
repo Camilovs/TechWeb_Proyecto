@@ -1,9 +1,10 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { TablaCRUD } from '../shared/TablaCRUD'
 import { AddModulo } from './vistaModulo/AddModulo'
 import { EditarModulo } from './vistaModulo/EditarModulo'
 import { VerModulo } from './vistaModulo/VerModulos/VerModulo'
 import styled from 'styled-components';
+import { fetchConToken } from '../../helpers/fetch'
 
 const Box= styled.div`
   width: 98%;
@@ -76,7 +77,28 @@ const head=[
 export const Modulos = ({accion, setAccion}) => {
 
   const [idModulo, setIdModulo] = useState('sin id');
+  const [modulos, setModulos] = useState([])
+  const [reloadTable, setReloadTable] = useState(true)
+
+  const deleteModulo = async(id) => {
+    const query = await fetchConToken(`modulos/${ id }`,{}, 'DELETE')
+    console.log(await query.json())
+    reload()
+  }
+  const reload = () => {
+    setReloadTable(!reloadTable);
+  }
   
+  useEffect( async() => {
+    const query = await fetchConToken(
+      'modulos', 
+      {}, 
+      'GET'
+    )
+    const resp = await query.json();
+    setModulos(resp.modulos)
+
+  }, [reloadTable])
   const CrudModulos = () => {
     return(
       <Box className="card">
@@ -109,7 +131,7 @@ export const Modulos = ({accion, setAccion}) => {
           </div>
           <TablaCRUD
             head={head}
-            data={ejemploModulos}
+            data={modulos}
             updateAccion = {setAccion}
             updateId = {setIdModulo}
             tipo="Modulo"
