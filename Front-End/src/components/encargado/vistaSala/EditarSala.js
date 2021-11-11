@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Backdrop, Fade, Modal,} from '@mui/material'
 import { Box } from '@mui/system'
+import { fetchConToken } from '../../../helpers/fetch';
 
 const style = {
   position: 'absolute',
@@ -17,22 +18,44 @@ const salaDefecto = {
   aforo:10
 };
 
-export const EditarSala = ({updateAccion, id}) => {
+export const EditarSala = ({updateAccion, id, reload}) => {
 
    //QUERY A BD POR LA SALA ESPECIFICADA POR "id"
   //REEMPLAZAR "salaDefecto" POR EL MODULO ENTREGADO POR LA QUERY
-  const [sala, setSala] = useState(salaDefecto)
-
-  const actualizarSala = (e) => {
+  const [sala, setSala] = useState({})
+  console.log(sala)
+  const actualizarSala = async (e) => {
     e.preventDefault()
     console.log("Actualizando Sala...")
 
     //LOGICA DE QUERY
-
+    const query = await fetchConToken(
+      `salas/${id}`,
+      {'nombre':sala.nombre, 'aforo':sala.aforo},
+      'PUT'
+    )
+    const resp  = await query.json();
+    console.log(resp)
 
     //Al terminar la query se cambia a la vista del crud.
+    reload()
     updateAccion('crud')
   }
+  const handleInputChange = ({target}) => {
+    setSala({
+      ...sala,
+      [target.name]:target.value
+    })
+  }
+
+  useEffect(async() => {
+    
+    const query = await fetchConToken(`salas/${id}`,{},'GET');
+    const resp = await query.json();
+    console.log(resp)
+    setSala(resp.sala);
+    
+  }, [])
   return (
     <Modal
       open={true}
@@ -65,7 +88,8 @@ export const EditarSala = ({updateAccion, id}) => {
                   name="nombre"
                   type="text" 
                   className="form-control"
-                  defaultValue={sala.nombre}
+                  value={sala.nombre}
+                  onChange={handleInputChange}
 
                 />
               </div>
@@ -76,7 +100,8 @@ export const EditarSala = ({updateAccion, id}) => {
                   type="aforo" 
                   className="form-control"
                   name="aforo"  
-                  defaultValue={sala.aforo}
+                  value={sala.aforo}
+                  onChange={handleInputChange}
                 />
               </div>
             </div>          

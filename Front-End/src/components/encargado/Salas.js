@@ -1,10 +1,11 @@
-import React ,{ Fragment, useState }from 'react'
+import React ,{ Fragment, useEffect, useState }from 'react'
 import { TablaCRUD } from '../shared/TablaCRUD'
 import { BorrarSala } from './vistaSala/BorrarSala';
 import { EditarSala } from './vistaSala/EditarSala';
 import { NuevaSala } from './vistaSala/NuevaSala';
 import { VerSala } from './vistaSala/VerSala';
 import styled from 'styled-components';
+import { fetchConToken } from '../../helpers/fetch';
 
 const Box= styled.div`
   width: 98%;
@@ -78,8 +79,34 @@ const datos = [
 export const Salas = () => {
 
   const [accion, setAccion] = useState('crud');
+  const [reloadTable, setReloadTable] = useState(true)
   const [idSala, setIdSala] = useState('sin id');
+  const[salas, setSalas] = useState([]);
+
+  const deleteSala = async(id) => {
+    console.log('deleteSala id: ',id)
+    const query = await fetchConToken(`salas/${ id }`,{}, 'DELETE')
+    console.log(await query.json())
+    reload()
+  }
   
+  
+
+  const reload = () => {
+    setReloadTable(!reloadTable);
+  }
+  
+
+  useEffect( async() => {
+    const query = await fetchConToken(
+      'salas', 
+      {}, 
+      'GET'
+    )
+    const resp = await query.json();
+    setSalas(resp.salas)
+
+  }, [reloadTable])
   const CrudSalas = () => {
     return (
       <Box className="card">
@@ -113,9 +140,12 @@ export const Salas = () => {
           </div>
           <TablaCRUD
             head={head}
-            data={datos}
+            data={salas}
             updateAccion = {setAccion}
             updateId = {setIdSala}
+            tipo='Sala'
+            deleteSala={deleteSala}
+            setReloadTable = {setReloadTable}
           />
         </div>
       </Box>
@@ -144,16 +174,7 @@ export const Salas = () => {
           <EditarSala
             updateAccion = {setAccion}
             id = {idSala}
-          />
-        </>
-      }
-      {(accion==='borrar') && 
-        <>
-          {/* Se renderiza denuevo la tabla al fondo del modal */}
-          {CrudSalas()} 
-          <BorrarSala 
-            updateAccion = {setAccion}
-            id = {idSala}
+            reload ={reload}
           />
         </>
       }
@@ -164,6 +185,7 @@ export const Salas = () => {
           <NuevaSala 
             updateAccion = {setAccion}
             id = {idSala}
+            reload = {reload}
           />
         </>
       }

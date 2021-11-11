@@ -9,6 +9,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 import { useConfirm } from "material-ui-confirm";
+import { fetchConToken } from '../../helpers/fetch';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   
@@ -52,23 +53,6 @@ function createData(name, code, population, size) {
   return { name, code, population, size, density };
 }
 
-const defaultRows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767),
-];
 
 /*
 Tabla que muestra los datos con paginación incluida. Recibe los head, que 
@@ -79,10 +63,11 @@ que iran en cada fila de la tabla. Como ejemplos consultar "defaultHead" y
 export const TablaCRUD = (
   { 
     head = defaultHead, 
-    data = defaultRows,
+    data = {},
     updateAccion,
     updateId,
-    tipo = ''
+    tipo = '',
+    deleteSala
   }
   ) => {
 
@@ -98,11 +83,11 @@ export const TablaCRUD = (
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  const handleDelete = item => {
+  const handleDelete = (item,e) => {
     confirm(
       { 
         title:'Acción peligrosa',
-        description: `¿Estás seguro de eliminar ${tipo} ${item}? Esta acción es 
+        description: `¿Estás seguro de eliminar ${tipo}: ${item}? Esta acción es 
         irreversible.`,
         confirmationText:'Borrar',
         confirmationButtonProps:{
@@ -114,11 +99,15 @@ export const TablaCRUD = (
           // dividers:true
         },
         titleProps:{
-
         }
       }
     )
-      .then(() => console.log("Borrando item: ", item))
+      .then(() => {
+        console.log(tipo)
+        if(tipo==='Sala'){
+          deleteSala(e.target.id)
+        }
+      })
       .catch(() => console.log("Cancelado"));
   };
   return (
@@ -168,36 +157,36 @@ export const TablaCRUD = (
                     <TableCell>
                         {/* Boton de Eliminar */}
                         <button 
-                          id={row.id}
+                          id={row._id}
                           className="btn btn-custom-danger btn-sm" 
                           style={{marginRight:"3px"}}
-                          onClick={() => handleDelete(row.nombre)}
+                          onClick={(e) => handleDelete(row.nombre, e)}
                         >
-                          <i id={row.id} className="fa fa-trash-alt"></i>
+                          <i id={row._id} className="fa fa-trash-alt"></i>
                         </button>
 
                         {/* Boton de Editar */}
                         <button 
-                          id={row.id}
+                          id={row._id}
                           className="btn btn-custom-success btn-sm"
                           style={{marginRight:"3px"}}
                           onClick={()=> {
-                            updateId(row.id)
+                            updateId(row._id)
                             updateAccion('editar')
                           }}
                         >
-                          <i  id={row.id} className="fa fa-edit "></i>
+                          <i  id={row._id} className="fa fa-edit "></i>
                         </button>
                         
                         {/* Boton de Ver */}
                         <button  
-                          id={row.id} 
+                          id={row._id} 
                           className="btn btn-custom-primary btn-sm"
                           onClick={() => {
-                            updateId(row.id)
+                            updateId(row._id)
                             updateAccion('ver')}}
                         >
-                          <i  id={row.id} className="fa fa-eye "></i>
+                          <i  id={row._id} className="fa fa-eye "></i>
                         </button>
 
                     </TableCell>

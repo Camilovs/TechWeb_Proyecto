@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Backdrop, Fade, Modal,} from '@mui/material'
 import { Box } from '@mui/system'
+import { fetchConToken } from '../../../helpers/fetch';
 
 const style = {
   position: 'absolute',
@@ -12,20 +13,36 @@ const style = {
   boxShadow: 24,
 };
 
-export const NuevaSala = ({updateAccion}) => {
+export const NuevaSala = ({updateAccion, reload}) => {
 
   const [sala, setSala] = useState({
     nombre:'',
     aforo:0
   })
 
-  const guardaSala = (e) => {
-    e.preventDefault()
-    console.log("Agregando Sala...")
 
+  const guardaSala = async (e) => {
+    e.preventDefault()
+    console.log(sala)
+    console.log("Agregando Sala...")
+    const resp = await fetchConToken(
+      'salas', 
+      {"nombre":sala.nombre, "aforo":sala.aforo}, 
+      'POST',
+      localStorage.getItem('userToken')
+    )
+    console.log(resp)
     updateAccion('crud')
+    reload()
+    
   }
   
+  const handleInputChange = ({target}) => {
+    setSala({
+      ...sala,
+      [target.name]:target.value
+    })
+  }
 
   return (
     <Modal
@@ -56,18 +73,22 @@ export const NuevaSala = ({updateAccion}) => {
                 htmlFor="nombre" class="form-label">Nombre</label>
                 <input 
                   id="nombre" 
+                  value={sala.nombre}
                   name="nombre"
                   type="text" 
                   className="form-control"
+                  onChange={handleInputChange}
                 />
               </div>
               <div className="col">
                 <label htmlFor="integrantes" class="form-label">Aforo</label>
                 <input 
-                  id="integrantes" 
+                  id="aforo" 
                   type="number" 
+                  value={sala.aforo}
                   className="form-control"
-                  name="integrantes"   
+                  name="aforo"
+                  onChange={handleInputChange}   
                 />
               </div>
             </div>          

@@ -9,7 +9,7 @@ const fetchSinToken = async(endpoint, data, method = 'GET') => {
   console.log("Haciendo fetch hacia ", process.env.REACT_APP_BASE_URL_LOCAL,"/",endpoint)
   const url = `${process.env.REACT_APP_BASE_URL_LOCAL}/${endpoint}`;
   if(method==='GET'){
-    return fetch(url);
+    return await fetch(url);
   }
   else{
     return await fetch(url,{
@@ -24,19 +24,24 @@ const fetchSinToken = async(endpoint, data, method = 'GET') => {
 
 //Fetch que si necesita un token para consultar las apis. El token se envia en los headers que es analizado en el Back.
 //Ej: Todas las acciones del CRUD de cualquier usuario requieren un token activo y valido.
-const fetchConToken = async(endpoint, data, method = 'GET', token) => {
+const fetchConToken = async(endpoint, data, method = 'GET') => {
 
   console.log("Haciendo fetch hacia ", process.env.REACT_APP_BASE_URL_LOCAL,"/",endpoint)
   const url = `${process.env.REACT_APP_BASE_URL_LOCAL}/${endpoint}`;
   if(method==='GET'){
-    return fetch(url);
+    return fetch(url,{
+      headers:{
+        'Content-type': 'application/json',
+        'x-token':localStorage.getItem('userToken')
+      }
+    });
   }
   else{
     return await fetch(url,{
       method,
       headers:{
         'Content-type': 'application/json',
-        'x-token':token
+        'x-token':localStorage.getItem('userToken')
       },
       body: JSON.stringify(data)
     })

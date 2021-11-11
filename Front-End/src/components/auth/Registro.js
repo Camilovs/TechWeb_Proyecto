@@ -39,15 +39,15 @@ export const Registro = ({changeVista}) => {
         {
           "nombre":name, 
           "email":email, 
-          "pass":password
+          "pass":password,
+          "pass2":password2
         }, 
         'POST');
       const body = await resp.json();
-      
       if (body.ok === false){
-        console.log("ERROR")
+        console.log("ERROR: ", body.msg)
         // emailInput.setCustomValidity('Correo o Contraseña Ingresados son Incorrectos')
-        setFormValues(initialValue)
+        // setFormValues(initialValue)
       }
       else {
         console.log(body.token)
