@@ -30,7 +30,6 @@ router.post('/',
 [
   check('nombre', 'el nombre es obligatorio').not().isEmpty(),
   check('aforo', 'el aforo debe ser numerico').isInt(),
-  check('ocupada','los bloques ocupados deben ser un array').isArray(),
   validarCampos
 ],
 crearSala);
@@ -40,7 +39,6 @@ router.put('/:id',
 [
   check('nombre', 'el nombre es obligatorio').not().isEmpty(),
   check('aforo', 'el aforo debe ser numerico').isInt(),
-  check('ocupada','los bloques ocupados deben ser un array').isArray(),
   validarCampos
 ],
 actualizarSala);
