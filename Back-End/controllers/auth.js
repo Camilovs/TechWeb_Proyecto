@@ -7,7 +7,7 @@ const { generarJWT } = require('../helpers/jwt');
 
 const crearEstudiante = async (req, res = response) => {
   console.log('Creando usuario...')
-  const {email,pass} = req.body;
+  const {email,pass, pass2} = req.body;
 
   try {
 
@@ -19,7 +19,12 @@ const crearEstudiante = async (req, res = response) => {
         msg:"Ya existe un usario con ese correo"
       })
     }
-
+    if(pass !== pass2){
+      return res.status(400).json({
+        ok:false,
+        msg:"Contraseñas incorrectas"
+      })
+    }
     usuario = new Usuario(req.body); 
 
     // Encriptar contraseña
@@ -81,6 +86,7 @@ const loginUsuario = async(req, res = response) => {
       msg:'Inicio de sesion correcto',
       uid:usuario.id, 
       nombre:usuario.nombre,
+      rol:usuario.rol,
       token
 
     })

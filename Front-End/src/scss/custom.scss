@@ -1,0 +1,70 @@
+/* custom.scss */    
+
+/* import the necessary Bootstrap files */
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+/* -------begin customization-------- */   
+
+/* use a variable to override primary */
+
+$mynewcolor:#303E4E;
+$btn-font-white:white;
+
+.btn-custom-primary {
+    @include button-variant(
+      $mynewcolor, //color de fondo sin focus
+      $mynewcolor, //color de borde sin focus
+      $btn-font-white, //color de font sin focus
+      lighten($mynewcolor,10%), //color de fondo con focus
+      lighten($mynewcolor, 10%), //color de borde con focus
+      $btn-font-white); //color de font con focus
+}
+
+.btn-outline-custom-primary {
+    @include button-outline-variant(
+      $mynewcolor, 
+      $btn-font-white, 
+      lighten($mynewcolor,5%), 
+      $mynewcolor);
+}
+
+$success:#30624E;
+.btn-custom-success {
+    @include button-variant(
+      $success, //color de fondo sin focus
+      $success, //color de borde sin focus
+      $btn-font-white, //color de font sin focus
+      lighten($success,10%), //color de fondo con focus
+      lighten($success, 10%), //color de borde con focus
+      $btn-font-white); //color de font con focus
+}
+
+.btn-outline-custom-success {
+    @include button-outline-variant(
+      $success, 
+      $btn-font-white, 
+      lighten($success,5%), 
+      $success);
+}
+$danger:#873E4E;
+.btn-custom-danger {
+    @include button-variant(
+      $danger, //color de fondo sin focus
+      $danger, //color de borde sin focus
+      $btn-font-white, //color de font sin focus
+      lighten($danger,10%), //color de fondo con focus
+      lighten($danger, 10%), //color de borde con focus
+      $btn-font-white); //color de font con focus
+}
+
+.btn-outline-custom-danger {
+    @include button-outline-variant(
+      $danger, 
+      $btn-font-white, 
+      lighten($danger,5%), 
+      $danger);
+}
+/* -------end customization-------- */  
+
+/* finally, import Bootstrap to set the changes! */
+
+// @import "../../node_modules/bootstrap/scss/bootstrap";
