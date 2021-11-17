@@ -1,22 +1,34 @@
-import "./App.css";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import { Router, Switch, Route, Link, BrowserRouter } from "react-router-dom";
-
-import { Auth } from "./components/auth/Auth";
+import {Switch, Route, BrowserRouter } from "react-router-dom";
 import { DashboardAdmin } from "./components/administrador/DashboardAdmin";
 import { DashboardEstudiante } from "./components/estudiante/DashboardEstudiante";
+import { Auth } from "./components/auth/Auth";
+import { HomeEnc } from "./components/encargado/HomeEnc";
+import { HomeProfe } from "./components/profesor/HomeProfe";
+import { ConfirmProvider } from "material-ui-confirm";
+import styled from 'styled-components';
 
+const Base = styled.div`
+  background-color: #E4E4E4;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
 function App() {
   return (
-    <div>
-      <BrowserRouter>
-        <Switch className="col-6">
-          <Route exact path="/" component={Auth} />
-          <Route exact path="/administrador" component={DashboardAdmin} />
-          <Route exact path="/estudiante" component={DashboardEstudiante} />
-        </Switch>
-      </BrowserRouter>
-    </div>
+    <Base>
+      <ConfirmProvider>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/" component={Auth} />
+            <Route exact path="/administrador" component={DashboardAdmin} />
+            <Route exact path="/estudiante" component={DashboardEstudiante} />
+            <Route exact path="/encargado" component={HomeEnc} />
+            <Route exact path="/profesor" component={HomeProfe} />
+          </Switch>
+        </BrowserRouter>
+      </ConfirmProvider>
+    </Base>
+    
   );
 }
 

@@ -5,13 +5,16 @@ const Sala = require("../models/Sala");
 //Resolvers para el CRUD de Salas
 
 const crearSala = async(req, res = response) => {
-
+  
+  console.log('Creando sala con: ',req.body)
   const sala = new Sala(req.body);
 
   try {
 
+    if(!req.body.ocupada){
+      sala.ocupada = [];
+    }
     const salaGuardada = await sala.save();
-
     res.json({
       ok:true,
       msg:'Sala guardada correctamente',
