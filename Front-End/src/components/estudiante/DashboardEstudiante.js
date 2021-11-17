@@ -1,113 +1,189 @@
-import React from "react";
-import { useHistory } from "react-router";
+import React, { useState } from "react";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Grid,
+  makeStyles,
+} from "@material-ui/core";
 
-export const DashboardEstudiante = () => {
-  let history = useHistory();
+import Typography from "@material-ui/core/Typography";
+import { useHistory } from "react-router-dom";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+
+import Box from "@mui/material/Box";
+import Tab from "@material-ui/core/Tab";
+import TabContext from "@material-ui/lab/TabContext";
+import TabList from "@material-ui/lab/TabList";
+import TabPanel from "@material-ui/lab/TabPanel";
+
+const drawerWidth = 240;
+
+const useStyles = makeStyles((theme) => {
+  return {
+    page: {
+      background: "#f9f9f9",
+      width: "100%",
+      maxHeight: "100%",
+      padding: theme.spacing(3),
+    },
+    root: {
+      display: "flex",
+    },
+    drawer: {
+      width: drawerWidth,
+    },
+    drawerPaper: {
+      width: drawerWidth,
+    },
+    active: {
+      background: "#f4f4f4",
+    },
+    title: {
+      padding: theme.spacing(2),
+    },
+
+    date: {
+      flexGrow: 1,
+    },
+    toolbar: theme.mixins.toolbar,
+  };
+});
+
+export function DashboardEstudiante() {
+  const classes = useStyles();
+  const history = useHistory();
+
+  const cursos = [
+    {
+      nombre: "Tecnologias moviles",
+      profesor: "Rodrigo Pavez",
+      horario: "18:20-20:00",
+    },
+    {
+      nombre: "Tecnologias web",
+      profesor: "Rodrigo Pavez",
+      horario: "18:20-20:00",
+    },
+    {
+      nombre: "Sistemas distribuidos",
+      profesor: "Rodrigo Pavez",
+      horario: "18:20-20:00",
+    },
+    {
+      nombre: "Sistemas operativos",
+      profesor: "Rodrigo Pavez",
+      horario: "18:20-20:00",
+    },
+  ];
+  const [value, setValue] = React.useState("1");
+  const [vista,setvista] = useState("profesores");
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    console.log(newValue);
+  };
+  function cambiarNombre(){
+    cursos[0].nombre="curso extraño";
+  }
   return (
-    <div>
-      <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <div className="container-fluid">
-            <a className="navbar-brand" href="#">
-              Navbar
-            </a>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div
-              className="collapse navbar-collapse"
-              id="navbarSupportedContent"
-            >
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <a className="nav-link active" aria-current="page" href="#">
-                    Home
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Link
-                  </a>
-                </li>
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    id="navbarDropdown"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Dropdown
-                  </a>
-                  <ul
-                    className="dropdown-menu"
-                    aria-labelledby="navbarDropdown"
-                  >
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Another action
-                      </a>
-                    </li>
-                    <li>
-                      <hr className="dropdown-divider" />
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Something else here
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link disabled">Disabled</a>
-                </li>
-              </ul>
-              <div class="dropdown">
-                <button
-                  class="btn btn-secondary dropdown-toggle"
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  usuario
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Action
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" onClick={() => history.push("/")}>
-                      Cerrar sesión
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </nav>
+    <div className={classes.root}>
+      {/* app bar */}
+      <AppBar
+        position="fixed"
+        className={classes.appBar}
+        elevation={0}
+        color="primary"
+      >
+        <Toolbar style={{ backgroundColor: "#303e4e" }}>
+          <Typography className={classes.date}></Typography>
+          <Button
+            style={{ WebkitTextFillColor: "white" }}
+            onClick={() => history.push("/")}
+          >
+            Cerrar Sesión
+          </Button>
+        </Toolbar>
+      </AppBar>
+
+      <div className={classes.page}>
+        <div className={classes.toolbar}></div>
+        Bienvenido, usuario x
+         <Button onClick={()=>cambiarNombre()}>Cambiar Nombre</Button>
+        <Box
+          sx={{ width: "100%", typography: "body1", paddingBlockEnd: "100%" }}
+        >
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <TabList
+                onChange={handleChange}
+                aria-label="lab API tabs example"
+              >
+                <Tab label="Cursos Disponibles" value="1" />
+                <Tab label="Reservas" value="2" />
+              </TabList>
+            </Box>
+            <TabPanel value="1" onClick={() => setvista("estudiantes")}>
+              <Grid container>
+                {cursos.map((curso) => (
+                  <Grid item spacing={3} style={{ margin: "5px" }}>
+                    <Box sx={{ minWidth: 275, maxWidth: 200 }}>
+                      <Card variant="outlined">
+                        <React.Fragment>
+                          <CardContent>
+                            <Typography variant="h5" component="div">
+                              {curso.nombre}
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                              {curso.profesor}
+                            </Typography>
+                            <Typography variant="body2">
+                              {curso.horario}
+                            </Typography>
+                          </CardContent>
+                          <CardActions>
+                            <Button size="small">Reservar</Button>
+                          </CardActions>
+                        </React.Fragment>
+                      </Card>
+                    </Box>
+                  </Grid>
+                ))}
+              </Grid>
+            </TabPanel>
+            <TabPanel value="2" onClick={() => setvista("profesores")}>
+              <Grid container>
+                {cursos.map((curso) => (
+                  <Grid item spacing={3} style={{ margin: "5px" }}>
+                    <Box sx={{ minWidth: 275, maxWidth: 200 }}>
+                      <Card variant="outlined">
+                        <React.Fragment>
+                          <CardContent>
+                            <Typography variant="h5" component="div">
+                              {curso.nombre}
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                              {curso.profesor}
+                            </Typography>
+                            <Typography variant="body2">
+                              {curso.horario}
+                            </Typography>
+                          </CardContent>
+                          <CardActions>
+                            <Button size="small">Reservar</Button>
+                          </CardActions>
+                        </React.Fragment>
+                      </Card>
+                    </Box>
+                  </Grid>
+                ))}
+              </Grid>
+            </TabPanel>
+            <TabPanel value="3">Encargados</TabPanel>
+          </TabContext>
+        </Box>
       </div>
     </div>
   );
-};
+}
