@@ -99,6 +99,7 @@ export const Modulos = ({accion, setAccion}) => {
     setModulos(resp.modulos)
 
   }, [reloadTable])
+  
   const CrudModulos = () => {
     return(
       <Box className="card">

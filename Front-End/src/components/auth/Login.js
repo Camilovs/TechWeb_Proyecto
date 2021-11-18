@@ -2,6 +2,8 @@ import React, { Fragment, useState } from 'react'
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { fetchSinToken } from '../../helpers/fetch';
+import Container from "@material-ui/core/Container";
+import AlertMassage from "./AlertMessage";
 
 const LogoMeAnoto = styled.div`
   text-align: center;
@@ -10,6 +12,7 @@ const LogoMeAnoto = styled.div`
 
 export const Login = ({changeVista}) => {
   let history = useHistory();
+  const [status, setStatusBase] = React.useState("");
   const initialValue = {
     email:'',
     password:'',
@@ -29,9 +32,7 @@ export const Login = ({changeVista}) => {
     e.preventDefault();
 
     if (email!=='' & password!=='') {
-      
-      // var emailInput = document.getElementById('email')
-  
+
       console.log("Cargando información a Backend");
       console.log(email, password)
       const resp = await fetchSinToken('auth', {"email":email, "pass":password}, 'POST')
@@ -39,14 +40,17 @@ export const Login = ({changeVista}) => {
       
       if (usuario.ok === false){
         console.log("ERROR")
-        // emailInput.setCustomValidity('Correo o Contraseña Ingresados son Incorrectos')
         setFormValues(initialValue)
+        setStatusBase({ msg: "Usuario o Contraseña ingresados son incorrectos", key: Math.random() });
       }
       else {
         console.log(usuario)
         localStorage.setItem('userToken', usuario.token)
         RedirectTo(usuario.rol)
       }
+    }
+    else {
+      setStatusBase({ msg: "Ingrese un Correo y Contraseña", key: Math.random() });
     }
   };
 
@@ -85,7 +89,7 @@ export const Login = ({changeVista}) => {
             type="email" 
             className="form-control" 
             name="email" 
-            id="email"
+            id="loginEmail"
             value={email}
             onChange={handleInputChange}
             />
@@ -96,7 +100,7 @@ export const Login = ({changeVista}) => {
             type="password" 
             className="form-control" 
             name="password" 
-            id="password"
+            id="loginPassword"
             value={password}
             onChange={handleInputChange}  
           />
@@ -120,6 +124,7 @@ export const Login = ({changeVista}) => {
           </button>
         </div>
       </div>
+      {status ? <AlertMassage key={status.key} message={status.msg} /> : null}
     </Fragment>
   )
 }

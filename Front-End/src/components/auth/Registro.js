@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { passwordStrength } from 'check-password-strength'
 import { fetchSinToken } from '../../helpers/fetch';
 import { useHistory } from 'react-router';
+import AlertMassage from "./AlertMessage"
+var emailTrue = require("email-validator");
 
 const Logo = styled.div`
   text-align: center;
@@ -10,6 +12,7 @@ const Logo = styled.div`
 `;
 export const Registro = ({changeVista}) => {
   let history = useHistory();
+  const [status, setStatusBase] = React.useState("");
   const initialValue={
     email:'',
     password:'',
@@ -30,64 +33,60 @@ export const Registro = ({changeVista}) => {
   const handleSubmitForm = async(e) =>{
     e.preventDefault(); 
     console.log(formValues);
-    if (email!=='' & password!=='' & name!=='') {
-      
-      console.log("Cargando información a Backend");
-      console.log(email, password, name);
-      const resp = await fetchSinToken(
-        'auth/new', 
-        {
-          "nombre":name, 
-          "email":email, 
-          "pass":password,
-          "pass2":password2
-        }, 
-        'POST');
-      const body = await resp.json();
-      if (body.ok === false){
-        console.log("ERROR: ", body.msg)
-        // emailInput.setCustomValidity('Correo o Contraseña Ingresados son Incorrectos')
-        // setFormValues(initialValue)
-      }
-      else {
-        console.log(body.token)
-        localStorage.setItem('userToken', body.token)
-        history.push('/estudiante')
+
+    if (name=='') {
+      console.log('Nombre no ingresado')
+      setStatusBase({ msg: "Ingrese un nombre", key: Math.random() });
+    } else {
+      if (email==''){
+        console.log('Correo no ingresado')
+        setStatusBase({ msg: "Ingrese un Correo", key: Math.random() });
+      } else {
+        if (!(emailTrue.validate(email))) {
+          console.log('Correo no válido')
+          setStatusBase({ msg: "Ingrese un Correo válido", key: Math.random() });
+        } else {
+        if (password=='') {
+          console.log('No se ha ingresado contraseña')
+          setStatusBase({ msg: "Ingrese una contraseña", key: Math.random() });
+        } else {
+          if (passwordStrength(password).id < 1) {
+            console.log('Contraseña no cumple seguridad')
+            setStatusBase({ msg: "La contraseña debe tener al menos 6 caracteres entre letras y números", key: Math.random() });
+          } else {
+            if (password!==password2) {
+              console.log('Contraseñas no coinciden')
+              setStatusBase({ msg: "Las contraseñas deben coincidir", key: Math.random() });
+            } else {
+              console.log("Cargando información a Backend");
+              console.log(email, password, name);
+              const resp = await fetchSinToken(
+                'auth/new', 
+                {
+                  "nombre":name, 
+                  "email":email, 
+                  "pass":password,
+                  "pass2":password2
+                }, 
+                'POST');
+              const body = await resp.json();
+              if (body.ok === false){
+                console.log("ERROR: ", body.msg)
+                // emailInput.setCustomValidity('Correo o Contraseña Ingresados son Incorrectos')
+                // setFormValues(initialValue)
+              }
+              else {
+                console.log(body.token)
+                localStorage.setItem('userToken', body.token)
+                history.push('/estudiante')
+              }
+            }
+          }
+        }
       }
     }
-  };
-
-  const validarInputs = (e) => {
-    
-    console.log("Verificando información ingresada")
-    e.preventDefault();
-  
-    const pass1 = document.getElementById('password')
-    const pass2 = document.getElementById('password2')
-    console.log(pass1, pass2)
-    if (passwordStrength(pass1.value).id >= 1) {
-      console.log("Contraseña Cumple")
-      pass1.setCustomValidity('')
-
-      if (pass1.value===pass2.value) {
-        console.log("Las contraseñas son iguales")
-        pass2.setCustomValidity('')
-        console.log(formValues);
-      
-      }
-
-      else {
-        console.log("ERROR: Contraseñas distintas")
-        pass2.setCustomValidity("Las contraseñas deben ser iguales");
-        
-      }
-    }
-    else {
-        console.log("ERROR: Contraseña no cumple seguridad")
-        pass1.setCustomValidity("La contraseña debe tener al menos 6 caracteres entre letras y números")
-        
-    }
-  } 
+  }
+};
   
   return (
     <Fragment>
@@ -159,7 +158,7 @@ export const Registro = ({changeVista}) => {
           </button>
         </div>
         </form>
-
+        {status ? <AlertMassage key={status.key} message={status.msg} /> : null}
       </div>
     </Fragment>
   )

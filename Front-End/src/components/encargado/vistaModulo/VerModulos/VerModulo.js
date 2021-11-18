@@ -20,18 +20,20 @@ export const VerModulo = ({updateAccion, id}) => {
 
   return (
     <Box>
+      {/* Boton Atras */}
       <div className="row">
-          <div className="col-sm">
-            <button 
-              className="btn btn-custom-primary" 
-              style={{marginBottom:"20px"}}
-              onClick={()=>updateAccion('crud')}
-            >
-              <i className="fa fa-arrow-left" style={{marginRight:"10px"}}></i>
-              Atras
-            </button>
-          </div>
+        <div className="col-sm">
+          <button 
+            className="btn btn-custom-primary" 
+            style={{marginBottom:"20px"}}
+            onClick={()=>updateAccion('crud')}
+          >
+            <i className="fa fa-arrow-left" style={{marginRight:"10px"}}></i>
+            Atras
+          </button>
         </div>
+      </div>
+      {/* Cards */}
       <div className="row mb-4">
         <div className="col-sm-3">
           <div className="card">
