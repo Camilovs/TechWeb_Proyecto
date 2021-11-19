@@ -17,8 +17,11 @@ const crearUsuario  = async (req, res = response) => {
         msg:"Ya existe un usario con ese correo"
       })
     }
-
-    usuario = new Usuario(req.body); 
+    const info ={
+      ...req.body,
+      verificado:true
+    }
+    usuario = new Usuario(info); 
 
     // Encriptar contraseña
     const salt = bcrypt.genSaltSync();

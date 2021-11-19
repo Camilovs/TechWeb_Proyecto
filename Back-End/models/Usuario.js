@@ -17,7 +17,11 @@ const UsuarioSchema = Schema({
   rol: {
     type: String,
     enum: ["Admin", "Encargado", "Profesor", "Estudiante"]
+  },
+  verificado:{
+    type:Boolean
   }
+  
 });
 
 module.exports = model('Usuario', UsuarioSchema);

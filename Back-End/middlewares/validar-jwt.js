@@ -18,7 +18,7 @@ const validarJWT = (req, res = response, next) =>{
   try {
     
     //Extraemos el uid y el name del token si es valido
-    const {uid, nombre} = jwt.verify(
+    const {uid, nombre, rol} = jwt.verify(
       token,
       process.env.SECRET_WORD
     );
@@ -26,6 +26,7 @@ const validarJWT = (req, res = response, next) =>{
     //agregamos el campo de uid y name al request.
     req.uid = uid;
     req.nombre = nombre;
+    req.rol = rol
 
   } catch (error) {
     return res.status(401).json({
