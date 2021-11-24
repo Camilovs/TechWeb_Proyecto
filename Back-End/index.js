@@ -1,5 +1,6 @@
 const express = require('express');
 const { dbConnection } = require('./database/config');
+const path = require('path')
 require('dotenv').config();
 const cors = require('cors');
 
@@ -15,6 +16,9 @@ server.use(cors())
 // dir publico index.html
 server.use( express.static('public') );
 
+server.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 // Lectura y parseo del body del request
 server.use(express.json());
 
@@ -24,7 +28,10 @@ server.use('/api/salas', require('./routes/salas'));
 server.use('/api/bloques', require('./routes/bloques'));
 server.use('/api/usuarios', require('./routes/usuarios'));
 server.use('/api/modulos', require('./routes/modulos'));
-
+//catch-all, permite redirigir las rutas del react router al cliente
+server.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 // Listening peticiones
 server.listen(process.env.PORT, ()=>{
