@@ -2,12 +2,12 @@
 // URL Heroku = 'https://me-anoto.herokuapp.com/api';
 // URL Elias = 'http://mrrojano97.ddns.net:40404/api';
 
-
+const base_url = `${process.env.REACT_APP_BASE_URL_LOCAl}`
 //Fetch que no necesita un token para consultar las apis, como ej: Autenticacion
 const fetchSinToken = async(endpoint, data, method = 'GET') => {
 
-  console.log("Haciendo fetch hacia ", process.env.REACT_APP_BASE_URL_LOCAL,"/",endpoint)
-  const url = `${process.env.REACT_APP_BASE_URL_LOCAL}/${endpoint}`;
+
+  const url = `${base_url}/${endpoint}`;
   if(method==='GET'){
     return await fetch(url);
   }
@@ -26,13 +26,16 @@ const fetchSinToken = async(endpoint, data, method = 'GET') => {
 //Ej: Todas las acciones del CRUD de cualquier usuario requieren un token activo y valido.
 const fetchConToken = async(endpoint, data, method = 'GET') => {
 
-  console.log("Haciendo fetch hacia ", process.env.REACT_APP_BASE_URL_LOCAL,"/",endpoint)
-  const url = `${process.env.REACT_APP_BASE_URL_LOCAL}/${endpoint}`;
+  const url = `${base_url}/${endpoint}`;
+  console.log('fetch: ',url)
+  console.log('data: ',data)
+  const token = localStorage.getItem('userToken') || '';
+
+
   if(method==='GET'){
     return fetch(url,{
       headers:{
-        'Content-type': 'application/json',
-        'x-token':localStorage.getItem('userToken')
+        'x-token':token
       }
     });
   }
@@ -41,7 +44,7 @@ const fetchConToken = async(endpoint, data, method = 'GET') => {
       method,
       headers:{
         'Content-type': 'application/json',
-        'x-token':localStorage.getItem('userToken')
+        'x-token':token
       },
       body: JSON.stringify(data)
     })

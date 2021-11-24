@@ -21,39 +21,6 @@ export const Login = ({changeVista}) => {
   const [formValues, setFormValues] = useState(initialValue)  
   const {email, password} = formValues;
 
-  const handleInputChange = ({target}) => {
-    setFormValues({
-      ...formValues,
-      [target.name]:target.value
-    })
-  }
-  
-  const handleSubmitForm = async(e) =>{
-    e.preventDefault();
-
-    if (email!=='' & password!=='') {
-
-      console.log("Cargando información a Backend");
-      console.log(email, password)
-      const resp = await fetchSinToken('auth', {"email":email, "pass":password}, 'POST')
-      const usuario = await resp.json();
-      
-      if (usuario.ok === false){
-        console.log("ERROR")
-        setFormValues(initialValue)
-        setStatusBase({ msg: "Usuario o Contraseña ingresados son incorrectos", key: Math.random() });
-      }
-      else {
-        console.log(usuario)
-        localStorage.setItem('userToken', usuario.token)
-        RedirectTo(usuario.rol)
-      }
-    }
-    else {
-      setStatusBase({ msg: "Ingrese un Correo y Contraseña", key: Math.random() });
-    }
-  };
-
   const RedirectTo = (usuario) => {
 
     if(usuario==='Admin'){
@@ -69,6 +36,40 @@ export const Login = ({changeVista}) => {
       history.push('/estudiante')
     }
   }
+
+  const handleInputChange = ({target}) => {
+    setFormValues({
+      ...formValues,
+      [target.name]:target.value
+    })
+  }
+  
+  const handleSubmitForm = async(e) =>{
+    e.preventDefault();
+
+    if (email!=='' & password!=='') {
+
+      const resp = await fetchSinToken('auth', {"email":email, "pass":password}, 'POST')
+      const usuario = await resp.json();
+      
+      if (usuario.ok === false){
+        console.log("ERROR", usuario.msg)
+        setFormValues(initialValue)
+        setStatusBase({ msg: usuario.msg, key: Math.random() });
+      }
+      else {
+        // console.log(usuario)
+        localStorage.setItem('userToken', usuario.token)
+        localStorage.setItem('uid', usuario.uid)
+        RedirectTo(usuario.rol)
+      }
+    }
+    else {
+      setStatusBase({ msg: "Ingrese un Correo y Contraseña", key: Math.random() });
+    }
+  };
+
+  
   
   return (
     <Fragment>
@@ -114,13 +115,13 @@ export const Login = ({changeVista}) => {
             </button>
           </div>
         </form>
-        <p className="text-center">Recuperar contraseña</p>
+        <p className="text-center mt-3">Recuperar contraseña</p>
         <div className="text-center">
           <button
             className="btn btn-link"
             onClick={()=>changeVista('registro')}
           >
-            ¿No tienes cuenta? Regístrate
+            ¿Eres Estudiante? Regístrate aquí
           </button>
         </div>
       </div>

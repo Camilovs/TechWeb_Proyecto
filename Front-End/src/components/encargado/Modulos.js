@@ -12,52 +12,6 @@ const Box= styled.div`
   background-color: white;
 `;
 
-//ESTE ARREGLO DE OBJETOS SE DEBE REEMPLAZAR POR LA RESPUESTA DE 
-//LA QUERY QUE OBTIENE LOS MODULOS.
-const ejemploModulos=[
-  {
-    id:"1234",
-    nombre:"Calculo 1",
-    integrantes:20,
-    profesor:"Pedrito Perez"
-  },
-  {
-    id:"1235",
-    nombre:"Calculo 2",
-    integrantes:25,
-    profesor:"Juan Diaz"
-  },
-  {
-    id:"1236",
-    nombre:"Calculo 3",
-    integrantes:16,
-    profesor:"Bastian Ulloa"
-  },
-  {
-    id:"1237",
-    nombre:"Calculo 4",
-    integrantes:16,
-    profesor:"Bastian Ulloa"
-  },
-  {
-    id:"1238",
-    nombre:"Calculo 5",
-    integrantes:16,
-    profesor:"Bastian Ulloa"
-  },
-  {
-    id:"1239",
-    nombre:"Calculo 6",
-    integrantes:16,
-    profesor:"Bastian Ulloa"
-  },
-  {
-    id:"1239",
-    nombre:"Calculo 6",
-    integrantes:16,
-    profesor:"Bastian Ulloa"
-  },
-]
 const head=[
   {
     id:'nombre',
@@ -66,10 +20,6 @@ const head=[
   {
     id:'integrantes',
     label:'Nro. Alumnos'
-  },
-  {
-    id:'profesor',
-    label:'Profesor'
   },
   
   
@@ -81,6 +31,7 @@ export const Modulos = ({accion, setAccion}) => {
   const [reloadTable, setReloadTable] = useState(true)
 
   const deleteModulo = async(id) => {
+    console.log('Borrando modulo')
     const query = await fetchConToken(`modulos/${ id }`,{}, 'DELETE')
     console.log(await query.json())
     reload()
@@ -136,6 +87,8 @@ export const Modulos = ({accion, setAccion}) => {
             updateAccion = {setAccion}
             updateId = {setIdModulo}
             tipo="Modulo"
+            funcionDelete={deleteModulo}
+            setReloadTable = {setReloadTable}
           />
         </div>
         
@@ -164,6 +117,7 @@ export const Modulos = ({accion, setAccion}) => {
           <EditarModulo 
             updateAccion = {setAccion}
             id = {idModulo}
+            reload={reload}
           />
         </>
       }
@@ -174,6 +128,7 @@ export const Modulos = ({accion, setAccion}) => {
           <AddModulo 
             updateAccion = {setAccion}
             id = {idModulo}
+            reload={reload}
           />
         </>
       }
