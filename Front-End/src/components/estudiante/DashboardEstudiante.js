@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import {
   Button,
   Card,
@@ -18,6 +18,10 @@ import Tab from "@material-ui/core/Tab";
 import TabContext from "@material-ui/lab/TabContext";
 import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
+import { CursoCard } from "./CursoCard";
+import { NavBar } from "../shared/NavBar";
+import { Footer } from "../shared/Footer";
+import { VistaReservas } from "./VistaReservas";
 
 const drawerWidth = 240;
 
@@ -88,102 +92,63 @@ export function DashboardEstudiante() {
     cursos[0].nombre="curso extraño";
   }
   return (
-    <div className={classes.root}>
-      {/* app bar */}
-      <AppBar
-        position="fixed"
-        className={classes.appBar}
-        elevation={0}
-        color="primary"
-      >
-        <Toolbar style={{ backgroundColor: "#303e4e" }}>
-          <Typography className={classes.date}></Typography>
-          <Button
-            style={{ WebkitTextFillColor: "white" }}
-            onClick={() => history.push("/")}
-          >
-            Cerrar Sesión
-          </Button>
-        </Toolbar>
-      </AppBar>
-
-      <div className={classes.page}>
-        <div className={classes.toolbar}></div>
-        Bienvenido, usuario x
-         <Button onClick={()=>cambiarNombre()}>Cambiar Nombre</Button>
-        <Box
-          sx={{ width: "100%", typography: "body1", paddingBlockEnd: "100%" }}
+    <Fragment>
+      <NavBar/>
+      <div className={classes.root}>
+        {/* app bar */}
+        {/* <AppBar
+          position="fixed"
+          className={classes.appBar}
+          elevation={0}
+          color="primary"
         >
-          <TabContext value={value}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <TabList
-                onChange={handleChange}
-                aria-label="lab API tabs example"
-              >
-                <Tab label="Cursos Disponibles" value="1" />
-                <Tab label="Reservas" value="2" />
-              </TabList>
-            </Box>
-            <TabPanel value="1" onClick={() => setvista("estudiantes")}>
-              <Grid container>
-                {cursos.map((curso) => (
-                  <Grid item spacing={3} style={{ margin: "5px" }}>
-                    <Box sx={{ minWidth: 275, maxWidth: 200 }}>
-                      <Card variant="outlined">
-                        <React.Fragment>
-                          <CardContent>
-                            <Typography variant="h5" component="div">
-                              {curso.nombre}
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                              {curso.profesor}
-                            </Typography>
-                            <Typography variant="body2">
-                              {curso.horario}
-                            </Typography>
-                          </CardContent>
-                          <CardActions>
-                            <Button size="small">Reservar</Button>
-                          </CardActions>
-                        </React.Fragment>
-                      </Card>
-                    </Box>
-                  </Grid>
-                ))}
-              </Grid>
-            </TabPanel>
-            <TabPanel value="2" onClick={() => setvista("profesores")}>
-              <Grid container>
-                {cursos.map((curso) => (
-                  <Grid item spacing={3} style={{ margin: "5px" }}>
-                    <Box sx={{ minWidth: 275, maxWidth: 200 }}>
-                      <Card variant="outlined">
-                        <React.Fragment>
-                          <CardContent>
-                            <Typography variant="h5" component="div">
-                              {curso.nombre}
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                              {curso.profesor}
-                            </Typography>
-                            <Typography variant="body2">
-                              {curso.horario}
-                            </Typography>
-                          </CardContent>
-                          <CardActions>
-                            <Button size="small">Reservar</Button>
-                          </CardActions>
-                        </React.Fragment>
-                      </Card>
-                    </Box>
-                  </Grid>
-                ))}
-              </Grid>
-            </TabPanel>
-            <TabPanel value="3">Encargados</TabPanel>
-          </TabContext>
-        </Box>
+          <Toolbar style={{ backgroundColor: "#303e4e" }}>
+            <Typography className={classes.date}></Typography>
+            <Button
+              style={{ WebkitTextFillColor: "white" }}
+              onClick={() => history.push("/")}
+            >
+              Cerrar Sesión
+            </Button>
+          </Toolbar>
+        </AppBar> */}
+        
+        <div className={classes.page}>
+          
+          Bienvenido, usuario x
+          <Button onClick={()=>cambiarNombre()}>Cambiar Nombre</Button>
+          <Box
+            sx={{ width: "100%", typography: "body1", paddingBlockEnd: "100%" }}
+          >
+            <TabContext value={value}>
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <TabList
+                  onChange={handleChange}
+                  aria-label="lab API tabs example"
+                >
+                  <Tab label="Cursos Disponibles" value="1" />
+                  <Tab label="Reservas" value="2" />
+                </TabList>
+              </Box>
+              <TabPanel value="1" onClick={() => setvista("estudiantes")}>
+                <Grid container>
+                  {cursos.map((curso) => (
+                    <CursoCard curso={curso}/>
+                  ))}
+                </Grid>
+              </TabPanel>
+              <TabPanel value="2" onClick={() => setvista("profesores")}>
+                <Grid container>
+                  <VistaReservas/>
+                </Grid>
+              </TabPanel>
+              <TabPanel value="3">Encargados</TabPanel>
+            </TabContext>
+          </Box>
+          <div className={classes.toolbar}></div>
+        </div>
       </div>
-    </div>
+      <Footer/>
+    </Fragment>
   );
 }

@@ -4,7 +4,8 @@ const {
   getUsuarios,
   eliminarUsuario,
   actualizarUsuario,
-  crearUsuario 
+  crearUsuario, 
+  getProfesores
 } = require("../controllers/usuarios");
 const { validarCampos } = require("../middlewares/validar-campos");
 const { validarJWT } = require("../middlewares/validar-jwt");
@@ -36,5 +37,5 @@ router.put('/:id',
 
 router.delete('/:id', eliminarUsuario);
 router.get('/', getUsuarios);
-
+router.get('/profesores', getProfesores);
 module.exports = router;

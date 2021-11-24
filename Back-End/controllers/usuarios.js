@@ -146,9 +146,38 @@ const getUsuarios = async(req, res = response) => {
 
 }
 
+const getProfesores = async(req ,res = response) =>{
+
+  try{
+    const profesores = await Usuario.find({rol:"Profesor"})
+
+    if(!profesores){
+      return res.status(404).json({
+        ok:false,
+        msg:"No existen profesores"
+      })
+    }
+    return(
+      res.status(200).json({
+        ok:true,
+        msg:"Profesores encontrados",
+        profesores
+      })
+    )
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      ok:false,
+      msg:"error en bd, obtener profesores"
+    })
+  }
+
+}
 module.exports = {
   crearUsuario,
   actualizarUsuario,
   eliminarUsuario,
-  getUsuarios
+  getUsuarios,
+  getProfesores
 }

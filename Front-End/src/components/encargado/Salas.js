@@ -1,6 +1,5 @@
 import React ,{ Fragment, useEffect, useState }from 'react'
 import { TablaCRUD } from '../shared/TablaCRUD'
-import { BorrarSala } from './vistaSala/BorrarSala';
 import { EditarSala } from './vistaSala/EditarSala';
 import { NuevaSala } from './vistaSala/NuevaSala';
 import { VerSala } from './vistaSala/VerSala';
@@ -27,55 +26,6 @@ const head = [
 
 ];
 
-//ESTE ARREGLO DE DATOS SE REEMPLAZAR POR EL OBTENIDO EN LA QUERY
-const datos = [
-  {
-    id:'1',
-    nombre:'Sala 21',
-    'aforo':20
-  },
-  {
-    id:'2',
-    nombre:'Sala 15',
-    'aforo':56
-  },
-  {
-    id:'3',
-    nombre:'Lab 1',
-    'aforo':78
-  },
-  {
-    id:'4',
-    nombre:'Sala 11',
-    'aforo':32
-  },
-  {
-    id:'5',
-    nombre:'Sala 10',
-    'aforo':61
-  },
-  {
-    id:'6',
-    nombre:'Sala 1',
-    'aforo':65
-  },
-  {
-    id:'7',
-    nombre:'Sala 1',
-    'aforo':65
-  },
-  {
-    id:'8',
-    nombre:'Sala 1',
-    'aforo':65
-  },
-  {
-    id:'9',
-    nombre:'Sala 1',
-    'aforo':65
-  }
-
-];
 export const Salas = () => {
 
   const [accion, setAccion] = useState('crud');
@@ -84,19 +34,15 @@ export const Salas = () => {
   const[salas, setSalas] = useState([]);
 
   const deleteSala = async(id) => {
-    console.log('deleteSala id: ',id)
     const query = await fetchConToken(`salas/${ id }`,{}, 'DELETE')
     console.log(await query.json())
     reload()
   }
-  
-  
 
   const reload = () => {
     setReloadTable(!reloadTable);
   }
   
-
   useEffect( async() => {
     const query = await fetchConToken(
       'salas', 
@@ -144,7 +90,7 @@ export const Salas = () => {
             updateAccion = {setAccion}
             updateId = {setIdSala}
             tipo='Sala'
-            deleteSala={deleteSala}
+            funcionDelete={deleteSala}
             setReloadTable = {setReloadTable}
           />
         </div>

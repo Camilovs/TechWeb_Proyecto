@@ -64,6 +64,7 @@ const App =() => {
               <Route exact path="/encargado" component={HomeEnc} />
               <Route exact path="/profesor" component={HomeProfe} />
               <Route exact path="/verificar/:id" component={Verificar} />
+              <Redirect to='/'/>
               {/* <PublicRoute 
                 exact 
                 path='/'

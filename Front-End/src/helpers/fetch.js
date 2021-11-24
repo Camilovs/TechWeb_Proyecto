@@ -27,8 +27,11 @@ const fetchSinToken = async(endpoint, data, method = 'GET') => {
 const fetchConToken = async(endpoint, data, method = 'GET') => {
 
   const url = `${process.env.REACT_APP_BASE_URL_LOCAL}/${endpoint}`;
+  console.log('fetch: ',url)
+  console.log('data: ',data)
   const token = localStorage.getItem('userToken') || '';
-  
+
+
   if(method==='GET'){
     return fetch(url,{
       headers:{
