@@ -2,6 +2,8 @@ import React, { Fragment, useState } from 'react'
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { fetchSinToken } from '../../helpers/fetch';
+import Container from "@material-ui/core/Container";
+import AlertMassage from "./AlertMessage";
 
 const LogoMeAnoto = styled.div`
   text-align: center;
@@ -10,6 +12,7 @@ const LogoMeAnoto = styled.div`
 
 export const Login = ({changeVista}) => {
   let history = useHistory();
+  const [status, setStatusBase] = React.useState("");
   const initialValue = {
     email:'',
     password:'',
@@ -17,38 +20,6 @@ export const Login = ({changeVista}) => {
   };
   const [formValues, setFormValues] = useState(initialValue)  
   const {email, password} = formValues;
-
-  const handleInputChange = ({target}) => {
-    setFormValues({
-      ...formValues,
-      [target.name]:target.value
-    })
-  }
-  
-  const handleSubmitForm = async(e) =>{
-    e.preventDefault();
-
-    if (email!=='' & password!=='') {
-      
-      // var emailInput = document.getElementById('email')
-  
-      console.log("Cargando información a Backend");
-      console.log(email, password)
-      const resp = await fetchSinToken('auth', {"email":email, "pass":password}, 'POST')
-      const usuario = await resp.json();
-      
-      if (usuario.ok === false){
-        console.log("ERROR")
-        // emailInput.setCustomValidity('Correo o Contraseña Ingresados son Incorrectos')
-        setFormValues(initialValue)
-      }
-      else {
-        console.log(usuario)
-        localStorage.setItem('userToken', usuario.token)
-        RedirectTo(usuario.rol)
-      }
-    }
-  };
 
   const RedirectTo = (usuario) => {
 
@@ -65,6 +36,40 @@ export const Login = ({changeVista}) => {
       history.push('/estudiante')
     }
   }
+
+  const handleInputChange = ({target}) => {
+    setFormValues({
+      ...formValues,
+      [target.name]:target.value
+    })
+  }
+  
+  const handleSubmitForm = async(e) =>{
+    e.preventDefault();
+
+    if (email!=='' & password!=='') {
+
+      const resp = await fetchSinToken('auth', {"email":email, "pass":password}, 'POST')
+      const usuario = await resp.json();
+      
+      if (usuario.ok === false){
+        console.log("ERROR", usuario.msg)
+        setFormValues(initialValue)
+        setStatusBase({ msg: usuario.msg, key: Math.random() });
+      }
+      else {
+        // console.log(usuario)
+        localStorage.setItem('userToken', usuario.token)
+        localStorage.setItem('uid', usuario.uid)
+        RedirectTo(usuario.rol)
+      }
+    }
+    else {
+      setStatusBase({ msg: "Ingrese un Correo y Contraseña", key: Math.random() });
+    }
+  };
+
+  
   
   return (
     <Fragment>
@@ -85,7 +90,7 @@ export const Login = ({changeVista}) => {
             type="email" 
             className="form-control" 
             name="email" 
-            id="email"
+            id="loginEmail"
             value={email}
             onChange={handleInputChange}
             />
@@ -96,7 +101,7 @@ export const Login = ({changeVista}) => {
             type="password" 
             className="form-control" 
             name="password" 
-            id="password"
+            id="loginPassword"
             value={password}
             onChange={handleInputChange}  
           />
@@ -110,16 +115,17 @@ export const Login = ({changeVista}) => {
             </button>
           </div>
         </form>
-        <p className="text-center">Recuperar contraseña</p>
+        <p className="text-center mt-3">Recuperar contraseña</p>
         <div className="text-center">
           <button
             className="btn btn-link"
             onClick={()=>changeVista('registro')}
           >
-            ¿No tienes cuenta? Regístrate
+            ¿Eres Estudiante? Regístrate aquí
           </button>
         </div>
       </div>
+      {status ? <AlertMassage key={status.key} message={status.msg} /> : null}
     </Fragment>
   )
 }

@@ -2,7 +2,6 @@ import React, { Fragment, useState } from 'react'
 import styled from 'styled-components'
 import { Footer } from '../shared/Footer';
 import { Header } from '../shared/Header';
-// import { NavBar } from '../shared/NavBar_OLD'
 import { NavBar } from '../shared/NavBar'
 import { SideBar } from '../shared/SideBar';
 import { Modulos } from './Modulos'

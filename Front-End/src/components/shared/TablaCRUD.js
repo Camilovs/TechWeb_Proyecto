@@ -67,7 +67,7 @@ export const TablaCRUD = (
     updateAccion,
     updateId,
     tipo = '',
-    deleteSala
+    funcionDelete
   }
   ) => {
 
@@ -103,10 +103,7 @@ export const TablaCRUD = (
       }
     )
       .then(() => {
-        console.log(tipo)
-        if(tipo==='Sala'){
-          deleteSala(e.target.id)
-        }
+        funcionDelete(e.target.id)
       })
       .catch(() => console.log("Cancelado"));
   };

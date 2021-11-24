@@ -1,6 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Backdrop, Fade, Modal,} from '@mui/material'
 import { Box } from '@mui/system'
+import { fetchConToken } from '../../../helpers/fetch';
+import { bloques } from '../../../api/bloques';
+import { dias } from '../../../api/dias';
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -11,79 +15,51 @@ const style = {
   boxShadow: 24,
 };
 
-const bloquesDefecto = [
-  {
-    numero:1,
-    hora_inicio:"8:30",
-    hora_fin:"9:30"
+const initialState = {
+  nombre:'',
+  integrantes:0,
+  bloque_inicio:{
+    dia:"Lunes",
+    numero:0,
   },
-  {
-    numero:2,
-    hora_inicio:"9:40",
-    hora_fin:"10:40"
+  bloque_fin:{
+    dia:"Lunes",
+    numero:0,
   },
-  {
-    numero:3,
-    hora_inicio:"10:50",
-    hora_fin:"11:50"
-  },
-]
-const diasDefecto = [
-  "Lunes",
-  "Martes",
-  "Miercoles",
-  "Jueves",
-  "Viernes",
-  "Sabado"
-]
-const profesoresDefecto = [
-  {
-    nombre:'Armando Barreda​'
-  },
-  {
-    nombre:'Edna Krabappel​'
-  },
-  {
-    nombre:'Profesor Snappe'
-  },
-  {
-    nombre:'Albus Dumbledore'
-  },
-  {
-    nombre:'Profesor Miyagi'
-  }
-]
-export const AddModulo = ({updateAccion}) => {
+  profesor:''
+}
 
-  const [modulo, setModulo] = useState({
-    nombre:'',
-    integrantes:0,
-    bloque_inicio:{
-      dia:"",
-      numero:0,
-      hora_inicio:"",
-      hora_fin:""
-    },
-    bloque_fin:{
-      dia:"",
-      numero:0,
-      hora_inicio:"",
-      hora_fin:""
-    },
-    profesor:''
-  })
+export const AddModulo = ({updateAccion, reload, dataModulo = initialState}) => {
+  const [profesores, setProfesores] = useState([]);
 
-  const guardarModulo = (e) => {
+  const [modulo, setModulo] = useState(dataModulo)
+
+  const guardarModulo = async(e) => {
     e.preventDefault()
     console.log("Agregando objeto...", modulo)
-    //LOGICA DE QUERY
+    const query = await fetchConToken(
+      'modulos',
+      modulo,
+      'POST'
+    );
+    const resp = await query.json();
+    console.log(resp)
     updateAccion('crud')
+    reload()
   }
   const handleInputChange = ({target}) => {
-    setModulo({
-      ...modulo,
-      [target.name]:target.value
-    })
+    if(target.name === 'integrantes'){
+      setModulo({
+        ...modulo,
+        [target.name]:parseInt(target.value)
+      })
+    }
+    else{
+      setModulo({
+        ...modulo,
+        [target.name]:target.value
+      })
+    }
   }
   const handleDiaChange = ({target}) => {
     setModulo({
@@ -118,7 +94,16 @@ export const AddModulo = ({updateAccion}) => {
     }
 
   }
-  // console.log(bloquesDefecto[modulo.bloque_inicio.numero-1])
+  useEffect( async() => {
+    const query = await fetchConToken(
+      'usuarios/profesores',
+      {},
+      'GET'
+    )
+    const resp = await query.json();
+    console.log(resp)
+    setProfesores(resp.profesores)
+  }, [])
   return (
     <Modal
       open={true}
@@ -178,8 +163,11 @@ export const AddModulo = ({updateAccion}) => {
                   value={modulo.profesor}
                   onChange={handleInputChange}
                 >
-                  {profesoresDefecto.map((profe, i) => (
-                    <option key={i} value={profe.nombre}>
+                  <option value=''>
+                    Elegir Profesor
+                  </option>
+                  {profesores.map((profe, i) => (
+                    <option key={i} value={profe._id}>
                       {profe.nombre}
                     </option>
                   ))}
@@ -198,7 +186,7 @@ export const AddModulo = ({updateAccion}) => {
                   onChange={handleDiaChange}
                   value={modulo.bloque_inicio.dia}
                 >
-                  {diasDefecto.map((dia, i) => (
+                  {dias.map((dia, i) => (
                     <option key={i} value={dia}>
                       {dia}
                     </option>
@@ -215,9 +203,9 @@ export const AddModulo = ({updateAccion}) => {
                   className="form-select"
                   name='bloque_inicio'
                   onChange={handleBloqueChange}
-                  value={bloquesDefecto[modulo.bloque_inicio.numero].numero}
+                  value={bloques[modulo.bloque_inicio.numero].numero}
                 >
-                  {bloquesDefecto.map((bloque,i) => (
+                  {bloques.map((bloque,i) => (
                     <option  key={i}  value={bloque.numero}>
                       {`${bloque.numero}. ${bloque.hora_inicio} - ${bloque.hora_fin}`}
                     </option>
@@ -232,9 +220,9 @@ export const AddModulo = ({updateAccion}) => {
                   className="form-select"
                   name='bloque_fin'
                   onChange={handleBloqueChange}
-                  value={bloquesDefecto[modulo.bloque_fin.numero].numero}
+                  value={bloques[modulo.bloque_fin.numero].numero}
                 >
-                  {bloquesDefecto.map((bloque,i) => (
+                  {bloques.map((bloque,i) => (
                     <option key={i}  value={bloque.numero}>
                       {`${bloque.numero}. ${bloque.hora_inicio} - ${bloque.hora_fin}`}
                     </option>
