@@ -15,10 +15,6 @@ server.use(cors())
 
 // dir publico index.html
 server.use( express.static('public') );
-
-server.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
 // Lectura y parseo del body del request
 server.use(express.json());
 
