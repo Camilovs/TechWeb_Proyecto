@@ -10,7 +10,7 @@ const SalaSchema = Schema({
   },
   ocupada:[{
     type:Schema.Types.ObjectId,
-    ref='Bloque'
+    ref:'Bloque'
   }]
 });
 
