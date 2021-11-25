@@ -1,3 +1,5 @@
+// /api/usuarios
+
 const { Router } = require("express");
 const { check } = require("express-validator");
 const { 
@@ -5,7 +7,8 @@ const {
   eliminarUsuario,
   actualizarUsuario,
   crearUsuario, 
-  getProfesores
+  getProfesores,
+  getUsuarioById
 } = require("../controllers/usuarios");
 const { validarCampos } = require("../middlewares/validar-campos");
 const { validarJWT } = require("../middlewares/validar-jwt");
@@ -37,5 +40,6 @@ router.put('/:id',
 
 router.delete('/:id', eliminarUsuario);
 router.get('/', getUsuarios);
+router.get('/:id', getUsuarioById);
 router.get('/profesores', getProfesores);
 module.exports = router;

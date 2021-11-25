@@ -48,12 +48,6 @@ const defaultHead = [
   },
 ];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-
 /*
 Tabla que muestra los datos con paginación incluida. Recibe los head, que 
 son los titulos de la tabla y la data, que es un arreglo de objetos
@@ -192,17 +186,16 @@ export const TablaCRUD = (
               })}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={5}
+          component="div"
+          count={data.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </TableContainer>
-      
-      <TablePagination
-        rowsPerPageOptions={[5,10, 25, 100]}
-        component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
     </Paper>
   )
 }

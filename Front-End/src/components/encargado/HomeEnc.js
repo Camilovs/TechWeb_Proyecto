@@ -4,8 +4,12 @@ import { Footer } from '../shared/Footer';
 import { Header } from '../shared/Header';
 import { NavBar } from '../shared/NavBar'
 import { SideBar } from '../shared/SideBar';
-import { Modulos } from './Modulos'
-import { Salas } from './Salas';
+import { Clases } from './vistaClases/Clases';
+import { Estudiantes } from './vistaEstudiante/Estudiantes';
+import { Modulos } from './vistaModulo/Modulos'
+import { Plantillas } from './vistaPlantilla/Plantillas';
+import { Profesores } from './vistaProfesores/Profesores';
+import { Salas } from './vistaSala/Salas';
 
 const Container = styled.div`
   display: flex;
@@ -13,8 +17,8 @@ const Container = styled.div`
   align-items: center;
   background-color: #E4E4E4;
   padding: 0;
-  /* height: 88.5vh; */
   height: 100%;
+  min-height: 670px;
 `;
 
 const Body = styled.div`
@@ -37,7 +41,7 @@ export const HomeEnc = () => {
     },
   ]
   )
-  const [accion, setAccion] = useState('crud');
+  
   const [sideBarSelect, setSideBarSelect] = useState('Módulos')
 
   console.log("sideBarSelect: ", sideBarSelect)
@@ -51,12 +55,26 @@ export const HomeEnc = () => {
       label:"Salas",
       icon:"fa fa-university"
     },
+    {
+      label:"Profesores",
+      icon:"fa fa-user-tie"
+    },
+    {
+      label:"Estudiantes",
+      icon:"fa fa-user-graduate"
+    },
+    {
+      label:"Clases",
+      icon:"fa fa-handshake"
+    },
+    {
+      label:"Plantillas",
+      icon:"fa fa-scroll"
+    },
   ]
   return (
     <Fragment>
-
       <NavBar/>
-      
       <Body className="row m-0">
         <div className="col-sm-2 p-0" >
           <SideBar  
@@ -66,13 +84,25 @@ export const HomeEnc = () => {
           />
         </div>
         <Content className="col-sm-10 p-0">
-          <Header setAccion={setAccion}/>
+          <Header />
           <Container>
               {(sideBarSelect==='Módulos') && (
-                <Modulos accion={accion} setAccion={setAccion}/>
+                <Modulos/>
               )}
               {(sideBarSelect==='Salas') && (
                 <Salas/>
+              )}
+              {(sideBarSelect==='Profesores') && (
+                <Profesores/>
+              )}
+              {(sideBarSelect==='Estudiantes') && (
+                <Estudiantes/>
+              )}
+              {(sideBarSelect==='Clases') && (
+                <Clases/>
+              )}
+              {(sideBarSelect==='Plantillas') && (
+                <Plantillas/>
               )}
           </Container> 
         </Content>   
