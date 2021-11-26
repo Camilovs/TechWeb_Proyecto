@@ -40,6 +40,6 @@ router.put('/:id',
 
 router.delete('/:id', eliminarUsuario);
 router.get('/', getUsuarios);
-router.get('/:id', getUsuarioById);
 router.get('/profesores', getProfesores);
+router.get('/:id', getUsuarioById);
 module.exports = router;

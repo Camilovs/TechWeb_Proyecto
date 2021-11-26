@@ -102,7 +102,9 @@ export const AddModulo = ({updateAccion, reload, dataModulo = initialState}) => 
     )
     const resp = await query.json();
     console.log(resp)
-    setProfesores(resp.profesores)
+    if(resp.ok){
+      setProfesores(resp.profesores)
+    }
   }, [])
   return (
     <Modal

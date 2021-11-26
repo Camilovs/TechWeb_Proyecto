@@ -6,8 +6,8 @@ const base_url = `${process.env.REACT_APP_BASE_URL_LOCAL}`
 //Fetch que no necesita un token para consultar las apis, como ej: Autenticacion
 const fetchSinToken = async(endpoint, data, method = 'GET') => {
   
-  console.log('fetch: ',url)
   const url = `${base_url}/${endpoint}`;
+  console.log('fetch: ',url)
   if(method==='GET'){
     return await fetch(url);
   }
@@ -29,8 +29,6 @@ const fetchConToken = async(endpoint, data, method = 'GET') => {
   const url = `${base_url}/${endpoint}`;
   console.log('fetch: ',url)
   const token = localStorage.getItem('userToken') || '';
-
-
   if(method==='GET'){
     return fetch(url,{
       headers:{
