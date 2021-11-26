@@ -3,12 +3,12 @@ const {Schema, model} = require('mongoose');
 const ClaseSchema = Schema({
   horario:{
     inicio: {
-      type:Schema.Types.ObjectId,
-      ref:'Bloque'
+      dia:String,
+      bloque:Number
     },
     fin: {
-      type:Schema.Types.ObjectId,
-      ref:'Bloque'
+      dia:String,
+      bloque:Number
     }
   },
   modulo:{
@@ -18,6 +18,9 @@ const ClaseSchema = Schema({
   tipo:{
     type:String,
     enum:['Unica','Recurrente']
+  },
+  aceptada:{
+    type:Boolean
   }
 });
 

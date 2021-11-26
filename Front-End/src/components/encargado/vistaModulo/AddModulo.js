@@ -30,8 +30,8 @@ const initialState = {
 }
 
 export const AddModulo = ({updateAccion, reload, dataModulo = initialState}) => {
+  
   const [profesores, setProfesores] = useState([]);
-
   const [modulo, setModulo] = useState(dataModulo)
 
   const guardarModulo = async(e) => {
