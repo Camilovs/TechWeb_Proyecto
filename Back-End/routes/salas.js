@@ -7,8 +7,7 @@ const {
   crearSala, 
   actualizarSala, 
   eliminarSala, 
-  getSalas, 
-  actualizarAforo, 
+  getSalas,
   agregarBloqueOcupado 
 } = require("../controllers/salas");
 const { validarCampos } = require("../middlewares/validar-campos");
@@ -42,13 +41,6 @@ router.put('/:id',
   validarCampos
 ],
 actualizarSala);
-
-router.put('/updateAforo/:id',
-[
-  check('aforo', 'el aforo debe ser numerico').isInt(),
-  validarCampos
-],
-actualizarAforo);
 
 router.put('/updateOcupado/:id',
 [

@@ -24,6 +24,7 @@ server.use('/api/salas', require('./routes/salas'));
 server.use('/api/bloques', require('./routes/bloques'));
 server.use('/api/usuarios', require('./routes/usuarios'));
 server.use('/api/modulos', require('./routes/modulos'));
+server.use('/api/clases', require('./routes/clases'));
 
 
 // Listening peticiones
