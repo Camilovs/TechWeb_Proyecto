@@ -15,13 +15,20 @@ const ClaseSchema = Schema({
     type:Schema.Types.ObjectId,
     ref:'Modulo'
   },
+  moduloNombre:String,
   tipo:{
     type:String,
     enum:['Unica','Recurrente']
   },
-  aceptada:{
+  aprobada:{
     type:Boolean
-  }
+  },
+  sala:{
+    type:Schema.Types.ObjectId,
+    ref:'Sala'
+  },
+  salaNombre:String,
+  fechaUnica:Date
 });
 
 module.exports = model('Clase', ClaseSchema);
