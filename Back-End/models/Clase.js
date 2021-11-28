@@ -3,22 +3,32 @@ const {Schema, model} = require('mongoose');
 const ClaseSchema = Schema({
   horario:{
     inicio: {
-      type:Schema.Types.ObjectId,
-      ref:'Bloque'
+      dia:String,
+      bloque:Number
     },
     fin: {
-      type:Schema.Types.ObjectId,
-      ref:'Bloque'
+      dia:String,
+      bloque:Number
     }
   },
   modulo:{
     type:Schema.Types.ObjectId,
     ref:'Modulo'
   },
+  moduloNombre:String,
   tipo:{
     type:String,
     enum:['Unica','Recurrente']
-  }
+  },
+  aprobada:{
+    type:Boolean
+  },
+  sala:{
+    type:Schema.Types.ObjectId,
+    ref:'Sala'
+  },
+  salaNombre:String,
+  fechaUnica:Date
 });
 
 module.exports = model('Clase', ClaseSchema);

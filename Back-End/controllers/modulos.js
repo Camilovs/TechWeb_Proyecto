@@ -45,10 +45,10 @@ const crearModulo = async(req, res = response) => {
     })
   } catch (error) {
     console.log(error)
-    res.json({
-      ok:false,
-      msg:error
-    })
+    res.status(500).json({
+      ok: false,
+      msg: 'Error en bd crear Modulo'
+    });
   }
 }
 

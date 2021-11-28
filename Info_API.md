@@ -1,5 +1,19 @@
-# Consultas
+# API Me Anoto
 ---
+Cada una de las consultas se llaman al backend concatenando la BASE URL + RUTA API, por ejemplo:
+
+- Para crear Estudiante:
+
+  - local host:
+    ```
+    http://localhost:4040/api/auth/new
+    ```
+  - en Heroku:
+    ```
+    https://me-anoto.herokuapp.com/api/auth/new
+    ```
+
+En este caso la URL BASE es `<host>/api` y la RUTA API es `/auth/new`. Desde el front se deben concatenar estos parametros para llamar correctamente a cualquier api.
 ### 1. Autenticación 
 
 #### crearEstudiante
@@ -104,7 +118,6 @@ Consulta para revalidar el token del usuario. Crea un token nuevo con los datos 
 
 
 ### 2. Usuarios
-
 #### crearUsuario
 
 Consulta para crear un usuario en la base de datos.
@@ -184,3 +197,39 @@ Consulta para actualizar los datos de un usuario a la base de datos.
 #### eliminarUsuario
 
 #### getUsuarios
+
+
+### 3. Salas
+#### crearSala
+
+#### getSala
+
+#### getSalas
+
+#### actualizarSala
+
+#### eliminarSala
+
+#### agregarBloqueOcupado
+### 4. Modulos
+
+#### crearModulo
+
+#### actualizarModulo
+
+#### getModulos
+
+#### eliminarModulo
+
+
+### 5. Clases
+
+#### crearClase
+
+#### getClases
+
+#### getClasesModulo
+
+#### actualizarClase
+
+#### eliminarClase
