@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const FooterBox = styled.div`
   /* position: absolute;
@@ -10,12 +10,22 @@ const FooterBox = styled.div`
 
 export const Footer = () => {
   return (
-      <FooterBox
-        className="navbar navbar-fixed-bottom text-white-50 bg-dark py-2 "
-      >
-      <div className="container-fluid">
-        <span className="navbar-text text-center">Copyright Tecnologías Web &copy; Me Anoto</span>
+    <FooterBox
+      style={{
+        position: "unset",
+        left: "0px",
+        bottom: "0px",
+        height: "50px",
+        width: "100%",
+        background: "#999",
+      }}
+      className="navbar navbar-fixed-bottom text-white-50 bg-dark py-2 "
+    >
+      <div className="container-fluid" style={{ justifyContent: "center" }}>
+        <span className="navbar-text text-center">
+          Copyright Tecnologías Web &copy; Me Anoto
+        </span>
       </div>
     </FooterBox>
-  )
-}
+  );
+};

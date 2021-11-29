@@ -8,9 +8,9 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Divider, makeStyles, Typography } from "@material-ui/core";
-import Avatar from '@mui/material/Avatar';
+import Avatar from "@mui/material/Avatar";
 
-import { deepOrange } from '@mui/material/colors';
+import { deepOrange } from "@mui/material/colors";
 import { Button } from "@material-ui/core";
 import EditIcon from "@mui/icons-material/Edit";
 import { TextField } from "@mui/material";
@@ -32,12 +32,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-export const GestionEstudiantes = () => {
+export const GestionAdministradores = () => {
   const classes = useStyles();
   const [abrirModal, setabrirModal] = useState(false);
   const [Datos, setDatos] = useState();
-  function createData(nombre, matricula,rut) {
-    return { nombre,matricula,rut};
+  function createData(nombre, matricula, rut) {
+    return { nombre, matricula, rut };
   }
 
   const datosNuevaSala = {
@@ -45,19 +45,18 @@ export const GestionEstudiantes = () => {
     nroSala: 0,
   };
   const rows = [
-    createData("Santiago Salazar", 2025123456,"12345678-9"),
-    createData("Pedro Ubilla", 2025123456,"12345678-9"),
-    createData("Carlos Vargas", 2025123456,"12345678-9"),
-    createData("Roberto Gonzalez", 2025123456,"12345678-9"),
-
+    createData("Santiago Salazar", 2025123456, "12345678-9"),
+    createData("Pedro Ubilla", 2025123456, "12345678-9"),
+    createData("Carlos Vargas", 2025123456, "12345678-9"),
+    createData("Roberto Gonzalez", 2025123456, "12345678-9"),
   ];
 
   function enviarEstudiante() {
     setabrirModal(true);
     setDatos(
       <form className={classes.root}>
-        <TextField label="First Name" variant="filled" required />
-        <TextField label="Last Name" variant="filled" required />
+        <TextField label="Nombre" variant="filled" required />
+        <TextField label="Apellidos" variant="filled" required />
         <TextField label="Email" variant="filled" type="email" required />
         <TextField label="Password" variant="filled" type="password" required />
         <div>
@@ -116,10 +115,9 @@ export const GestionEstudiantes = () => {
     setabrirModal(true);
     setDatos(
       <form className={classes.root}>
-        
-         <Avatar sx={{ bgcolor: deepOrange[500] }}>N</Avatar>
+        <Avatar sx={{ bgcolor: deepOrange[500] }}>N</Avatar>
         <Typography>Usuario X</Typography>
-        <Divider/>
+        <Divider />
         <TextField
           id="filled-password-input"
           label="Password"
@@ -150,16 +148,9 @@ export const GestionEstudiantes = () => {
         variant="contained"
         style={{ backgroundColor: "#303e4e", WebkitTextFillColor: "white" }}
       >
-        Crear Estudiante
+        Agregar
       </Button>
-      <Button
-        onClick={() => perfilUsuario()}
-        size="small"
-        variant="contained"
-        style={{ backgroundColor: "#303e4e", WebkitTextFillColor: "white" }}
-      >
-        Perfil
-      </Button>
+
       <ModalProyecto
         Datos={Datos}
         open={abrirModal}
@@ -176,8 +167,8 @@ export const GestionEstudiantes = () => {
               <TableCell> Nombre</TableCell>
               <TableCell> Matrícula</TableCell>
               <TableCell> Rut</TableCell>
-              
-              <TableCell align="right" >Editar</TableCell>
+
+              <TableCell align="right">Editar</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
