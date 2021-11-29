@@ -140,6 +140,7 @@ export const VerModulo = ({updateAccion, id}) => {
                 </label>
                 <select 
                   id='tipo'
+                  
                   className="form-select" 
                   aria-label="Default select example">
                   <option selected>Tipo</option>
@@ -236,6 +237,37 @@ export const VerModulo = ({updateAccion, id}) => {
       </Fade>
       </Modal>
     )
+  }
+  const [reloadTable, setReloadTable] = useState(true)
+  const reload = () => {
+    setReloadTable(!reloadTable);
+  }
+
+  const [claseNueva, setclaseNueva] = useState({
+    horario:'',
+    modulo:modulo,
+    moduloNombre:modulo.nombre,
+    tipo:'',
+    aprobada:true,
+    sala:'',
+    salaNombre:''
+  })
+
+  const guardaClase = async (e) => {
+    e.preventDefault()
+    console.log(claseNueva)
+    console.log("Agregando Clase...")
+    const resp = await fetchConToken(
+      'modulos', 
+      {
+      "nombre":claseNueva.nombre, 
+      "aforo":claseNueva.aforo
+      }, 
+      'POST',
+      localStorage.getItem('userToken')
+    )
+    console.log(resp)
+    reload()
   }
   
 
