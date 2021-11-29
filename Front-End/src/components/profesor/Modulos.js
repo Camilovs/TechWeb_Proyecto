@@ -1,7 +1,10 @@
-import React from 'react'
-import { useState } from 'react';
-import { Fragment } from 'react';
+
+import React ,{ Fragment, useEffect, useState }from 'react'
+
 import styled from 'styled-components';
+import { fetchConToken } from '../../helpers/fetch';
+import { Loading } from '../shared/Loading';
+import { TablaCRUD } from '../shared/TablaCRUD';
 import { VerModulo } from './vistaModulo/VerModulo';
 
 const Box= styled.div`
@@ -19,107 +22,104 @@ const BoxModulo = styled.div`
   }
 `;
 
-const modulosDefault = [
-  {
-    nombre:"Modulo 1",
-    _id:1
-  },
-  {
-    nombre: "Modulo 2",
-    _id:2
-  },
-  {
-    nombre:"Modulo 3",
-    _id:3
-  }
-];
-
-const semestresDefault = [
-  {
-    nombre:'Semestre 1',
-    _id:1
-  },
-  {
-    nombre:'Semestre 2',
-    _id:2
-  },
-  {
-    nombre:'Semestre 3',
-    _id:3
-  },
-  {
-    nombre:'Semestre 4',
-    _id:4
-  },
-];
-
-
-
 export const Modulos = ({accion, setAccion}) => {
 
+  const [loading, setLoading] = useState(true)
+  const [semestres, setSemestres] = useState(true)
+  const [modulos, setModulos] = useState(true)
+  const [reloadTable, setReloadTable] = useState(true)
+
   const [idModulo, setIdModulo] = useState('sin id');
-  // const [modulos, setModulos] = useState([])
+  const[salas, setSalas] = useState([]);
+
+  useEffect( async() => {
+    const querySemestres = await fetchConToken(
+      'salas',
+      {}, 
+      'GET'
+    )
+    const queryModulos = await fetchConToken(
+      'modulos',
+      {}, 
+      'GET'
+    )
+    const respSemestres = await querySemestres.json();
+    const respModulos = await queryModulos.json();
+
+    setSemestres(respSemestres.salas)
+    setModulos(respModulos.modulos)
+    console.log(respModulos.modulos)
+    setLoading(false) 
+  }, [reloadTable])
 
   const ListModulos = () => {
     return(
-      <Box className="card">
-          <div className="card-header">
-            <h3 style={{marginLeft:"20px", padding:"10px"}}>Módulos</h3>
-          </div>
-          <div className="container mt-5">
-            {/* Header */}
-            <div className="row">
-              <div className="col">
-                <h4>Semestre X</h4>
+      <Fragment>
+        {loading ? (
+          <Loading/>
+        ):(
+          <Box className="card">
+              <div className="card-header">
+                <h3 style={{marginLeft:"20px", padding:"10px"}}>Módulos</h3>
               </div>
-              <div className="col-sm-3 col-md-6 col-lg-4" style={{marginBottom:"20px"}}>
-                <div className="row align-items-center">
-                  <div className="col-auto">
-                    <span>Seleccionar Semestre: </span>
-                  </div>
+              <div className="container mt-5">
+                {/* Header */}
+                <div className="row">
                   <div className="col">
-                    <select class="form-select" aria-label="Default select example">
-                    <option selected>Semestre</option>
-                    {semestresDefault.map( (semestre)=> (
-                      <option value={semestre._id}>{semestre.nombre}</option>
-                    ))}
-                    </select>
+                    <h4>Semestre X</h4>
                   </div>
-                </div>   
+                  <div className="col-sm-3 col-md-6 col-lg-4" style={{marginBottom:"20px"}}>
+                    <div className="row align-items-center">
+                      <div className="col-auto">
+                        <span>Seleccionar Semestre: </span>
+                      </div>
+                      <div className="col">
+                        <select class="form-select" aria-label="Default select example">
+                        <option selected>Semestre</option>
+                        {semestres.map( (semestre)=> (
+                          <option value={semestre._id}>{semestre.nombre}</option>
+                        ))}
+                        </select>
+                      </div>
+                    </div>   
+                  </div>
+                </div>
+                <hr style={{margin:0}}/>
+                {/* Content */}
+                {
+                  modulos.map( (modulo) => (
+                    <BoxModulo 
+                      className="card" 
+                      id={modulo._id}
+                      onClick={() =>{
+                        setAccion('ver')
+                        setIdModulo(modulo._id)
+                      }}
+                    >
+                      <div className="card-body" id={modulo._id}>
+                      <div className="row align-items-center">
+                        <div className="col-auto">
+                          <i className="fa fa-book fa-2x"/>
+                        </div>
+                        <div className="col">
+                          <h3 style={{marginTop:'8px'}} 
+                            id={modulo._id}
+                          >
+                            {modulo.nombre}
+                          </h3>
+                        </div>
+                      </div>
+      
+                      </div>
+                    </BoxModulo>
+                  ))
+                }
               </div>
-            </div>
-            <hr style={{margin:0}}/>
-            {/* Content */}
-            {
-              modulosDefault.map( (modulo) => (
-                <BoxModulo 
-                  className="card" 
-                  id={modulo._id}
-                  onClick={() =>setAccion('ver')}
-                >
-                  <div className="card-body" id={modulo._id}>
-                  <div className="row align-items-center">
-                    <div className="col-auto">
-                      <i className="fa fa-book fa-2x"/>
-                    </div>
-                    <div className="col">
-                      <h3 style={{marginTop:'8px'}} 
-                        id={modulo._id}
-                      >
-                        {modulo.nombre}
-                      </h3>
-                    </div>
-                  </div>
-  
-                  </div>
-                </BoxModulo>
-              ))
-            }
-          </div>
-          
-        </Box>
+              
+            </Box> 
+          )}
+        </Fragment>
     )
-    
   }
 
   return (

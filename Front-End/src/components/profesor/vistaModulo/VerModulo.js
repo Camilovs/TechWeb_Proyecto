@@ -1,7 +1,10 @@
 import { Fade, Modal, Backdrop } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import styled from 'styled-components';
+import { bloques } from '../../../api/bloques';
+import { fetchConToken } from '../../../helpers/fetch';
+import { Loading } from '../../shared/Loading';
 import { TableAlumnos } from './TableAlumnos';
 import { TableClases } from './TableClases';
 
@@ -54,8 +57,54 @@ const bloquesDefecto = [
   },
 ]
 export const VerModulo = ({updateAccion, id}) => {
+  console.log(id)
 
   const [addClase, setAddClase] = useState(false)
+
+  const [loading, setLoading] = useState(true)
+  const [modulo, setModulo] = useState({
+    nombre:'',
+    integrantes:0,
+    profesor:'',
+    horario:{
+      dia:'',
+      hora_inicio:'',
+      hora_fin:''
+    }
+  })
+  const cargarModulo = async(modulo) => {
+    console.log("cargando datos: ",modulo)
+    const query = await fetchConToken(
+      `usuarios/${modulo.profesor}`,
+      {},
+      'GET'
+    )
+    const res = await query.json();
+    const setmodulo = {
+      nombre: modulo.nombre,
+      integrantes:modulo.integrantes,
+      profesor:res.usuario.nombre,
+      horario:{
+        dia:modulo.bloque_inicio.dia,
+        hora_inicio:bloques[modulo.bloque_inicio.numero].hora_inicio,
+        hora_fin:bloques[modulo.bloque_fin.numero].hora_fin
+      }
+    }
+    setModulo(setmodulo)
+    setLoading(false)
+  }
+
+  useEffect( async() => {
+    
+    const query = await fetchConToken(
+      `modulos/${id}`,
+      {},
+      'GET'
+    );
+    const res = await query.json();
+    // console.log(res)
+    cargarModulo(res.modulo)
+  }, [])
 
   const modalAddClase = () => {
     return(
@@ -195,6 +244,10 @@ export const VerModulo = ({updateAccion, id}) => {
       {addClase && (
         modalAddClase()
       )}
+      {loading ? (
+        <Loading/>
+      ):
+      (  
       <MainBox>
         {/* Boton Atras */}
         <div className="row">
@@ -233,9 +286,9 @@ export const VerModulo = ({updateAccion, id}) => {
                     </div>
                   </div>
                   <CardBody>
-                    <p>Nombre: Nombre modulo</p>
-                    <p>Integrantes: 20</p>
-                    <p>Profesor: Nombre Profesor</p>
+                    <p>Nombre: {modulo.nombre}</p>
+                    <p>Integrantes: {modulo.integrantes}</p>
+                    <p>Profesor: {modulo.profesor}</p>
                   </CardBody>
                 </div>
               </div>
@@ -256,9 +309,9 @@ export const VerModulo = ({updateAccion, id}) => {
                     </div>
                   </div>
                   <CardBody>
-                    <p>Día: Martes</p>
-                    <p>Bloque Inicio: 1. 8.30 - 9.30</p>
-                    <p>Bloque Final: 2. 9.40 - 10.40</p>
+                    <p>Dia: {modulo.horario.dia}</p>
+                    <p>Bloque Inicio: {modulo.horario.hora_inicio}</p>
+                    <p>Bloque Final: {modulo.horario.hora_fin}</p>
                   </CardBody>
                 </div>
               </div>
@@ -284,7 +337,7 @@ export const VerModulo = ({updateAccion, id}) => {
 
         {/* Tablas */}
       </MainBox>
-
+      )}
     </Fragment>
   )
 }
