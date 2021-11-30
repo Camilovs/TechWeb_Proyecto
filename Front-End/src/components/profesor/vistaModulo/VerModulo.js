@@ -91,6 +91,11 @@ export const VerModulo = ({updateAccion, id}) => {
       }
     }
     setModulo(setmodulo)
+    setClaseNueva({ 
+      ...claseNueva,
+      moduloNombre: modulo.nombre,
+      modulo: id
+    })
     setLoading(false)
   }
 
@@ -128,7 +133,7 @@ export const VerModulo = ({updateAccion, id}) => {
             paddingRight:"30px",
             paddingLeft:"30px"
           }}>
-            <form onSubmit={(e) => e.preventDefault()}>
+            <form onSubmit={(e) => guardaClase(e)}>
               <div className="row">
                 <h5 className="mt-3 mb-3">Información General</h5>
                 <div className="col-auto">
@@ -140,9 +145,14 @@ export const VerModulo = ({updateAccion, id}) => {
                 </label>
                 <select 
                   id='tipo'
+                  type="text"
+                  name='tipo'
+                  className="form-select"
+                  aria-label="Default select example"
+                  value={claseNueva.tipo}
+                  onChange={handleInputChange}
                   
-                  className="form-select" 
-                  aria-label="Default select example">
+                  >
                   <option selected>Tipo</option>
                   <option >Recurrente</option>
                   <option >Unica</option>
@@ -156,9 +166,13 @@ export const VerModulo = ({updateAccion, id}) => {
                   Sala
                 </label>
                 <select 
-                  id='sala'
+                  id='salaNombre'
+                  name='salaNombre'
+                  value={claseNueva.salaNombre}
                   className="form-select" 
-                  aria-label="Default select example">
+                  aria-label="Default select example"
+                  onChange={handleInputChange}
+                  >
                   <option selected>Elegir Sala</option>
                   <option >Sala 1</option>
                   <option >Sala 2</option>
@@ -170,12 +184,14 @@ export const VerModulo = ({updateAccion, id}) => {
                 <div className="col-6">
                   <label htmlFor="dia" className="form-label"> Día</label>
                   <select 
-                    id="dia" 
+                    id="dia"
                     type="text" 
                     className="form-select"
                     name='dia'
+                    value={claseNueva.horario.inicio.dia}
                     // onChange={handleDiaChange}
                     // value={modulo.bloque_inicio.dia}
+                    onChange={handleDiaChange}
                   >
                     {diasDefecto.map((dia, i) => (
                       <option key={i} value={dia}>
@@ -193,6 +209,8 @@ export const VerModulo = ({updateAccion, id}) => {
                   type="text" 
                   className="form-select"
                   name='bloque_inicio'
+                  value={claseNueva.horario.inicio.bloque}
+                  onChange={handleBloqueChange}
                   // onChange={handleBloqueChange}
                   // value={bloquesDefecto[modulo.bloque_inicio.numero].numero}
                 >
@@ -210,6 +228,8 @@ export const VerModulo = ({updateAccion, id}) => {
                   type="text" 
                   className="form-select"
                   name='bloque_fin'
+                  value={claseNueva.horario.fin.bloque}
+                  onChange={handleBloqueChange}
                   // onChange={handleBloqueChange}
                   // value={bloquesDefecto[modulo.bloque_fin.numero].numero}
                 >
@@ -224,7 +244,7 @@ export const VerModulo = ({updateAccion, id}) => {
             <div className="row mt-4 mb-4">
               <div className="col-auto">
                 <button 
-                  // type="submit" 
+                  type="submit" 
                   className="btn btn-custom-primary"
                 >
                   Enviar
@@ -238,35 +258,102 @@ export const VerModulo = ({updateAccion, id}) => {
       </Modal>
     )
   }
+
+  
+
   const [reloadTable, setReloadTable] = useState(true)
   const reload = () => {
     setReloadTable(!reloadTable);
   }
 
-  const [claseNueva, setclaseNueva] = useState({
-    horario:'',
+  const [claseNueva, setClaseNueva] = useState({
     modulo:modulo,
     moduloNombre:modulo.nombre,
     tipo:'',
-    aprobada:true,
     sala:'',
-    salaNombre:''
+    salaNombre:'',
+    horario:{
+      inicio:{
+        dia:'',
+        bloque:0
+      },
+      fin:{
+        dia:'',
+        bloque:0
+      }
+    },
+    aprobada:false,
   })
+
+  const handleInputChange = ({target}) => {
+    setClaseNueva({
+      ...claseNueva,
+      [target.name]:target.value
+      
+    })
+    console.log(target.name)
+    console.log(target.value)
+  }
+
+  const handleDiaChange = ({target}) => {
+    setClaseNueva({
+      ...claseNueva,
+      horario:{
+        inicio:{
+          ...claseNueva.horario.inicio,
+          dia:target.value
+        },
+        fin:{
+          ...claseNueva.horario.fin,
+          dia:target.value
+        }
+      }
+    })
+  }
+  const handleBloqueChange = ({target}) => {
+    if(target.name==='bloque_inicio'){
+      setClaseNueva({
+        ...claseNueva,
+        horario:{
+          ...claseNueva.horario,
+          inicio:{
+            ...claseNueva.horario.inicio,
+            bloque:target.value
+          }
+        }})
+    }else{
+      setClaseNueva({
+        ...claseNueva,
+        horario:{
+          ...claseNueva.horario,
+          fin:{
+            ...claseNueva.horario.fin,
+            bloque:target.value
+          }
+        }})
+
+  }}
 
   const guardaClase = async (e) => {
     e.preventDefault()
-    console.log(claseNueva)
     console.log("Agregando Clase...")
-    const resp = await fetchConToken(
-      'modulos', 
+    console.log(claseNueva)
+    /*const resp = await fetchConToken(
+      'clases', 
       {
-      "nombre":claseNueva.nombre, 
-      "aforo":claseNueva.aforo
+      "horario":claseNueva.horario,
+      "modulo":claseNueva.modulo,
+      "moduloNombre":claseNueva.moduloNombre,
+      "tipo":claseNueva.tipo,
+      "aprobada":claseNueva.aprobada,
+      "sala":claseNueva.sala,
+      "salaNombre": claseNueva.salaNombre
+      
       }, 
       'POST',
       localStorage.getItem('userToken')
     )
-    console.log(resp)
+    console.log(resp)*/
     reload()
   }
   
@@ -373,3 +460,4 @@ export const VerModulo = ({updateAccion, id}) => {
     </Fragment>
   )
 }
+
