@@ -19,7 +19,13 @@ const ModuloSchema = Schema({
   profesor:{
     type:Schema.Types.ObjectId,
     ref:'Usuario'
-  }
+  },
+  inscritos:[{
+    type:Schema.Types.Mixed
+  }],
+  clases:[{
+    type:Schema.Types.Mixed
+  }]
 });
 
 module.exports = model('Modulo', ModuloSchema);

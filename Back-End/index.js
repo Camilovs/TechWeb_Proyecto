@@ -25,6 +25,7 @@ server.use('/api/bloques', require('./routes/bloques'));
 server.use('/api/usuarios', require('./routes/usuarios'));
 server.use('/api/modulos', require('./routes/modulos'));
 server.use('/api/clases', require('./routes/clases'));
+server.use('/api/instituciones', require('./routes/instituciones'));
 //catch-all, permite redirigir las rutas del react router al cliente
 server.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));

@@ -42,12 +42,7 @@ router.put('/:id',
 ],
 actualizarSala);
 
-router.put('/updateOcupado/:id',
-[
-  check('ocupada','los bloques ocupados deben ser un array').isArray(),
-  validarCampos
-],
-agregarBloqueOcupado);
+router.put('/updateOcupado/:id', agregarBloqueOcupado);
 
 //ruta para eliminar una sala
 router.delete('/:id', eliminarSala);

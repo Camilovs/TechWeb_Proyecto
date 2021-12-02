@@ -171,9 +171,13 @@ const agregarBloqueOcupado = async(req, res = response) => {
       ...sala.ocupada
     ];
 
-    bloquesActualizados.push(req.body.ocupada);
+    const bloques = req.body.bloques;
+    bloques.map((bloque) => {
+      bloquesActualizados.push(bloque);
+    })
 
-    await Sala.updateOne({_id:salaId},{ocupada:bloquesActualizados});
+    sala.ocupada = bloquesActualizados;
+    await sala.save()
 
     res.json({
       ok:true,
