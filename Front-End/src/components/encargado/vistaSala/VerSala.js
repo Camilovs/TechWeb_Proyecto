@@ -14,18 +14,6 @@ const Box= styled.div`
   min-height: 650px;
 `;
 
-const Clases = [
-  {
-  title:'Calculo 1',
-  start: moment('8:30', 'h:mm').toDate(),
-  end: moment('9:40', 'h:mm').toDate(),
-  },
-  {
-  title:'Calculo 2',
-  start: moment('10:50', 'h:mm').day(3).toDate(),
-  end: moment('13:10', 'h:mm').day(3).toDate(),
-  },
-]
 moment.locale('es-mx')
 const localizer = momentLocalizer(moment)
 

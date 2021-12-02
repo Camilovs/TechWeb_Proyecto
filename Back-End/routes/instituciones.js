@@ -10,6 +10,6 @@ router.use(validarJWT);
 
 router.post('/', crearInstitucion);
 router.get('/', getInstituciones);
-router.delete('/', eliminarInstitucion);
+router.delete('/:id', eliminarInstitucion);
 
 module.exports = router

@@ -25,7 +25,11 @@ const ModuloSchema = Schema({
   }],
   clases:[{
     type:Schema.Types.Mixed
-  }]
+  }],
+  semestre:{
+    type:Schema.Types.ObjectId,
+    ref:'Semestre'
+  }
 });
 
 module.exports = model('Modulo', ModuloSchema);

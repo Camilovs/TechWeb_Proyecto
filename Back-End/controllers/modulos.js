@@ -3,7 +3,9 @@ const { bloques } = require("../api/bloques");
 const Bloque = require("../models/Bloque");
 const Clase = require("../models/Clase");
 const Modulo = require("../models/Modulo");
+const Semestre = require("../models/Semestre");
 const Usuario = require("../models/Usuario");
+
 
 
 const crearModulo = async(req, res = response) => {
@@ -293,6 +295,44 @@ const addClaseToModulo = async(req, res = response) => {
   }
 }
 
+const getModuloBySemestre = async(req, res=response) => {
+  const semestreId = req.params.id;
+  if(semestreId===''){
+    return res.status(404).json({
+      ok:false,
+      msg:"Semestre no existe"
+    })
+  }
+  try {
+    const semestre = await Semestre.findById(semestreId);
+    if(!semestre){
+      return res.status(404).json({
+        ok:false,
+        msg:"Semestre no existe"
+      })
+    }
+    const modulos = await Modulo.find({semestre:semestreId})
+    if(!modulos){
+      return res.status(404).json({
+        ok:false,
+        msg:"no hay modulos"
+      })
+    }
+    res.status(200).json({
+      ok:true,
+      msg:'Modulos encontrados',
+      modulos
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      ok:false,
+      msg:"Error de servidor, agregar usuario a modulo"
+    })
+  }
+  
+}
+
 
 module.exports = {
   crearModulo,
@@ -301,5 +341,6 @@ module.exports = {
   eliminarModulo,
   getModuloById,
   addUsuarioToModulo,
-  addClaseToModulo
+  addClaseToModulo,
+  getModuloBySemestre
 }
