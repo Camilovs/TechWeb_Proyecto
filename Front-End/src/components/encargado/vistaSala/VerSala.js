@@ -7,6 +7,7 @@ import 'moment/locale/es-mx'
 import { fetchConToken } from '../../../helpers/fetch';
 import { bloques } from '../../../api/bloques';
 import { Loading } from '../../shared/Loading';
+
 const Box= styled.div`
   width: 98%;
   height: 95%;
@@ -35,25 +36,27 @@ export const VerSala = ({updateAccion, id}) => {
 
   const [clases, setClases] = useState([])
   const [loading, setLoading] = useState(true)
+
   const formatClases = (clasesDB) => {
     console.log(clasesDB)
     const clases = []
-    let claseObj = {}
+    let eventCalendar = {}
     let hora_inicio = ''
     let hora_fin = ''
-    let dia = ''
+
     clasesDB.map((clase) => {
-      hora_inicio = bloques[clase.horario.inicio.bloque].hora_inicio
-      hora_fin = bloques[clase.horario.fin.bloque].hora_fin
-      dia = clase.horario.inicio.dia
-      claseObj = {
-        title:clase.moduloNombre,
-        start: moment(hora_inicio, 'h:mm').day(getDay(dia)).toDate(),
-        end: moment(hora_fin, 'h:mm').day(getDay(dia)).toDate()
+
+      hora_inicio = bloques[clase.numero].hora_inicio
+      hora_fin = bloques[clase.numero].hora_fin
+
+      eventCalendar = {
+        title:clase.modulo,
+        start: moment(hora_inicio, 'h:mm').day(getDay(clase.dia)).toDate(),
+        end: moment(hora_fin, 'h:mm').day(getDay(clase.dia)).toDate()
       };
-      clases.push(claseObj)
+
+      clases.push(eventCalendar)
     })
-    console.log("- :", clases)
     setClases(clases)
     setLoading(false)
   }
@@ -81,14 +84,14 @@ export const VerSala = ({updateAccion, id}) => {
   useEffect(async() => {
     
     const query = await fetchConToken(
-      `clases/sala/${id}`,
+      `salas/${id}`,
       {},
       'GET'     
     )
     const resp = await query.json()
     // console.log(resp.clases)
-    if(resp.clases.length > 0){
-      formatClases(resp.clases)
+    if(resp.sala.ocupada.length > 0){
+      formatClases(resp.sala.ocupada)
     }
     else{
       setLoading(false)
