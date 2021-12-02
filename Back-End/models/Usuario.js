@@ -20,7 +20,10 @@ const UsuarioSchema = Schema({
   },
   verificado:{
     type:Boolean
-  }
+  },
+  modulosInscritos:[{
+    type:Schema.Types.Mixed
+  }]
   
 });
 
