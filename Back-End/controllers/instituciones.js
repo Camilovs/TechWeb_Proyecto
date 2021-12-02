@@ -49,8 +49,8 @@ const crearInstitucion = async(req, res = response) => {
 }
 
 const eliminarInstitucion = async(req, res = response) => {
+  
   const instId = req.params.id;
-
   try {
     const institucion = await Institucion.findById(instId);
 

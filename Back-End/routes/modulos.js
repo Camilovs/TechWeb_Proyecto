@@ -1,7 +1,7 @@
 //RUTA /api/modulos
 const { Router } = require("express");
 const { check } = require("express-validator");
-const { crearModulo, actualizarModulo, getModulos, eliminarModulo, getModuloById, addUsuarioToModulo, addClaseToModulo} = require("../controllers/modulos");
+const { crearModulo, actualizarModulo, getModulos, eliminarModulo, getModuloById, addUsuarioToModulo, addClaseToModulo, getModuloBySemestre} = require("../controllers/modulos");
 const { validarCampos } = require("../middlewares/validar-campos");
 const { validarJWT } = require("../middlewares/validar-jwt");
 
@@ -33,8 +33,9 @@ router.put('/:id',
 ],
 actualizarModulo);
 
-router.get('/',getModulos);
 router.get('/:id', getModuloById);
+router.get('/bysemestre/:id', getModuloBySemestre)
+router.get('/',getModulos);
 
 router.delete('/:id',eliminarModulo);
 
