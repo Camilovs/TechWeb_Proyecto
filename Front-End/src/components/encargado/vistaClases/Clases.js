@@ -1,53 +1,48 @@
-import React, { useState } from 'react'
+import React, {useState } from 'react'
 import styled from 'styled-components';
 import { AsignarSala } from './AsignarSala';
 import { Solicitudes } from './Solicitudes/Solicitudes';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 
 const Box= styled.div`
   width: 98%;
-  height: 95%;
-  background-color: white;
+  height: 100%;
+  margin-top: 30px;
 `;
 
+const MyTabs = styled(Tabs)`
+  &&{
+    border-bottom: 1px solid #C4C4C4;
+    color: red;
+    margin-bottom: 20px;
+    
+    & .MuiTabs-indicator{
+      background-color: #1890ff;
+    }
+  }
+`
+const MyTab = styled((props) => <Tab disableRipple {...props} />)`
+  &&{
+    text-transform: none;
+    font-size: 17px;
+  }
+`;
 export const Clases = () => {
 
-  const [tabSeleccion, setTabSeleccion] = useState('solicitudes');
-  
+  const [tabSeleccion, setTabSeleccion] = useState(0);
+  const handleChange = (event, newValue) => {
+    setTabSeleccion(newValue);
+  };
   return (
-    <Box className="card">
-      <div className="card-header">
-        <h3 style={{marginLeft:"20px", padding:"10px"}}>Clases</h3>
-      </div>
-      <div className="container mt-3">
-        <ul className="nav nav-tabs">
-          <li className="nav-item">
-            <span 
-              className={`
-                nav-link ${tabSeleccion === 'solicitudes' && 'active'}`
-              }
-              onClick={()=>setTabSeleccion('solicitudes')}
-              style={{
-                cursor: 'pointer'
-              }}
-            >
-              Solicitudes
-            </span>
-          </li>
-          <li className="nav-item">
-            <span 
-              className={`
-                nav-link ${tabSeleccion === 'asignar' && 'active'}`
-              }
-              onClick={()=>setTabSeleccion('asignar')}
-              style={{
-                cursor: 'pointer'
-              }}
-            >
-              Asignar Salas
-            </span>
-          </li>
-        </ul>
-        {tabSeleccion === 'solicitudes' ? (
+    <Box>
+      <div className=" container mt-3">
+        <h3 >Clases</h3>
+        <MyTabs value={tabSeleccion} onChange={handleChange}>
+          <MyTab label='Solicitudes'/>
+          <MyTab label='Asignar Sala'/>
+        </MyTabs>
+        {tabSeleccion === 0 ? (
           <Solicitudes/>
         ):(
           <AsignarSala/>

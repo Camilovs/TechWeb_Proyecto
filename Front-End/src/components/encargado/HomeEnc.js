@@ -50,7 +50,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #E4E4E4;
+  background-color: #ECEEF0;
   padding: 0;
   height: 100%;
   min-height: 670px;
@@ -141,7 +141,7 @@ export const HomeEnc = () => {
                 <Estudiantes/>
               </div>
 
-
+  
                 
               )}
               {(sideBarSelect==='Clases') && (
@@ -161,8 +161,9 @@ export const HomeEnc = () => {
         </Content>   
       </Body>
               
-      <Footer/>
+      {/* <Footer/> */}
       
     </Fragment>
   )
 }
+  
