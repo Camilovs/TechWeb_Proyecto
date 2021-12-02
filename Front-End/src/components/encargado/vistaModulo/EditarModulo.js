@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
 import { Backdrop, Fade, Modal, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { bloques } from '../../../api/bloques';
 import { dias } from '../../../api/dias';
 import { fetchConToken } from '../../../helpers/fetch';
+import { Loading } from '../../shared/Loading';
 
 const style = {
   position: 'absolute',
@@ -30,6 +31,7 @@ const initialState = {
 }
 export const EditarModulo = ({updateAccion, id, reload}) => {
   
+  const [loading, setLoading] = useState(true)
   const [modulo, setModulo] = useState(initialState)
   const [profesores, setProfesores] = useState([])
   const actualizarModulo = async(e) => {
@@ -110,6 +112,7 @@ export const EditarModulo = ({updateAccion, id, reload}) => {
     console.log(resp_modulo)
     setProfesores(resp_profes.profesores)
     setModulo(resp_modulo.modulo)
+    setLoading(false)
   }, [])
   return (
     <Modal
@@ -125,130 +128,136 @@ export const EditarModulo = ({updateAccion, id, reload}) => {
     >
     <Fade in={true}>
       <Box sx={style} className="card">
-        <div className="card-header">
-          <h4 className="p-3"> Crear Módulo</h4>
-        </div>
-        <div className="container" style={{
-          paddingRight:"30px",
-          paddingLeft:"30px"
-        }}>
-          <form onSubmit={(e)=> actualizarModulo(e)}>
-            <div className="row">
-              <h5 className="mt-3 mb-3">Información General</h5>
-              <div className="col">
-                <label 
-                htmlFor="nombre" className="form-label">Nombre</label>
-                <input 
-                  id="nombre" 
-                  name="nombre"
-                  type="text" 
-                  className="form-control"
-                  value={modulo.nombre}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="col">
-                <label htmlFor="integrantes" className="form-label">Integrantes</label>
-                <input 
-                  id="integrantes" 
-                  type="number" 
-                  className="form-control"
-                  name="integrantes"   
-                  value={modulo.integrantes}
-                  onChange={handleInputChange}
-                />
-              </div>
+        {loading ? (
+          <Loading/>
+        ):(
+          <Fragment>
+            <div className="card-header">
+              <h4 className="p-3"> Editar Módulo</h4>
             </div>
-            <div className="row mt-2">
-              <div className="col-6">
-                <label htmlFor="profesor" className="form-label"> Profesor </label>
-                <select 
-                  id="profesor" 
-                  type="text" 
-                  className="form-select"
-                  name='profesor'
-                  value={modulo.profesor}
-                  onChange={handleInputChange}
-                >
-                  <option value=''>
-                    Elegir Profesor
-                  </option>
-                  {profesores.map((profe, i) => (
-                    <option key={i} value={profe._id}>
-                      {profe.nombre}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div> 
-            <div className="row mt-2">
-              <h5 className="mt-3 mb-3">Horario</h5>
-              <div className="col-6">
-                <label htmlFor="dia" className="form-label"> Día</label>
-                <select 
-                  id="dia" 
-                  type="text" 
-                  className="form-select"
-                  name='dia'
-                  onChange={handleDiaChange}
-                  value={modulo.bloque_inicio.dia}
-                >
-                  {dias.map((dia, i) => (
-                    <option key={i} value={dia}>
-                      {dia}
-                    </option>
-                  ))}
-                </select>
-              </div>
+            <div className="container" style={{
+              paddingRight:"30px",
+              paddingLeft:"30px"
+            }}>
+              <form onSubmit={(e)=> actualizarModulo(e)}>
+                <div className="row">
+                  <h5 className="mt-3 mb-3">Información General</h5>
+                  <div className="col">
+                    <label 
+                    htmlFor="nombre" className="form-label">Nombre</label>
+                    <input 
+                      id="nombre" 
+                      name="nombre"
+                      type="text" 
+                      className="form-control"
+                      value={modulo.nombre}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="col">
+                    <label htmlFor="integrantes" className="form-label">Integrantes</label>
+                    <input 
+                      id="integrantes" 
+                      type="number" 
+                      className="form-control"
+                      name="integrantes"   
+                      value={modulo.integrantes}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+                <div className="row mt-2">
+                  <div className="col-6">
+                    <label htmlFor="profesor" className="form-label"> Profesor </label>
+                    <select 
+                      id="profesor" 
+                      type="text" 
+                      className="form-select"
+                      name='profesor'
+                      value={modulo.profesor}
+                      onChange={handleInputChange}
+                    >
+                      <option value=''>
+                        Elegir Profesor
+                      </option>
+                      {profesores.map((profe, i) => (
+                        <option key={i} value={profe._id}>
+                          {profe.nombre}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div> 
+                <div className="row mt-2">
+                  <h5 className="mt-3 mb-3">Horario</h5>
+                  <div className="col-6">
+                    <label htmlFor="dia" className="form-label"> Día</label>
+                    <select 
+                      id="dia" 
+                      type="text" 
+                      className="form-select"
+                      name='dia'
+                      onChange={handleDiaChange}
+                      value={modulo.bloque_inicio.dia}
+                    >
+                      {dias.map((dia, i) => (
+                        <option key={i} value={dia}>
+                          {dia}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="row mt-2">
+                  <div className="col">
+                    <label htmlFor="bloque_inicio" className="form-label">Bloque Inicio</label>
+                    <select 
+                      id="bloque_inicio" 
+                      type="text" 
+                      className="form-select"
+                      name='bloque_inicio'
+                      onChange={handleBloqueChange}
+                      value={bloques[modulo.bloque_inicio.numero].numero}
+                    >
+                      {bloques.map((bloque,i) => (
+                        <option  key={i}  value={bloque.numero}>
+                          {`${bloque.numero}. ${bloque.hora_inicio} - ${bloque.hora_fin}`}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="col">
+                    <label htmlFor="bloque_fin" className="form-label">Bloque Fin</label>
+                    <select 
+                      id="bloque_fin" 
+                      type="text" 
+                      className="form-select"
+                      name='bloque_fin'
+                      onChange={handleBloqueChange}
+                      value={bloques[modulo.bloque_fin.numero].numero}
+                    >
+                      {bloques.map((bloque,i) => (
+                        <option key={i}  value={bloque.numero}>
+                          {`${bloque.numero}. ${bloque.hora_inicio} - ${bloque.hora_fin}`}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="row mt-4 mb-4">
+                  <div className="col-auto">
+                    <button 
+                      type="submit" 
+                      className="btn btn-custom-primary"
+                    >
+                      Guardar
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
-            <div className="row mt-2">
-              <div className="col">
-                <label htmlFor="bloque_inicio" className="form-label">Bloque Inicio</label>
-                <select 
-                  id="bloque_inicio" 
-                  type="text" 
-                  className="form-select"
-                  name='bloque_inicio'
-                  onChange={handleBloqueChange}
-                  value={bloques[modulo.bloque_inicio.numero].numero}
-                >
-                  {bloques.map((bloque,i) => (
-                    <option  key={i}  value={bloque.numero}>
-                      {`${bloque.numero}. ${bloque.hora_inicio} - ${bloque.hora_fin}`}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="col">
-                <label htmlFor="bloque_fin" className="form-label">Bloque Fin</label>
-                <select 
-                  id="bloque_fin" 
-                  type="text" 
-                  className="form-select"
-                  name='bloque_fin'
-                  onChange={handleBloqueChange}
-                  value={bloques[modulo.bloque_fin.numero].numero}
-                >
-                  {bloques.map((bloque,i) => (
-                    <option key={i}  value={bloque.numero}>
-                      {`${bloque.numero}. ${bloque.hora_inicio} - ${bloque.hora_fin}`}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            <div className="row mt-4 mb-4">
-              <div className="col-auto">
-                <button 
-                  type="submit" 
-                  className="btn btn-custom-primary"
-                >
-                  Guardar
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
+          </Fragment>
+        )}
       </Box>
     </Fade>
   </Modal>

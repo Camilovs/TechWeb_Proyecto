@@ -1,6 +1,7 @@
 const { response } = require("express");
 const Clase = require("../models/Clase");
 const Modulo = require("../models/Modulo");
+const Sala = require('../models/Sala');
 
 
 const crearClase = async(req, res = response) => {
@@ -163,10 +164,43 @@ const eliminarClase = async(req, res = response) => {
   }
 }
 
+const getClasesSala = async(req, res = response) => {
+  const salaID = req.params.id
+  try {
+    const sala = await Sala.findById(salaID)
+    if(!sala){
+      return res.status(404).json({
+        ok:false,
+        msg:"Sala no encontrada",
+      })
+    }
+    const clases =  await Clase.find({sala:salaID})
+    if(!clases){
+      return res.status(404).json({
+        ok:false,
+        msg:"Clases no encontradas",
+      })
+    }
+
+    res.status(200).json({
+      ok:true,
+      clases
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      ok:false,
+      msg:"error en bd, obtener clases de sala"
+    })
+  }
+  
+}
+
 module.exports = {
   actualizarClase,
   crearClase,
   eliminarClase,
   getClases,
-  getClasesModulo
+  getClasesModulo,
+  getClasesSala
 }

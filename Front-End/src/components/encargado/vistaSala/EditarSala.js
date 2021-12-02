@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Backdrop, Fade, Modal,} from '@mui/material'
 import { Box } from '@mui/system'
 import { fetchConToken } from '../../../helpers/fetch';
+import { Loading } from '../../shared/Loading';
 
 const style = {
   position: 'absolute',
@@ -20,8 +21,8 @@ const salaDefecto = {
 
 export const EditarSala = ({updateAccion, id, reload}) => {
 
-   //QUERY A BD POR LA SALA ESPECIFICADA POR "id"
-  //REEMPLAZAR "salaDefecto" POR EL MODULO ENTREGADO POR LA QUERY
+  
+  const [loading, setLoading] = useState(true)
   const [sala, setSala] = useState({})
   console.log(sala)
   const actualizarSala = async (e) => {
@@ -54,6 +55,7 @@ export const EditarSala = ({updateAccion, id, reload}) => {
     const resp = await query.json();
     console.log(resp)
     setSala(resp.sala);
+    setLoading(false)
     
   }, [])
   return (
@@ -70,53 +72,59 @@ export const EditarSala = ({updateAccion, id, reload}) => {
     >
     <Fade in={true}>
       <Box sx={style} className="card">
-        <div className="card-header">
-          <h4 className="p-3"> Editar Sala</h4>
-        </div>
-        <div className="container" style={{
-          paddingRight:"30px",
-          paddingLeft:"30px"
-        }}>
-          <form onSubmit={(e)=> actualizarSala(e)}>
-            <div className="row">
-              <h5 className="mt-3 mb-3">Información General</h5>
-              <div className="col">
-                <label 
-                htmlFor="nombre" class="form-label">Nombre</label>
-                <input 
-                  id="nombre" 
-                  name="nombre"
-                  type="text" 
-                  className="form-control"
-                  value={sala.nombre}
-                  onChange={handleInputChange}
+      {loading ? (
+        <Loading/>
+      ):(
+        <Fragment>
+          <div className="card-header">
+            <h4 className="p-3"> Editar Sala</h4>
+          </div>
+          <div className="container" style={{
+            paddingRight:"30px",
+            paddingLeft:"30px"
+          }}>
+            <form onSubmit={(e)=> actualizarSala(e)}>
+              <div className="row">
+                <h5 className="mt-3 mb-3">Información General</h5>
+                <div className="col">
+                  <label 
+                  htmlFor="nombre" class="form-label">Nombre</label>
+                  <input 
+                    id="nombre" 
+                    name="nombre"
+                    type="text" 
+                    className="form-control"
+                    value={sala.nombre}
+                    onChange={handleInputChange}
 
-                />
+                  />
+                </div>
+                <div className="col">
+                  <label htmlFor="integrantes" class="form-label">Aforo</label>
+                  <input 
+                    id="aforo" 
+                    type="aforo" 
+                    className="form-control"
+                    name="aforo"  
+                    value={sala.aforo}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>          
+              <div className="row mt-4 mb-4">
+                <div className="col-auto">
+                  <button 
+                    type="submit" 
+                    class="btn btn-custom-primary"
+                  >
+                    Guardar
+                  </button>
+                </div>
               </div>
-              <div className="col">
-                <label htmlFor="integrantes" class="form-label">Aforo</label>
-                <input 
-                  id="aforo" 
-                  type="aforo" 
-                  className="form-control"
-                  name="aforo"  
-                  value={sala.aforo}
-                  onChange={handleInputChange}
-                />
-              </div>
-            </div>          
-            <div className="row mt-4 mb-4">
-              <div className="col-auto">
-                <button 
-                  type="submit" 
-                  class="btn btn-custom-primary"
-                >
-                  Guardar
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
+        </Fragment>
+      )}
       </Box>
     </Fade>
   </Modal>

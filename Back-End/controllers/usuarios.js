@@ -174,10 +174,35 @@ const getProfesores = async(req ,res = response) =>{
   }
 
 }
+
+const getUsuarioById = async (req, res = response) =>{
+  const iduser = req.params.id;
+  try {
+    const usuario = await Usuario.findById(iduser);
+    if(!usuario){
+      return res.json(404).json({
+        ok:false,
+        msg:"Usuario no encontrado"
+      })
+    }
+    res.status(200).json({
+      ok:true,
+      msg:"Usuario encontrado",
+      usuario
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      ok:false,
+      msg:"error en bd, obtener profesores"
+    })
+  }
+}
 module.exports = {
   crearUsuario,
   actualizarUsuario,
   eliminarUsuario,
   getUsuarios,
-  getProfesores
+  getProfesores,
+  getUsuarioById
 }
