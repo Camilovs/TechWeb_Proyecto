@@ -10,16 +10,52 @@ import { Modulos } from './vistaModulo/Modulos'
 import { Plantillas } from './vistaPlantilla/Plantillas';
 import { Profesores } from './vistaProfesores/Profesores';
 import { Salas } from './vistaSala/Salas';
-
+import { makeStyles } from "@material-ui/core";
+const drawerWidth = 240;
+const useStyles = makeStyles((theme) => {
+  return {
+    page: {
+      background: "#f9f9f9",
+      width: "100%",
+      maxHeight: "100%",
+      padding: theme.spacing(3),
+    },
+    root: {
+      display: "flex",
+      
+    },
+    drawer: {
+      width: drawerWidth,
+    },
+    drawerPaper: {
+      width: drawerWidth,
+    },
+    active: {
+      background: "#f4f4f4",
+    },
+    title: {
+      padding: theme.spacing(2),
+    },
+    appBar: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
+    date: {
+      flexGrow: 1,
+    },
+    toolbar: theme.mixins.toolbar,
+  };
+});
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #E4E4E4;
+  background-color: #ECEEF0;
   padding: 0;
   height: 100%;
   min-height: 670px;
 `;
+
 
 const Body = styled.div`
   height: 100%;
@@ -31,7 +67,7 @@ const Content = styled.div`
   flex-direction: column;
 `;
 export const HomeEnc = () => {
-
+  const classes = useStyles();
   const [rutasHeader, setRutasHeader] = useState([
     {
       label:"Home",
@@ -93,23 +129,41 @@ export const HomeEnc = () => {
                 <Salas/>
               )}
               {(sideBarSelect==='Profesores') && (
+                
+                <div className={classes.page}>
+                
                 <Profesores/>
+              </div>
               )}
               {(sideBarSelect==='Estudiantes') && (
+                <div className={classes.page}>
+                
                 <Estudiantes/>
+              </div>
+
+  
+                
               )}
               {(sideBarSelect==='Clases') && (
                 <Clases/>
               )}
               {(sideBarSelect==='Plantillas') && (
+                
+                <div className={classes.page}>
+                
                 <Plantillas/>
+              </div>
+           
+               
+                
               )}
           </Container> 
         </Content>   
       </Body>
-
-      <Footer/>
+              
+      {/* <Footer/> */}
       
     </Fragment>
   )
 }
+  

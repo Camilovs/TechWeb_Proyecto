@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import Layout from "./components/Layout";
-import { Modulos } from "./pages/Modulos";
-import { Plantillas } from "./pages/Plantillas";
-import { Salas } from "./pages/Salas";
+
+import { Instituciones } from "./pages/Instituciones";
 
 import { GestionUsuarios } from "./pages/usuarios/GestionUsuarios";
 
 export const DashboardAdmin = () => {
-  const [estado, setestado] = useState("Estudiantes");
+  const [estado, setestado] = useState("GestionUsuarios");
 
   const cambiarVista = (vista) => {
     setestado(vista);
@@ -17,12 +16,8 @@ export const DashboardAdmin = () => {
   const seleccionarVista = () => {
     return estado === "GestionUsuarios" ? (
       <GestionUsuarios />
-    ) : estado === "Salas" ? (
-      <Salas />
-    ) : estado === "Plantillas" ? (
-      <Plantillas />
     ) : (
-      <Modulos />
+      <Instituciones />
     );
   };
 

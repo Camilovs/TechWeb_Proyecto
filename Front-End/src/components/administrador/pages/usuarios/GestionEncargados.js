@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,7 +11,6 @@ import { IconButton, Button, makeStyles } from "@material-ui/core";
 import EditIcon from "@mui/icons-material/Edit";
 import { TextField } from "@mui/material";
 import { ModalProyecto } from "../../components/ModalProyecto";
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-export const GestionProfesores = () => {
+export const GestionEncargados = () => {
   const classes = useStyles();
   const [abrirModal, setabrirModal] = useState(false);
   const [Datos, setDatos] = useState();
@@ -38,8 +37,8 @@ export const GestionProfesores = () => {
     nombre: "",
     nroSala: 0,
   };
-  function createData(nombre,rut) {
-    return { nombre,rut};
+  function createData(nombre, rut) {
+    return { nombre, rut };
   }
 
   const rows = [
@@ -53,8 +52,8 @@ export const GestionProfesores = () => {
     setabrirModal(true);
     setDatos(
       <form className={classes.root}>
-        <TextField label="First Name" variant="filled" required />
-        <TextField label="Last Name" variant="filled" required />
+        <TextField label="Nombre" variant="filled" required />
+        <TextField label="Apellido" variant="filled" required />
         <TextField label="Email" variant="filled" type="email" required />
         <TextField label="Password" variant="filled" type="password" required />
         <div>
@@ -115,9 +114,9 @@ export const GestionProfesores = () => {
         size="small"
         variant="contained"
         style={{ backgroundColor: "#303e4e", WebkitTextFillColor: "white" }}
-        onClick={()=>enviarProfesor()}
+        onClick={() => enviarProfesor()}
       >
-        Crear Profesor
+        Agregar
       </Button>
       <ModalProyecto
         Datos={Datos}
@@ -133,9 +132,9 @@ export const GestionProfesores = () => {
           <TableHead>
             <TableRow>
               <TableCell> Nombre</TableCell>
-            
+
               <TableCell> rut</TableCell>
-             
+
               <TableCell align="right">Editar</TableCell>
             </TableRow>
           </TableHead>
@@ -153,11 +152,19 @@ export const GestionProfesores = () => {
                   {row.rut}
                 </TableCell>
                 <TableCell align="right">
-                  <Button variant="outlined" size="small" onClick={()=>editarProfesor()}>
-                    <EditIcon/>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => editarProfesor()}
+                  >
+                    <EditIcon />
                   </Button>
-                  <Button variant="outlined" size="small"onClick={()=>eliminarProfesor()} >
-                    <DeleteIcon/>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => eliminarProfesor()}
+                  >
+                    <DeleteIcon />
                   </Button>
                 </TableCell>
               </TableRow>

@@ -26,13 +26,15 @@ const initialState = {
     dia:"Lunes",
     numero:0,
   },
-  profesor:''
+  profesor:'',
+  semestre:localStorage.getItem('semestre')
 }
 
-export const AddModulo = ({updateAccion, reload, dataModulo = initialState}) => {
+export const AddModulo = ({updateAccion, reload, }) => {
   
   const [profesores, setProfesores] = useState([]);
-  const [modulo, setModulo] = useState(dataModulo)
+  const [modulo, setModulo] = useState(initialState)
+  const [semestreActual, setSemestreActual] = useState('')
 
   const guardarModulo = async(e) => {
     e.preventDefault()
@@ -92,8 +94,8 @@ export const AddModulo = ({updateAccion, reload, dataModulo = initialState}) => 
         }
       })
     }
-
   }
+
   useEffect( async() => {
     const query = await fetchConToken(
       'usuarios/profesores',
@@ -105,6 +107,7 @@ export const AddModulo = ({updateAccion, reload, dataModulo = initialState}) => 
     if(resp.ok){
       setProfesores(resp.profesores)
     }
+
   }, [])
   return (
     <Modal
@@ -174,6 +177,17 @@ export const AddModulo = ({updateAccion, reload, dataModulo = initialState}) => 
                     </option>
                   ))}
                 </select>
+              </div>
+              <div className="col">
+                <label htmlFor="semestre" className="form-label">Semestre</label>
+                <input 
+                  id="semestre" 
+                  type="number" 
+                  disabled
+                  className="form-control"
+                  name="semestre"   
+                  placeholder={modulo.semestre}
+                />
               </div>
             </div> 
             <div className="row mt-2">

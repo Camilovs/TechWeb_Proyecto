@@ -163,7 +163,6 @@ const eliminarClase = async(req, res = response) => {
     })
   }
 }
-
 const getClasesSala = async(req, res = response) => {
   const salaID = req.params.id
   try {

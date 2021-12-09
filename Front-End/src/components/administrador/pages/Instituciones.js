@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,15 +7,14 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { IconButton, Button, TextField } from "@material-ui/core";
 import EditIcon from "@mui/icons-material/Edit";
-import { IconButton, Button, MenuItem } from "@material-ui/core";
+import { ModalProyecto } from "../components/ModalProyecto";
 import Box from "@mui/material/Box";
 import Tab from "@material-ui/core/Tab";
 import TabContext from "@material-ui/lab/TabContext";
 import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
-import { ModalProyecto } from "../components/ModalProyecto";
-import { TextField } from "@mui/material";
 import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,85 +33,73 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const currencies = [
-  {
-    value: 'aforo',
-    label: 'Aforo para salas',
-  },
-  {
-    value: 'EUR',
-    label: 'dato1',
-  },
-  {
-    value: 'BTC',
-    label: 'dato2',
-  },
-  {
-    value: 'JPY',
-    label: 'dato 3',
-  },
-];
-export const Plantillas = () => {
-  const classes = useStyles();
 
-  function createData(Nombre, Tipo, Creador, UltimaEdicion, MotivoEdicion) {
-    return { Nombre, Tipo, Creador, UltimaEdicion, MotivoEdicion };
-  }
+export const Instituciones = () => {
+  const classes = useStyles();
+  const [abrirModal, setabrirModal] = useState(false);
+  const [datos, setdatos] = useState();
   const [value, setValue] = React.useState("1");
-  const [vista, setvista] = useState("profesores");
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
     console.log(newValue);
   };
-
+  function createData(name, encargado) {
+    return { name, encargado };
+  }
+  const [vista, setvista] = useState("instituciones");
   const rows = [
-    createData(
-      "Plantilla v1",
-      "Aforo para salas",
-      "Caiman Márquez",
-      "07-10-2021",
-      "Actualizacion Plan paso a paso"
-    ),
+    createData("Universidad de talca", "Juan"),
+    createData("Universidad 2", "Pedro"),
+    createData("Universidad 3", "Diego"),
+    createData("Universidad 4", "Alberto"),
+    createData("Universidad 5", "Juan"),
   ];
-  const [datos, setdatos] = useState();
-  const [abrirModal, setabrirModal] = useState(false);
-  const [currency, setCurrency] = React.useState("Aforo");
 
-  const tipo = (event) => {
-    setCurrency(event.target.value);
-  };
-  function editarPlantilla() {
+  function enviarInstitucion() {
     setabrirModal(true);
-    
     setdatos(
       <form className={classes.root}>
-          <TextField
-          id="filled-select-currency"
-          select
-          label="Select"
-          value={currency}
-          onChange={e => setCurrency(e.target.value)}
-          helperText="Por favor, ingrese el tipo de edición"
-          variant="filled"
-        >
-          {currencies.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        
-        <TextField
-          id="filled-number"
-          label="Aforo máximo"
-          type="number"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          variant="filled"
-        />
-      
-      <TextField label="Motivo edición" variant="filled" required />
+        <TextField label="Nombre Institución" variant="filled" required />
+        <TextField label="Encargado institución" variant="filled" required />
+
+        <div>
+          <Button variant="contained">Cancelar</Button>
+          <Button
+            type="submit"
+            variant="contained"
+            style={{ backgroundColor: "#303e4e", WebkitTextFillColor: "white" }}
+          >
+            Crear
+          </Button>
+        </div>
+      </form>
+    );
+  }
+  function editarInstitucion() {
+    setabrirModal(true);
+    setdatos(
+      <form className={classes.root}>
+        <TextField label="Nombre sala" variant="filled" required />
+
+        <div>
+          <Button variant="contained">Cancelar</Button>
+          <Button
+            type="submit"
+            variant="contained"
+            style={{ backgroundColor: "#303e4e", WebkitTextFillColor: "white" }}
+          >
+            Editar
+          </Button>
+        </div>
+      </form>
+    );
+  }
+  function eliminarInstitucion() {
+    setabrirModal(true);
+    setdatos(
+      <form className={classes.root}>
+        ¿Seguro que quieres eliminar esta Institucion?
         <div>
           <Button variant="contained">Cancel</Button>
           <Button
@@ -127,52 +113,44 @@ export const Plantillas = () => {
       </form>
     );
   }
-  function eliminarPlantilla() {
-    setabrirModal(true);
-    setdatos(
-      <form className={classes.root}>
-        ¿Seguro que quieres eliminar esta plantilla?
-        <div>
-          <Button variant="contained">Cancel</Button>
-          <Button
-            type="submit"
-            variant="contained"
-            style={{ backgroundColor: "#303e4e", WebkitTextFillColor: "white" }}
-          >
-            Eliminar
-          </Button>
-        </div>
-      </form>
-    );
-  }
 
   return (
     <div
-      className={{
-        flexGrow: 1,
-        backgroundColor: "white",
-        
-      }}
+      style={{ flexGrow: 1, backgroundColor: "white", paddingBlockEnd: "100%" }}
     >
-      <ModalProyecto Datos={datos} open={abrirModal} setOpen={setabrirModal} />
-      <Box sx={{ width: "100%", typography: "body1", paddingBlockEnd: "100%"}}>
+      <Box sx={{ width: "100%", typography: "body1" }}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Plantillas Actuales" value="1" />
-              <Tab label="Nueva Plantilla" value="2" />
+              <Tab label="Instituciones" value="1" />
             </TabList>
           </Box>
-          <TabPanel value="1" onClick={() => setvista("PlantillasActuales")}>
+          <TabPanel value="1" onClick={() => setvista("Salas")}>
+            <ModalProyecto
+              Datos={datos}
+              open={abrirModal}
+              setOpen={setabrirModal}
+            />
+            <Button
+              size="small"
+              variant="contained"
+              onClick={() => enviarInstitucion()}
+              style={{
+                backgroundColor: "#303e4e",
+                WebkitTextFillColor: "white",
+              }}
+            >
+              Agregar
+            </Button>
+
+            <br />
+            <br />
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="right">Nombre</TableCell>
-                    <TableCell align="right">Tipo</TableCell>
-                    <TableCell align="right">Creado por:</TableCell>
-                    <TableCell align="right">Última edición</TableCell>
-                    <TableCell align="right">Motivo modificación</TableCell>
+                    <TableCell> Institución</TableCell>
+                    <TableCell align="right">Encargado</TableCell>
                     <TableCell align="right">Editar</TableCell>
                   </TableRow>
                 </TableHead>
@@ -183,24 +161,21 @@ export const Plantillas = () => {
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell component="th" scope="row">
-                        {row.Nombre}
+                        {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.Tipo}</TableCell>
-                      <TableCell align="right">{row.Creador}</TableCell>
-                      <TableCell align="right">{row.UltimaEdicion}</TableCell>
-                      <TableCell align="right">{row.MotivoEdicion}</TableCell>
+                      <TableCell align="right">{row.encargado}</TableCell>
                       <TableCell align="right">
                         <Button
                           variant="outlined"
                           size="small"
-                          onClick={() => editarPlantilla()}
+                          onClick={() => editarInstitucion()}
                         >
                           <EditIcon />
                         </Button>
                         <Button
                           variant="outlined"
                           size="small"
-                          onClick={() => eliminarPlantilla()}
+                          onClick={() => eliminarInstitucion()}
                         >
                           <DeleteIcon />
                         </Button>
@@ -211,10 +186,6 @@ export const Plantillas = () => {
               </Table>
             </TableContainer>
           </TabPanel>
-          <TabPanel value="2" onClick={() => setvista("NuevasPlantillas")}>
-            Crear nueva plantilla
-          </TabPanel>
-          <TabPanel value="3">Encargados</TabPanel>
         </TabContext>
       </Box>
     </div>

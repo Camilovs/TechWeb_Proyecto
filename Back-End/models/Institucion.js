@@ -1,16 +1,13 @@
 const {Schema, model} = require('mongoose');
 
-const SalaSchema = Schema({
+const InstitucionSchema = Schema({
   nombre:{
     type:String,
     required:true
   },
-  aforo:{
-    type:Number
-  },
-  ocupada:[{
+  encargados:[{
     type:Schema.Types.Mixed
   }]
 });
 
-module.exports = model('Sala', SalaSchema);
+module.exports = model('Institucion', InstitucionSchema);

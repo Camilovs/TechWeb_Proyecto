@@ -19,6 +19,16 @@ const ModuloSchema = Schema({
   profesor:{
     type:Schema.Types.ObjectId,
     ref:'Usuario'
+  },
+  inscritos:[{
+    type:Schema.Types.Mixed
+  }],
+  clases:[{
+    type:Schema.Types.Mixed
+  }],
+  semestre:{
+    type:Schema.Types.ObjectId,
+    ref:'Semestre'
   }
 });
 

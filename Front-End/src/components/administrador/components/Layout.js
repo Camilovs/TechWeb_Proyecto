@@ -89,12 +89,13 @@ export default function Layout({ children, funcionVista }) {
         <List>
           <ListItem button onClick={() => funcionVista("GestionUsuarios")}>
             <ListItemIcon>{<GroupIcon />}</ListItemIcon>
-            <ListItemText primary={"Gestion Usuarios"} />
+            <ListItemText primary={"Gestión usuarios"} />
           </ListItem>
           <ListItem button onClick={() => funcionVista("Salas")}>
             <ListItemIcon>{<ClassIcon />}</ListItemIcon>
-            <ListItemText primary={"Salas"} />
+            <ListItemText primary={"Instituciones"} />
           </ListItem>
+          {/*
           <ListItem button onClick={() => funcionVista("Modulos")}>
             <ListItemIcon>{<SchoolIcon />}</ListItemIcon>
             <ListItemText primary={"Modulos"} />
@@ -104,6 +105,10 @@ export default function Layout({ children, funcionVista }) {
 
             <ListItemText primary={"Plantillas"} />
           </ListItem>
+          
+          
+          
+          */}
         </List>
       </Drawer>
 

@@ -1,7 +1,7 @@
 //RUTA /api/modulos
 const { Router } = require("express");
 const { check } = require("express-validator");
-const { crearModulo, actualizarModulo, getModulos, eliminarModulo, getModuloById} = require("../controllers/modulos");
+const { crearModulo, actualizarModulo, getModulos, eliminarModulo, getModuloById, addUsuarioToModulo, addClaseToModulo, getModuloBySemestre} = require("../controllers/modulos");
 const { validarCampos } = require("../middlewares/validar-campos");
 const { validarJWT } = require("../middlewares/validar-jwt");
 
@@ -20,6 +20,8 @@ router.post('/',
 ] ,
 crearModulo);
 
+router.put('/adduser/:id', addUsuarioToModulo);
+router.put('/addclase/:id', addClaseToModulo);
 router.put('/:id', 
 [
   check('nombre', 'El nombre debe ser tipo String').isString(),
@@ -31,8 +33,9 @@ router.put('/:id',
 ],
 actualizarModulo);
 
-router.get('/',getModulos);
 router.get('/:id', getModuloById);
+router.get('/bysemestre/:id', getModuloBySemestre)
+router.get('/',getModulos);
 
 router.delete('/:id',eliminarModulo);
 
