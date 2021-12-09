@@ -47,8 +47,26 @@ const getSemestres = async(req, res=response) => {
   
 }
 
+const getSemestreActual = async(req, res = response) => {
+  try {
+    const semestre = await Semestre.find({ actual: 1});
+    console.log(semestre)
+    return res.status(200).json({
+      ok:true,
+      msg:'Semestre actual',
+      semestre
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      ok:false,
+      msg:"error en bd, get semestre actual"
+    })
+  }
+}
 
 module.exports = {
   crearSemestre,
-  getSemestres
+  getSemestres,
+  getSemestreActual
 }

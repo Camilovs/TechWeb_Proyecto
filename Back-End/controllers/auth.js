@@ -7,7 +7,6 @@ const { transport } = require('../helpers/mail');
 
 
 const crearEstudiante = async (req, res = response) => {
-  console.log('Creando usuario...')
   const {email,pass, pass2} = req.body;
 
   try {
@@ -73,10 +72,8 @@ const crearEstudiante = async (req, res = response) => {
 const loginUsuario = async(req, res = response) => {
 
   const {email,pass} = req.body;
-  console.log("recibido", req.body)
   try {
     let usuario = await Usuario.findOne({email});
-    console.log("usuario:",usuario)
     if(!usuario){
       return(
         res.status(400).json({
