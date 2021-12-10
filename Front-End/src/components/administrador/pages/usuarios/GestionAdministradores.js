@@ -185,9 +185,7 @@ export const GestionAdministradores = () => {
           </TableHead>
           <TableBody>
             {administradores.length !== 0
-              ? administradores
-                  .filter((admin) => admin.rol === "Admin")
-                  .map((row) => (
+              ? administradores.filter((admin) => admin.rol === "Admin").map((row) => (
                     <TableRow
                       key={row.nombre}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
