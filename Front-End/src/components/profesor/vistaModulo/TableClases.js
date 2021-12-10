@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
+import { fetchConToken } from '../../../helpers/fetch';
+import { bloques } from '../../../api/bloques';
 
 const StyledTableCell = styled(TableCell)`
   &&{
@@ -42,7 +44,7 @@ const ClasesDefecto = [
 ]
 export const TableClases = ({id,setAddClase}) => {
 
-  const data = ClasesDefecto
+  const [data, setData] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -54,6 +56,19 @@ export const TableClases = ({id,setAddClase}) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  useEffect( async() => {
+    const query = await fetchConToken(
+      `clases/byModulo`,
+      {modulo:id},
+      'POST'
+    );
+    const res = await query.json();
+    console.log('Clases: ',res.clases)
+    if (res.clases.length==0)
+      setData(ClasesDefecto) 
+    else setData([...res.clases])
+  }, [])
 
   return (
     <div className="card">
@@ -105,11 +120,12 @@ export const TableClases = ({id,setAddClase}) => {
                     {clase.tipo}
                   </TableCell>
                   <TableCell>
-                    {clase.sala}
+                    {clase.salaNombre}
                   </TableCell>
                   <TableCell>
-                    {`${clase.horario.inicio.dia} 
-                      ${clase.horario.inicio.hora_inicio} a ${clase.horario.fin.hora_fin}
+                    {`${clase.horario_dia} 
+                      ${bloques[clase.horario_inicio - 1].hora_inicio} a 
+                      ${bloques[clase.horario_fin - 1].hora_fin}
                     `}
                   </TableCell>
                 </TableRow>

@@ -16,6 +16,7 @@ const { validarCampos } = require("../middlewares/validar-campos");
 
 const router = Router();
 
+router.post('/byModulo', getClasesModulo);
 router.post(
   '/', 
   [
@@ -41,6 +42,6 @@ router.get('/solicitudes', getSolicitudes);
 router.get('/sala/:id', getClasesSala);
 router.get('/all', getClases);
 router.delete('/:id', eliminarClase);
-router.post('/', getClasesModulo);
+
 
 module.exports = router;

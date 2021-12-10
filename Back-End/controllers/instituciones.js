@@ -89,7 +89,7 @@ const getInstituciones = async(req, res=response) => {
     }
     res.json({
       ok:true,
-      msg:"Modulos encontrados",
+      msg:"Instituciones encontradas",
       instituciones
     })
   } catch (error) {
