@@ -14,32 +14,12 @@ const StyledTableCell = styled(TableCell)`
 `
 const ClasesDefecto = [
   {
-    tipo:"Recurrente",
-    sala:"Sala 21",
-    horario:{
-      inicio:{
-        dia:"Martes",
-        hora_inicio:"8:30"
-      },
-      fin:{
-        dia:"Martes",
-        hora_fin:"9:30"
-      }
-    }
-  },
-  {
-    tipo:"Unica",
-    sala:"Laboratorio 1",
-    horario:{
-      inicio:{
-        dia:"Viernes",
-        hora_inicio:"10:40"
-      },
-      fin:{
-        dia:"Martes",
-        hora_fin:"11:40"
-      }
-    }
+    tipo:"Prueba",
+    sala:"Sala Prueba",
+    horario_inicio:1,
+    horario_fin:2,
+    horario_dia:'Hora Prueba',
+
   },
 ]
 export const TableClases = ({id,setAddClase}) => {

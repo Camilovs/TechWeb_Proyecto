@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components';
+import React, {Fragment} from 'react'
+import styled, { createGlobalStyle } from 'styled-components';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
 
 const StyledTableCell = styled(TableCell)`
@@ -10,11 +10,6 @@ const StyledTableCell = styled(TableCell)`
     font-size:15;
   }
 `
-const SinAlumnos=[
-  {
-    nombre: "Aún no hay alumnos registrados en este curso"
-  }
-]
 
 const AlumnosDefecto=[
   {
@@ -58,12 +53,15 @@ const AlumnosDefecto=[
   },
 ]
 export const TableAlumnos = ({id, inscritos}) => {
-  console.log('inscritos:', inscritos);
-  let data = inscritos
 
-  if (inscritos.length==0){
-    data = SinAlumnos
-  }
+  console.log('inscritos ',inscritos);
+  // Esto no es necesario cuando inscritos viene vacio, 
+  // console.log('inscritos:', inscritos);
+  // let data = inscritos
+
+  // if (inscritos.length==0){
+  //   data = SinAlumnos
+  // }
   
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -103,24 +101,34 @@ export const TableAlumnos = ({id, inscritos}) => {
               </TableRow>
             </TableHead>
             <TableBody>
-            {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((alumno, i) =>{
-              return(
-                <TableRow hover role="checkbox" tabIndex={-1} key={i}>
+              {inscritos.length > 0 ? (
+                <Fragment>
+                  {inscritos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((alumno, i) =>{
+                    return(
+                      <TableRow hover role="checkbox" tabIndex={-1} key={i}>
+                        <TableCell>
+                          {alumno.nombre}
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })
+                  }
+                </Fragment>
+              ):(
+                <TableRow hover role="checkbox" tabIndex={-1}>
                   <TableCell>
-                    {alumno.nombre}
+                    Aún no hay alumnos registrados en este curso
                   </TableCell>
                 </TableRow>
-              )
-            })
-            }
+              )}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5,10, 25, 100]}
           component="div"
-          count={data.length}
+          count={inscritos.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

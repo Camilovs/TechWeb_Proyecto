@@ -227,20 +227,28 @@ const verificarDispHoraria = async(req, res = response) => {
 
   const idSala = req.params.id
   const {dia, inicio, fin}= req.body
+  console.log('consultando ',dia , inicio, fin)
   try {
     const sala = await Sala.findById(idSala);
     const ocupada = sala.ocupada
+    // console.log(ocupada)
+    console.log(sala)
     if(ocupada.length>0){
+
       for (let i = 0; i < ocupada.length; i++) {
+
         if(ocupada[i].dia === dia && 
             (ocupada[i].numero === parseInt(inicio) || ocupada[i].numero === parseInt(fin))){
+
           console.log('No Hay disponibilidad horaria')
           return res.status(404).json({
             ok:false,
             msg:'No Hay disponibilidad horaria'
           })
         }
+
       }
+
       console.log('Hay disponibilidad horaria 1')
       return res.status(200).json({
         ok:true,
