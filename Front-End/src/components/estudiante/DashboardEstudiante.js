@@ -1,17 +1,11 @@
 import React, { Fragment, useState } from "react";
 import {
   Button,
-  Card,
-  CardActions,
-  CardContent,
   Grid,
   makeStyles,
 } from "@material-ui/core";
 
-import Typography from "@material-ui/core/Typography";
 import { useHistory } from "react-router-dom";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 
 import Box from "@mui/material/Box";
 import Tab from "@material-ui/core/Tab";
@@ -35,6 +29,7 @@ const useStyles = makeStyles((theme) => {
     },
     root: {
       display: "flex",
+      // backgroundColor: "#e4e4e4"
     },
     drawer: {
       width: drawerWidth,
@@ -95,57 +90,41 @@ export function DashboardEstudiante() {
     <Fragment>
       <NavBar/>
       <div className={classes.root}>
-        {/* app bar */}
-        {/* <AppBar
-          position="fixed"
-          className={classes.appBar}
-          elevation={0}
-          color="primary"
-        >
-          <Toolbar style={{ backgroundColor: "#303e4e" }}>
-            <Typography className={classes.date}></Typography>
-            <Button
-              style={{ WebkitTextFillColor: "white" }}
-              onClick={() => history.push("/")}
-            >
-              Cerrar Sesión
-            </Button>
-          </Toolbar>
-        </AppBar> */}
-        
         <div className={classes.page}>
-          
-          Bienvenido, usuario x
-          <Button onClick={()=>cambiarNombre()}>Cambiar Nombre</Button>
-          <Box
-            sx={{ width: "100%", typography: "body1", paddingBlockEnd: "100%" }}
-          >
-            <TabContext value={value}>
-              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <TabList
-                  onChange={handleChange}
-                  aria-label="lab API tabs example"
-                >
-                  <Tab label="Cursos Disponibles" value="1" />
-                  <Tab label="Reservas" value="2" />
-                </TabList>
+          <div className="container">
+              Bienvenido, usuario x
+              <Button onClick={()=>cambiarNombre()}>Cambiar Nombre</Button>
+              <Box
+                sx={{ width: "100%", typography: "body1", paddingBlockEnd: "100%" }}
+              >
+                <TabContext value={value}>
+                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                    <TabList
+                      onChange={handleChange}
+                      aria-label="lab API tabs example"
+                    >
+                      <Tab label="Cursos Disponibles" value="1" />
+                      <Tab label="Reservas" value="2" />
+                    </TabList>
+                  </Box>
+                  <TabPanel value="1" onClick={() => setvista("estudiantes")}>
+                    <Grid container>
+                      {/* ELIAS ACA FILTER Y MAP POR UID LocalStorage.getItem('uid') */}
+                      {cursos.map((curso) => (
+                        <CursoCard curso={curso}/>
+                      ))}
+                    </Grid>
+                  </TabPanel>
+                  <TabPanel value="2" onClick={() => setvista("profesores")}>
+                    <Grid container>
+                      <VistaReservas/>
+                    </Grid>
+                  </TabPanel>
+                  <TabPanel value="3">Encargados</TabPanel>
+                </TabContext>
               </Box>
-              <TabPanel value="1" onClick={() => setvista("estudiantes")}>
-                <Grid container>
-                  {cursos.map((curso) => (
-                    <CursoCard curso={curso}/>
-                  ))}
-                </Grid>
-              </TabPanel>
-              <TabPanel value="2" onClick={() => setvista("profesores")}>
-                <Grid container>
-                  <VistaReservas/>
-                </Grid>
-              </TabPanel>
-              <TabPanel value="3">Encargados</TabPanel>
-            </TabContext>
-          </Box>
-          <div className={classes.toolbar}></div>
+              <div className={classes.toolbar}></div>
+          </div>
         </div>
       </div>
       <Footer/>
