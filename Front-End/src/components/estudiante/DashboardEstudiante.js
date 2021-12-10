@@ -110,6 +110,9 @@ export function DashboardEstudiante() {
                   <TabPanel value="1" onClick={() => setvista("estudiantes")}>
                     <Grid container>
                       {/* ELIAS ACA FILTER Y MAP POR UID LocalStorage.getItem('uid') */}
+                      {/* {usuarios.filter('por id').map('x modulo') {
+                        <CursoCard curso={curso}/>
+                      }} */}
                       {cursos.map((curso) => (
                         <CursoCard curso={curso}/>
                       ))}
