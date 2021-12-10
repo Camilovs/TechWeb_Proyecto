@@ -29,13 +29,12 @@ export const AddClase = (
     setAddClase,
     setClaseNueva,
     reload,
-    modulo
+    modulo,
   }
   ) => {
 
   const [moduloBloqueado, seTmoduloBloqueado] = useState(false)
   const [horarioDisp, setHorarioDisp] = useState(false);
-
   const [unica, setUnica] = useState(false)
   const [salasDisp, setSalasDisp] = useState([])
 
@@ -50,7 +49,10 @@ export const AddClase = (
     )
     const resp = await query.json()
     console.log(resp)
-    reload()
+    if(resp.ok){
+      setAddClase(!addClase)
+      reload()
+    }
   }
   
   const handleInputChange = ({target}) => {

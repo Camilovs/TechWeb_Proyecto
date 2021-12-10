@@ -27,7 +27,6 @@ export const VerModulo = ({updateAccion, id}) => {
   const [modulo, setModulo] = useState({})
   const [claseNueva, setClaseNueva] = useState({})
 
-
   // const [modulo, setModulo] = useState({
   //   nombre:'',
   //   integrantes:0,
@@ -84,8 +83,9 @@ export const VerModulo = ({updateAccion, id}) => {
       ...claseNueva,
       moduloNombre: modulo.nombre,
       modulo: id,
-      profesor:modulo.profesor,
-      profesorName:res.usuario.nombre
+      profesor: modulo.profesor,
+      profesorName: res.usuario.nombre,
+      aprobada: false
     })
 
     setLoading(false)

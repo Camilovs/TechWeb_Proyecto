@@ -5,9 +5,7 @@ const Sala = require('../models/Sala');
 
 
 const crearClase = async(req, res = response) => {
-
   const {modulo} = req.body;
-
   try {
     const moduloFind = await Modulo.findById(modulo);
 
