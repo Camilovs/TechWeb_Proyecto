@@ -195,11 +195,66 @@ const getClasesSala = async(req, res = response) => {
   
 }
 
+const getSolicitudes = async(req, res = response) => {
+  try {
+    const solicitudes = await Clase.find({aprobada:0})
+    return res.status(200).json({
+      ok:true,
+      msg:'Solicitudes encontradas',
+      solicitudes
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      ok:false,
+      msg:"error en bd, getSolicitudes"
+    })
+  }
+}
+
+const aprobarSolicitud = async(req, res = response) => {
+
+  const idClase = req.params.id;
+  const idSala = req.body.idSala;
+  try {
+    const clase = await Clase.findByIdAndUpdate(
+      idClase,
+      {aprobada:true},
+      {new:true}
+    )
+    const sala = await Sala.findById(idSala)
+    for (let numBloque = clase.horario_fin; numBloque >= clase.horario_inicio; numBloque--) {
+      sala.ocupada.push({
+        numero: numBloque,
+        modulo: clase.moduloNombre,
+        dia: clase.horario_dia
+      })
+    }
+    await sala.save();
+    res.status(200).json({
+      ok:true,
+      msg:'Clase aprobada',
+      clase,
+      bloques:sala.ocupada
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      ok:false,
+      msg:"error en bd, aprobarSolicitud"
+    })
+  }
+  
+}
+
+
 module.exports = {
   actualizarClase,
   crearClase,
   eliminarClase,
   getClases,
   getClasesModulo,
-  getClasesSala
+  getClasesSala,
+  getSolicitudes,
+  aprobarSolicitud
 }

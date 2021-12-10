@@ -40,17 +40,12 @@ export const VerModulo = ({updateAccion, id}) => {
     tipo:'',
     sala:'',
     salaNombre:'',
-    horario:{
-      inicio:{
-        dia:'',
-        bloque:0
-      },
-      fin:{
-        dia:'',
-        bloque:0
-      }
-    },
+    horario_dia:"Lunes",
+    horario_inicio:1,
+    horario_fin:2,
     aprobada:false,
+    profesor:modulo.profesor,
+    profesorName:''
   })
 
   const cargarModulo = async(modulo) => {
@@ -78,7 +73,9 @@ export const VerModulo = ({updateAccion, id}) => {
     setClaseNueva({ 
       ...claseNueva,
       moduloNombre: modulo.nombre,
-      modulo: id
+      modulo: id,
+      profesor:modulo.profesor,
+      profesorName:res.usuario.nombre
     })
 
     setLoading(false)

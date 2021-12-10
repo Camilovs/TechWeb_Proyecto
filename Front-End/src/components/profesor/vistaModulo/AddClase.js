@@ -3,7 +3,6 @@ import { Fade, Modal, Backdrop } from '@mui/material';
 import { Box } from '@mui/system';
 import { bloques } from '../../../api/bloques';
 import { fetchConToken } from '../../../helpers/fetch';
-import styled from 'styled-components';
 
 const style = {
   position: 'absolute',
@@ -39,6 +38,7 @@ export const AddClase = (
 
   const [unica, setUnica] = useState(false)
   const [salasDisp, setSalasDisp] = useState([])
+
   const guardaClase = async (e) => {
     e.preventDefault()
     console.log("Agregando Clase...")
@@ -52,13 +52,10 @@ export const AddClase = (
     console.log(resp)
     reload()
   }
+  
   const handleInputChange = ({target}) => {
     console.log(target.name, ' ',target.value)
-    setClaseNueva({
-      ...claseNueva,
-      [target.name]:target.value
-      
-    })
+    
     if(target.name === 'tipo'){
       if(target.value === 'Unica'){
         setUnica(true)
@@ -68,7 +65,8 @@ export const AddClase = (
       }
     }
     if(target.name === 'sala'){
-      const salafind = salasDisp.find((sala)=>sala._id)
+      const salafind = salasDisp.find( (sala) => sala._id === target.value)
+      console.log(salafind)
       setClaseNueva(
         {
           ...claseNueva,
@@ -78,68 +76,29 @@ export const AddClase = (
       )
       verificarDisponibilidad(target.value)
     }
+    else{
+      setClaseNueva({
+        ...claseNueva,
+        [target.name]:target.value
+      })
+    }
   }
   const verificarDisponibilidad = async(id) => {
-    // const salaid = claseNueva.sala;
     const data = {
-      dia:claseNueva.horario.inicio.dia,
-      inicio:claseNueva.horario.inicio.bloque,
-      fin:claseNueva.horario.fin.bloque
+      dia:claseNueva.horario_dia,
+      inicio:claseNueva.horario_inicio,
+      fin:claseNueva.horario_fin
     }
 
-    console.log('datafetch:', id, data)
     const query = await fetchConToken(
       `salas/dispHoraria/${id}`,
-      {
-        "dia":claseNueva.horario.inicio.dia,
-        "inicio":claseNueva.horario.inicio.bloque,
-        "fin":claseNueva.horario.fin.bloque
-      },
+      {data},
       'POST'
     )
     const resp = await query.json()
     setHorarioDisp(resp.ok)
-    console.log(resp)
   }
   
-  const handleDiaChange = ({target}) => {
-    setClaseNueva({
-      ...claseNueva,
-      horario:{
-        inicio:{
-          ...claseNueva.horario.inicio,
-          dia:target.value
-        },
-        fin:{
-          ...claseNueva.horario.fin,
-          dia:target.value
-        }
-      }
-    })
-  }
-  const handleBloqueChange = ({target}) => {
-    if(target.name==='bloque_inicio'){
-      setClaseNueva({
-        ...claseNueva,
-        horario:{
-          ...claseNueva.horario,
-          inicio:{
-            ...claseNueva.horario.inicio,
-            bloque:target.value
-          }
-        }})
-    }else{
-      setClaseNueva({
-        ...claseNueva,
-        horario:{
-          ...claseNueva.horario,
-          fin:{
-            ...claseNueva.horario.fin,
-            bloque:target.value
-          }
-        }})
-  }}
-
   const getNumBloques = () => {
     const bloqueInicio = bloques.find(
       (bloque => bloque.hora_inicio===modulo.horario.hora_inicio)
@@ -150,16 +109,9 @@ export const AddClase = (
     console.log(bloqueInicio, bloqueFin)
     setClaseNueva({
       ...claseNueva,
-      horario:{
-        inicio:{
-          dia:modulo.horario.dia,
-          bloque:bloqueInicio.numero
-        },
-        fin:{
-          dia:modulo.horario.dia,
-          bloque:bloqueFin.numero
-        }
-      }
+        horario_dia:modulo.horario.dia,
+        horario_inicio:bloqueInicio.numero,
+        horario_fin:bloqueFin.numero
     })
   }
   
@@ -185,6 +137,7 @@ export const AddClase = (
     getSalasPorAforo()
     getNumBloques()
   }, [])
+
   return (
     <Modal
         open={true}
@@ -304,9 +257,9 @@ export const AddClase = (
                     type="text" 
                     className="form-select"
                     disabled= {!unica}
-                    name='dia'
-                    value={claseNueva.horario.inicio.dia}
-                    onChange={handleDiaChange}
+                    name='horario_dia'
+                    value={claseNueva.horario_dia}
+                    onChange={handleInputChange}
                   >
                     {diasDefecto.map((dia, i) => (
                       <option key={i} value={dia}>
@@ -318,15 +271,15 @@ export const AddClase = (
               </div>
               <div className="row mt-2">
               <div className="col">
-                <label htmlFor="bloque_inicio" className="form-label">Bloque Inicio</label>
+                <label htmlFor="horario_inicio" className="form-label">Bloque Inicio</label>
                 <select 
-                  id="bloque_inicio" 
+                  id="horario_inicio" 
                   type="text" 
                   className="form-select"
                   disabled= {!unica}
-                  name='bloque_inicio'
-                  value={claseNueva.horario.inicio.bloque}
-                  onChange={handleBloqueChange}
+                  name='horario_inicio'
+                  value={claseNueva.horario_inicio}
+                  onChange={handleInputChange}
                 >
                   {bloques.map((bloque,i) => (
                     <option  key={i}  value={bloque.numero}>
@@ -336,16 +289,16 @@ export const AddClase = (
                 </select>
               </div>
               <div className="col">
-                <label htmlFor="bloque_fin" className="form-label">Bloque Fin</label>
+                <label htmlFor="horario_fin" className="form-label">Bloque Fin</label>
                 <select 
-                  id="bloque_fin" 
+                  id="horario_fin" 
                   type="text" 
                   className="form-select"
                   disabled= {!unica}
-                  name='bloque_fin'
-                  value={claseNueva.horario.fin.bloque}
+                  name='horario_fin'
+                  value={claseNueva.horario_fin}
                   // value={modulo.horario.fin.bloque}
-                  onChange={handleBloqueChange}
+                  onChange={handleInputChange}
                 >
                   {bloques.map((bloque,i) => (
                     <option key={i}  value={bloque.numero}>

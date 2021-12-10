@@ -8,7 +8,9 @@ const {
   getClases, 
   actualizarClase, 
   eliminarClase, 
-  getClasesSala
+  getClasesSala,
+  getSolicitudes,
+  aprobarSolicitud
 } = require("../controllers/clases");
 const { validarCampos } = require("../middlewares/validar-campos");
 
@@ -34,9 +36,11 @@ router.put(
   actualizarClase
 );
 
-router.get('/', getClasesModulo);
+router.put('/aprobar/:id', aprobarSolicitud);
+router.get('/solicitudes', getSolicitudes);
+router.get('/sala/:id', getClasesSala);
 router.get('/all', getClases);
-router.get('/sala/:id', getClasesSala)
 router.delete('/:id', eliminarClase);
+router.post('/', getClasesModulo);
 
 module.exports = router;
