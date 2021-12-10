@@ -34,7 +34,7 @@ router.put(
   actualizarClase
 );
 
-router.get('/', getClasesModulo);
+router.post('/byModulo', getClasesModulo);
 router.get('/all', getClases);
 router.get('/sala/:id', getClasesSala)
 router.delete('/:id', eliminarClase);

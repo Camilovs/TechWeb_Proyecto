@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
+import { fetchConToken } from '../../../helpers/fetch';
+import { bloques } from '../../../api/bloques';
 
 const StyledTableCell = styled(TableCell)`
   &&{
@@ -42,10 +44,10 @@ const ClasesDefecto = [
 ]
 export const TableClases = ({id,setAddClase}) => {
 
-  const data = ClasesDefecto
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
+  const [data, setData] = useState([]);
+  
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -54,6 +56,36 @@ export const TableClases = ({id,setAddClase}) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  console.log(data)
+  console.log(ClasesDefecto)
+
+  useEffect( async() => {
+    const query = await fetchConToken(
+      `clases/byModulo`,
+      {modulo:id},
+      'POST'
+    );
+    const res = await query.json();
+    console.log('La gallina turuleca')
+    console.log(res)
+    if (res.clases.length==0)
+      setData(ClasesDefecto) 
+    else setData(
+      [
+        ...res.clases,
+        
+
+        /*{horario:{
+          inicio:{
+            hora_inicio:bloques[res.clases.horario.hora_inicio].hora_inicio
+          },
+          fin:{
+            hora_fin:bloques[res.clases.horario.fin].hora_fin
+          }
+        }}*/
+
+      ])
+  }, [])
 
   return (
     <div className="card">

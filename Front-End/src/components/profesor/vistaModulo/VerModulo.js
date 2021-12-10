@@ -28,6 +28,11 @@ export const VerModulo = ({updateAccion, id}) => {
     nombre:'',
     integrantes:0,
     profesor:'',
+    inscritos:[{
+      nombre:'',
+      rol:'',
+      id:''
+    }],
     horario:{
       dia:'',
       hora_inicio:'',
@@ -54,7 +59,6 @@ export const VerModulo = ({updateAccion, id}) => {
   })
 
   const cargarModulo = async(modulo) => {
-
     console.log("cargando datos: ",modulo)
     const query = await fetchConToken(
       `usuarios/${modulo.profesor}`,
@@ -62,18 +66,19 @@ export const VerModulo = ({updateAccion, id}) => {
       'GET'
     )
     const res = await query.json();
-    const setmodulo = {
-      nombre: modulo.nombre,
-      integrantes:modulo.integrantes,
-      profesor:res.usuario.nombre,
-      horario:{
-        dia:modulo.bloque_inicio.dia,
-        hora_inicio:bloques[modulo.bloque_inicio.numero].hora_inicio,
-        hora_fin:bloques[modulo.bloque_fin.numero].hora_fin
-      }
-    }
+    console.log(res)
 
-    setModulo(setmodulo)
+    setModulo(
+      {
+        ...modulo,
+        profesor:res.usuario.nombre,
+        horario:{
+          dia:modulo.bloque_inicio.dia,
+          hora_inicio:bloques[modulo.bloque_inicio.numero].hora_inicio,
+          hora_fin:bloques[modulo.bloque_fin.numero].hora_fin
+        }
+      }
+    )
 
     setClaseNueva({ 
       ...claseNueva,
@@ -82,10 +87,10 @@ export const VerModulo = ({updateAccion, id}) => {
     })
 
     setLoading(false)
+    
   }
   
   useEffect( async() => {
-    
     const query = await fetchConToken(
       `modulos/${id}`,
       {},
@@ -93,6 +98,7 @@ export const VerModulo = ({updateAccion, id}) => {
     );
     const res = await query.json();
     cargarModulo(res.modulo)
+    console.log(modulo.inscritos)
   }, [])
 
   const reload = () => {
@@ -194,7 +200,7 @@ export const VerModulo = ({updateAccion, id}) => {
           <div className="col">
             <div className="row">
               <div className="col">
-                <TableAlumnos id={id}/>
+                <TableAlumnos inscritos={modulo.inscritos}/>
               </div>
             </div>
           </div>
