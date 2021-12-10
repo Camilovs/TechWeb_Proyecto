@@ -18,7 +18,8 @@ const router = Router();
 
 router.use(validarJWT);
 
-router.post('/', 
+
+router.post('/newuser', 
   [
     check('nombre', 'El nombre es obligatorio').not().isEmpty(), //el nombre no debe estar vacio
     check('email', 'El email es obligatorio').isEmail(), //el email debe ser formato email
