@@ -26,6 +26,11 @@ export const VerModulo = ({updateAccion, id}) => {
     nombre:'',
     integrantes:0,
     profesor:'',
+    inscritos:[{
+      nombre:'',
+      rol:'',
+      id:''
+    }],
     horario:{
       dia:'',
       hora_inicio:'',
@@ -40,17 +45,16 @@ export const VerModulo = ({updateAccion, id}) => {
       'GET'
     )
     const res = await query.json();
-    const setmodulo = {
-      nombre: modulo.nombre,
-      integrantes:modulo.integrantes,
+
+    setModulo({
+      ...modulo,
       profesor:res.usuario.nombre,
       horario:{
         dia:modulo.bloque_inicio.dia,
         hora_inicio:bloques[modulo.bloque_inicio.numero].hora_inicio,
         hora_fin:bloques[modulo.bloque_fin.numero].hora_fin
       }
-    }
-    setModulo(setmodulo)
+    })
     setLoading(false)
   }
   
@@ -135,7 +139,7 @@ export const VerModulo = ({updateAccion, id}) => {
 
         <div className="row">
           <div className="col-sm-6">
-            <TableAlumnos id={id}/>
+            <TableAlumnos id={id} inscritos={modulo.inscritos}/>
           </div>
           <div className="col-sm-6">
             <TableClases id={id}/>

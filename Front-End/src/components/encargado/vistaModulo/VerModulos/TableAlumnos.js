@@ -10,7 +10,11 @@ const StyledTableCell = styled(TableCell)`
     font-size:15;
   }
 `
-
+const SinAlumnos=[
+  {
+    nombre: "Aún no hay alumnos registrados en este curso"
+  }
+]
 const AlumnosDefecto=[
   {
     nombre: "Pedrito Perez"
@@ -34,9 +38,14 @@ const AlumnosDefecto=[
     nombre: "Carlos Peñaloza"
   },
 ]
-export const TableAlumnos = ({id}) => {
+export const TableAlumnos = ({id, inscritos}) => {
   
-  const data = AlumnosDefecto
+  let data = inscritos
+
+  if (inscritos.inscritos.length==0){
+    data = SinAlumnos
+  }
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
