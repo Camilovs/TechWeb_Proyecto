@@ -42,7 +42,7 @@ export const TableAlumnos = ({id, inscritos}) => {
   
   let data = inscritos
 
-  if (inscritos.inscritos.length==0){
+  if (inscritos.length==0){
     data = SinAlumnos
   }
 

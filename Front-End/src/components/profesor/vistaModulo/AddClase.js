@@ -29,13 +29,12 @@ export const AddClase = (
     setAddClase,
     setClaseNueva,
     reload,
-    modulo
+    modulo,
   }
   ) => {
 
   const [moduloBloqueado, seTmoduloBloqueado] = useState(false)
   const [horarioDisp, setHorarioDisp] = useState(false);
-
   const [unica, setUnica] = useState(false)
   const [salasDisp, setSalasDisp] = useState([])
 
@@ -50,7 +49,10 @@ export const AddClase = (
     )
     const resp = await query.json()
     console.log(resp)
-    reload()
+    if(resp.ok){
+      setAddClase(!addClase)
+      reload()
+    }
   }
   
   const handleInputChange = ({target}) => {
@@ -89,13 +91,14 @@ export const AddClase = (
       inicio:claseNueva.horario_inicio,
       fin:claseNueva.horario_fin
     }
-
+    console.log(data)
     const query = await fetchConToken(
       `salas/dispHoraria/${id}`,
-      {data},
+      data,
       'POST'
     )
     const resp = await query.json()
+    console.log(resp)
     setHorarioDisp(resp.ok)
   }
   
@@ -311,7 +314,7 @@ export const AddClase = (
             <div className="row mt-4 mb-4">
               <div className="col-auto">
                 <button 
-                    disabled={moduloBloqueado}
+                  disabled={moduloBloqueado || !horarioDisp}
                   type="submit" 
                   className="btn btn-custom-primary"
                 >

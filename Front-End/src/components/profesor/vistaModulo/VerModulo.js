@@ -24,34 +24,37 @@ export const VerModulo = ({updateAccion, id}) => {
   const [addClase, setAddClase] = useState(false)
   const [reloadTable, setReloadTable] = useState(true)
   const [loading, setLoading] = useState(true)
-  const [modulo, setModulo] = useState({
-    nombre:'',
-    integrantes:0,
-    profesor:'',
-    inscritos:[{
-      nombre:'',
-      rol:'',
-      id:''
-    }],
-    horario:{
-      dia:'',
-      hora_inicio:'',
-      hora_fin:''
-    }
-  })
-  const [claseNueva, setClaseNueva] = useState({
-    modulo:modulo,
-    moduloNombre:modulo.nombre,
-    tipo:'',
-    sala:'',
-    salaNombre:'',
-    horario_dia:"Lunes",
-    horario_inicio:1,
-    horario_fin:2,
-    aprobada:false,
-    profesor:modulo.profesor,
-    profesorName:''
-  })
+  const [modulo, setModulo] = useState({})
+  const [claseNueva, setClaseNueva] = useState({})
+
+  // const [modulo, setModulo] = useState({
+  //   nombre:'',
+  //   integrantes:0,
+  //   profesor:'',
+  //   inscritos:[{
+  //     nombre:'',
+  //     rol:'',
+  //     id:''
+  //   }],
+  //   horario:{
+  //     dia:'',
+  //     hora_inicio:'',
+  //     hora_fin:''
+  //   }
+  // })
+  // const [claseNueva, setClaseNueva] = useState({
+  //   modulo:modulo,
+  //   moduloNombre:modulo.nombre,
+  //   tipo:'',
+  //   sala:'',
+  //   salaNombre:'',
+  //   horario_dia:"Lunes",
+  //   horario_inicio:1,
+  //   horario_fin:2,
+  //   aprobada:false,
+  //   profesor:modulo.profesor,
+  //   profesorName:''
+  // })
 
   const cargarModulo = async(modulo) => {
 
@@ -80,8 +83,9 @@ export const VerModulo = ({updateAccion, id}) => {
       ...claseNueva,
       moduloNombre: modulo.nombre,
       modulo: id,
-      profesor:modulo.profesor,
-      profesorName:res.usuario.nombre
+      profesor: modulo.profesor,
+      profesorName: res.usuario.nombre,
+      aprobada: false
     })
 
     setLoading(false)
