@@ -1,16 +1,14 @@
 const {Schema, model} = require('mongoose');
 
 const ClaseSchema = Schema({
-  horario:{
-    inicio: {
-      dia:String,
-      bloque:Number
-    },
-    fin: {
-      dia:String,
-      bloque:Number
-    }
+  profesor:{
+    type:Schema.Types.ObjectId,
+    ref:'Usuario'
   },
+  profesorName:String,
+  horario_dia:String,
+  horario_inicio:Number,
+  horario_fin:Number,
   modulo:{
     type:Schema.Types.ObjectId,
     ref:'Modulo'

@@ -34,8 +34,8 @@ export const VerSala = ({updateAccion, id}) => {
 
     clasesDB.map((clase) => {
 
-      hora_inicio = bloques[clase.numero].hora_inicio
-      hora_fin = bloques[clase.numero].hora_fin
+      hora_inicio = bloques[clase.numero-1].hora_inicio
+      hora_fin = bloques[clase.numero-1].hora_fin
 
       eventCalendar = {
         title:clase.modulo,

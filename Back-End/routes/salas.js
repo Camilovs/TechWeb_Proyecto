@@ -8,7 +8,10 @@ const {
   actualizarSala, 
   eliminarSala, 
   getSalas,
-  agregarBloqueOcupado 
+  agregarBloqueOcupado,
+  getRecomendadas,
+  getSalasByAforo,
+  verificarDispHoraria
 } = require("../controllers/salas");
 const { validarCampos } = require("../middlewares/validar-campos");
 const { validarJWT } = require("../middlewares/validar-jwt");
@@ -21,10 +24,12 @@ router.use(validarJWT);
 
 //RUTAS
 //ruta para obtener una sala
+router.get('/byaforo/:aforo', getSalasByAforo)
 router.get('/:id', getSala);
 router.get('/', getSalas);
 
 //ruta para agregar una sala
+router.post('/dispHoraria/:id', verificarDispHoraria)
 router.post('/', 
 [
   check('nombre', 'el nombre es obligatorio').not().isEmpty(),

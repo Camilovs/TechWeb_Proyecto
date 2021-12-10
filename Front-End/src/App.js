@@ -22,10 +22,11 @@ const App =() => {
   const [uid, setUid] = useState(localStorage.getItem('uid'))
   const [path, setPath] = useState('/')
   const [wait, setWait] = useState(false)
+
   const revisarToken = async() => {
     const query = await fetchConToken('auth/renew',{})
     const resp = await query.json()
-    console.log(resp)
+
     if(resp.ok){
       if(resp.rol==='Admin'){
         setPath('/administrador')
@@ -49,7 +50,25 @@ const App =() => {
     }
   }
   
+  const setSemestreActual = async() => {
+    console.log('get semestres')
+    const query = await fetchConToken(
+      'semestres/actual',
+      {},
+      'GET'
+    )
+    const resp = await query.json()
+    console.log('semestre: ',resp.semestre[0])
+    const semestre = `${resp.semestre[0].anio}/${resp.semestre[0].numero}`
+    localStorage.setItem('semestre',semestre)
+    console.log(semestre)
+  }
+  
+
   useEffect(() => {
+    if(localStorage.getItem('userToken') && !localStorage.getItem('semestre')){
+      setSemestreActual()
+    }
     // revisarToken();
   }, [])
   if(!wait){
@@ -65,41 +84,6 @@ const App =() => {
               <Route exact path="/profesor" component={HomeProfe} />
               <Route exact path="/verificar/:id" component={Verificar} />
               <Redirect to='/'/>
-              {/* <PublicRoute 
-                exact 
-                path='/'
-                redirect_to = {path}
-                component={Auth} 
-                isAuthenticated = {!!uid}
-              />
-              <PrivateRoute 
-                exact
-                path='/administrador'
-                component={DashboardAdmin} 
-                isAuthenticated = {!!uid}
-  
-              />
-              <PrivateRoute 
-                exact
-                path='/estudiante'
-                component={DashboardEstudiante}
-                isAuthenticated = {!!uid}
-                />
-                
-              <PrivateRoute 
-                exact 
-                path='/encargado'
-                component={HomeEnc}
-                isAuthenticated = {!!uid}
-                />
-                
-              <PrivateRoute 
-                exact 
-                path='/profesor'
-                component={HomeProfe}
-                isAuthenticated = {!!uid}
-                />
-              <Redirect to='/'/> */}
             </Switch>
           </BrowserRouter>
         </ConfirmProvider>

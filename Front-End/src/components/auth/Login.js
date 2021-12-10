@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import { fetchSinToken } from '../../helpers/fetch';
+import { fetchConToken, fetchSinToken } from '../../helpers/fetch';
 import Container from "@material-ui/core/Container";
 import AlertMassage from "./AlertMessage";
 
@@ -43,7 +43,16 @@ export const Login = ({changeVista}) => {
       [target.name]:target.value
     })
   }
-  
+  const setSemestreActual = async() => {
+    const query = await fetchConToken(
+      'semestres/actual',
+      {},
+      'GET'
+    )
+    const resp = await query.json()
+    const semestre = `${resp.semestre[0].anio}/${resp.semestre[0].numero}`
+    localStorage.setItem('semestre',semestre)
+  }
   const handleSubmitForm = async(e) =>{
     e.preventDefault();
 
@@ -61,6 +70,7 @@ export const Login = ({changeVista}) => {
         // console.log(usuario)
         localStorage.setItem('userToken', usuario.token)
         localStorage.setItem('uid', usuario.uid)
+        setSemestreActual()
         RedirectTo(usuario.rol)
       }
     }

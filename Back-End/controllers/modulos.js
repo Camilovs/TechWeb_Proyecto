@@ -10,7 +10,7 @@ const Usuario = require("../models/Usuario");
 
 const crearModulo = async(req, res = response) => {
   
-  const {bloque_inicio, bloque_fin} = req.body
+  const {bloque_inicio, bloque_fin, semestre} = req.body
 
   try {
     let bloque = await Bloque.findOne(
@@ -33,13 +33,13 @@ const crearModulo = async(req, res = response) => {
         msg:"el bloque fin no existe"
       })
     }
-  
+    const semestre = await Semestre.findOne({actual:1})
     const newModulo = {
       ...req.body,
       bloque_inicio:idbloque_inicio,
-      bloque_fin:idbloque_fin
+      bloque_fin:idbloque_fin,
+      semestre:semestre.id
     }
-
     const modulo = new Modulo(newModulo);
     await modulo.save();
     res.status(200).json({
