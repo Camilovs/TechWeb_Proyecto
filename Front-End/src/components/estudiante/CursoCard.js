@@ -5,6 +5,9 @@ import { bloques } from '../../api/bloques';
 
 export const CursoCard = ({curso}) => {
 
+  const hora_inicio = bloques[curso.horario_inicio].hora_inicio
+  const hora_fin = bloques[curso.horario_fin].hora_fin
+
   // OBTENER CLASES APROBADAS (TRUE) DE ESTE MODULO curso._id,id
 
   return (
@@ -17,10 +20,10 @@ export const CursoCard = ({curso}) => {
                 {curso.nombre}
               </Typography>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                {curso.profesor}
+                {'Profesor:'} {curso.profesor}
               </Typography>
               <Typography variant="body2">
-                {curso.horario}
+                {curso.horario_dia} {hora_inicio} {'a'} {hora_fin}
               </Typography>
               {/* LA o LAS CLASES DE CADA MODULO */}
               {/* {bloques[curso.horario_inicio - 1].hora_inicio} */}

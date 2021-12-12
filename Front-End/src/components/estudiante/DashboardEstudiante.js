@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
   Button,
   Grid,
@@ -16,8 +16,12 @@ import { CursoCard } from "./CursoCard";
 import { NavBar } from "../shared/NavBar";
 import { Footer } from "../shared/Footer";
 import { VistaReservas } from "./VistaReservas";
+import { fetchConToken } from "../../helpers/fetch";
+import { Loading } from "../shared/Loading";
 
 const drawerWidth = 240;
+
+
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -52,29 +56,60 @@ const useStyles = makeStyles((theme) => {
 });
 
 export function DashboardEstudiante() {
+  const [loading, setLoading] = useState(true)
+  const [cursosAlumno, setCursosAlumno] = useState([])
+
+  useEffect( async() => {
+    //Es necesario recargar la página para que algunos íconos se rendericen correctamente
+    if(!window.location.hash) {
+      window.location = window.location + '#loaded';
+      window.location.reload();
+    }
+    const id = localStorage.getItem('uid')
+      
+    const query = await fetchConToken(
+      `usuarios/${id}`,
+      {},
+      'GET'
+    );
+    const res = await query.json();
+    console.log(res.usuario.modulos)
+    setCursosAlumno(res.usuario.modulos)
+    console.log(cursosAlumno)
+    setLoading(false)
+  }, [])
+
   const classes = useStyles();
   const history = useHistory();
 
-  const cursos = [
+  const cursosDefault = [
     {
       nombre: "Tecnologias moviles",
       profesor: "Rodrigo Pavez",
-      horario: "18:20-20:00",
+      horario_inicio: 3,
+      horario_fin: 4,
+      horario_dia: "Lunes"
     },
     {
       nombre: "Tecnologias web",
       profesor: "Rodrigo Pavez",
-      horario: "18:20-20:00",
+      horario_inicio: 5,
+      horario_fin: 6,
+      horario_dia: "Martes"
     },
     {
       nombre: "Sistemas distribuidos",
       profesor: "Rodrigo Pavez",
-      horario: "18:20-20:00",
+      horario_inicio: 7,
+      horario_fin: 8,
+      horario_dia: "Sábado"
     },
     {
       nombre: "Sistemas operativos",
       profesor: "Rodrigo Pavez",
-      horario: "18:20-20:00",
+      horario_inicio: 1,
+      horario_fin: 2,
+      horario_dia: "Miércoles"
     },
   ];
   const [value, setValue] = React.useState("1");
@@ -84,16 +119,22 @@ export function DashboardEstudiante() {
     console.log(newValue);
   };
   function cambiarNombre(){
-    cursos[0].nombre="curso extraño";
+    cursosDefault[0].nombre="curso extraño";
   }
   return (
+    
     <Fragment>
+      {loading ? (
+        <Loading/>
+      ):
+      (  
+      <Fragment>
       <NavBar/>
       <div className={classes.root}>
         <div className={classes.page}>
           <div className="container">
               Bienvenido, usuario x
-              <Button onClick={()=>cambiarNombre()}>Cambiar Nombre</Button>
+              <Button onClick={()=>cambiarNombre()}>Cambiar Nombre</Button> 
               <Box
                 sx={{ width: "100%", typography: "body1", paddingBlockEnd: "100%" }}
               >
@@ -113,7 +154,9 @@ export function DashboardEstudiante() {
                       {/* {usuarios.filter('por id').map('x modulo') {
                         <CursoCard curso={curso}/>
                       }} */}
-                      {cursos.map((curso) => (
+
+
+                      {cursosAlumno.map((curso) => (
                         <CursoCard curso={curso}/>
                       ))}
                     </Grid>
@@ -131,6 +174,8 @@ export function DashboardEstudiante() {
         </div>
       </div>
       <Footer/>
+    </Fragment>
+    )}
     </Fragment>
   );
 }
