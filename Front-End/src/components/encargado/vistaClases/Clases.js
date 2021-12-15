@@ -1,6 +1,5 @@
 import React, {useState } from 'react'
 import styled from 'styled-components';
-import { AsignarSala } from './AsignarSala';
 import { Solicitudes } from './Solicitudes/Solicitudes';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -40,12 +39,9 @@ export const Clases = () => {
         <h3 >Clases</h3>
         <MyTabs value={tabSeleccion} onChange={handleChange}>
           <MyTab label='Solicitudes'/>
-          <MyTab label='Asignar Sala'/>
         </MyTabs>
-        {tabSeleccion === 0 ? (
+        {tabSeleccion === 0 && (
           <Solicitudes/>
-        ):(
-          <AsignarSala/>
         )}
       </div>
 

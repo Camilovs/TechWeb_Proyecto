@@ -39,59 +39,66 @@ export const BoxSolicitud = ({solicitud, reloading}) => {
     console.log(res)
     reloading()
   }
-  const rechazar = () => {
-    
+  const rechazar = async() => {
+    const id = solicitud._id;
+    const query = await fetchConToken(
+      `clases/${id}`,
+      {},
+      'DELETE'
+    );
+    const res = await query.json()
+    console.log(res)
+    reloading()
   }
   
   return (
-    
     <MainBox>
-        <div className='row' style={{width:'100%'}}>
-          <div className='col align-self-center'>
-            <p className='mb-2'><strong>Módulo</strong>:</p>
-            <span>{solicitud.moduloNombre}</span>
-          </div>
-          <div className='col align-self-center'>
-            <p className='mb-2'><strong>Profesor</strong>:</p>
-            <span>{solicitud.profesorName}</span>
-          </div>
-          <div className='col align-self-center'>
-            <p className='mb-2'><strong>Horario</strong>:</p>
-            {`${dia} ${horaInicio} - ${horaFin}`}
-          </div>
-          <div className='col align-self-center'>
-            <p className='mb-2'><strong>Creación</strong>:</p>
-            <span>
-              fecha
-            </span>
-          </div>
-          <div className='col align-self-center'>
-            <p className='mb-2'><strong>Sala</strong>:</p>
-            <Destacado color='#30624E'>
-              {solicitud.salaNombre}
-            </Destacado>
-          </div>
-          <div className='col align-self-center'>
-            <p className='mb-2'><strong>Estado</strong>:</p>
-            <Destacado color='#A84D61'>
-              No Autorizada
-            </Destacado>
-          </div>
-          <div className='col-auto d-flex flex-column gap-1'>
-            <button 
-              className="btn btn-custom-danger " 
-              onClick={rechazar}
-            >
-              <i className="fa fa-ban"></i>
-            </button>
-            <button 
-              className="btn btn-custom-success" 
-              onClick={aceptar}
-            >
-              <i className="fa fa-check"></i>
-            </button>
-          </div>
+      <div className='row' style={{width:'100%'}}>
+        <div className='col align-self-center'>
+          <p className='mb-2'><strong>Módulo</strong>:</p>
+          <span>{solicitud.moduloNombre}</span>
         </div>
+        <div className='col align-self-center'>
+          <p className='mb-2'><strong>Profesor</strong>:</p>
+          <span>{solicitud.profesorName}</span>
+        </div>
+        <div className='col align-self-center'>
+          <p className='mb-2'><strong>Horario</strong>:</p>
+          {`${dia} ${horaInicio} - ${horaFin}`}
+        </div>
+        <div className='col align-self-center'>
+          <p className='mb-2'><strong>Creación</strong>:</p>
+          <span>
+            fecha
+          </span>
+        </div>
+        <div className='col align-self-center'>
+          <p className='mb-2'><strong>Sala</strong>:</p>
+          <Destacado color='#30624E'>
+            {solicitud.salaNombre}
+          </Destacado>
+        </div>
+        <div className='col align-self-center'>
+          <p className='mb-2'><strong>Estado</strong>:</p>
+          <Destacado color='#A84D61'>
+            No Autorizada
+          </Destacado>
+        </div>
+        <div className='col-auto d-flex flex-column gap-1'>
+          <button 
+            className="btn btn-custom-danger " 
+            onClick={rechazar}
+          >
+            <i className="fa fa-ban"></i>
+          </button>
+          <button 
+            className="btn btn-custom-success" 
+            onClick={aceptar}
+          >
+            <i className="fa fa-check"></i>
+          </button>
+        </div>
+      </div>
     </MainBox>
     
     
