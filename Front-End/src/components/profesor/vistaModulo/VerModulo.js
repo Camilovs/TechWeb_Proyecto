@@ -65,7 +65,6 @@ export const VerModulo = ({updateAccion, id}) => {
       'GET'
     )
     const res = await query.json();
-    const setmodulo = 
 
     setModulo({
       ...modulo,
