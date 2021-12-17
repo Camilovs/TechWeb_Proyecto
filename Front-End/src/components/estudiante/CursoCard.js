@@ -10,13 +10,8 @@ import Box from "@mui/material/Box";
 import React, { useEffect, useState } from "react";
 import { bloques } from "../../api/bloques";
 import { fetchConToken } from "../../helpers/fetch";
-import { Loading } from "../shared/Loading";
 import Backdrop from "@mui/material/Backdrop";
 import { makeStyles } from "@material-ui/core";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import List from "@mui/material/List";
@@ -26,7 +21,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
-import CommentIcon from "@mui/icons-material/Comment";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",

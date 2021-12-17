@@ -5,16 +5,15 @@ export const revisarToken = async(userRol) => {
   const resp = await query.json()
   if(resp.ok){
     if(resp.rol!==userRol){
-      console.log('false')
+      localStorage.removeItem('uid')
+      localStorage.removeItem('userToken')
       return false
     }
     else{
-      console.log('true')
       return true
     }
   }
   else{
-    console.log('nohay token')
     return false
   }
 }

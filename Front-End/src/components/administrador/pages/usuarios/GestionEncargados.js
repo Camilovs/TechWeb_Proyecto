@@ -89,9 +89,11 @@ export const GestionEncargados = () => {
   useEffect(async () => {
     const query = await fetchConToken("usuarios", {}, "GET");
     const resp = await query.json();
-
-    setencargados(resp.usuarios);
+    if(resp.ok){
+      setencargados(resp.usuarios);
+    }
   }, [reloadTable]);
+  
   function eliminarEncargado() {
     setabrirModal(true);
     setDatos(

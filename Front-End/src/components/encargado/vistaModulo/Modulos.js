@@ -50,7 +50,9 @@ export const Modulos = () => {
       'GET'
     )
     const resp = await query.json();
-    setModulos(resp.modulos)
+    if(resp.ok){
+      setModulos(resp.modulos)
+    }
     setLoading(false) 
   }, [reloadTable])
   

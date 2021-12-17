@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
 import {
-  Button,
   Grid,
   makeStyles,
 } from "@material-ui/core";
@@ -58,22 +57,8 @@ export function DashboardEstudiante() {
   const [loading, setLoading] = useState(true);
   const [cursosAlumno, setCursosAlumno] = useState([]);
   const [nombreUsuario, setnombreUsuario] = useState("");
-  useEffect(async () => {
-    //Es necesario recargar la página para que algunos íconos se rendericen correctamente
-    if (!window.location.hash) {
-      window.location = window.location + "#loaded";
-      window.location.reload();
-    }
-    const id = localStorage.getItem("uid");
 
-    const query = await fetchConToken(`usuarios/${id}`, {}, "GET");
-    const res = await query.json();
-    setnombreUsuario(res.usuario.nombre);
-    console.log(res.usuario.modulos);
-    setCursosAlumno(res.usuario.modulos);
-    console.log(cursosAlumno);
-    setLoading(false);
-  }, []);
+ 
 
   const classes = useStyles();
   const history = useHistory();
@@ -114,9 +99,7 @@ export function DashboardEstudiante() {
     setValue(newValue);
     console.log(newValue);
   };
-  function cambiarNombre(){
-    cursos[0].nombre="curso extraño";
-  }
+
   const redirectToOut = () => {
     console.log('redirectout')
     history.push('/')
@@ -124,12 +107,34 @@ export function DashboardEstudiante() {
   
   useEffect(() => {
     async function waitValidate(){
-
+      setLoading(true)
       if(! await revisarToken('Estudiante')){
         redirectToOut()
       }
     }
     waitValidate()
+    
+    async function fetchData(){
+      //Es necesario recargar la página para que algunos íconos se rendericen correctamente
+      if (!window.location.hash) {
+        window.location = window.location + "#loaded";
+        window.location.reload();
+      }
+      const id = localStorage.getItem("uid");
+  
+      const query = await fetchConToken(`usuarios/${id}`, {}, "GET");
+      const res = await query.json();
+
+      if(res.ok){
+        setnombreUsuario(res.usuario.nombre);
+        console.log(res.usuario.modulos);
+        setCursosAlumno(res.usuario.modulos);
+        console.log(cursosAlumno);
+      }
+      setLoading(false);
+    }
+      fetchData()
+    
     // revisarToken()
   }, [])
   return (
@@ -167,8 +172,8 @@ export function DashboardEstudiante() {
                         <CursoCard curso={curso}/>
                       }} */}
 
-                        {cursosAlumno.map((curso) => (
-                          <CursoCard curso={curso} />
+                        {cursosAlumno.map((curso, i) => (
+                          <CursoCard key={i} curso={curso} />
                         ))}
                       </Grid>
                     </TabPanel>

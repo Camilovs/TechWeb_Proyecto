@@ -50,7 +50,16 @@ export const NavBar = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => history.push("/")}>Cerrar Sesión</MenuItem>
+      <MenuItem 
+        onClick={() => {
+          localStorage.removeItem('uid')
+          localStorage.removeItem('userToken')
+          history.push("/")
+        } }
+
+      >
+        Cerrar Sesión
+      </MenuItem>
     </Menu>
   );
 

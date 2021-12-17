@@ -116,6 +116,7 @@ export const VistaReservas = () => {
               <TableCell>Módulo</TableCell>
               <TableCell align="right"> Sala</TableCell>
               <TableCell align="right">Horario</TableCell>
+              <TableCell align="right">Acción</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -147,7 +148,6 @@ export const VistaReservas = () => {
                       <CancelIcon />
                     </Button>
                   </TableCell>
-                  <TableCell align="right">{row.protein}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
