@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
   Button,
   Grid,
@@ -16,6 +16,7 @@ import { CursoCard } from "./CursoCard";
 import { NavBar } from "../shared/NavBar";
 import { Footer } from "../shared/Footer";
 import { VistaReservas } from "./VistaReservas";
+import { revisarToken } from "../shared/validarUsuario";
 
 const drawerWidth = 240;
 
@@ -86,6 +87,21 @@ export function DashboardEstudiante() {
   function cambiarNombre(){
     cursos[0].nombre="curso extraño";
   }
+  const redirectToOut = () => {
+    console.log('redirectout')
+    history.push('/')
+  }
+  
+  useEffect(() => {
+    async function waitValidate(){
+
+      if(! await revisarToken('Estudiante')){
+        redirectToOut()
+      }
+    }
+    waitValidate()
+    // revisarToken()
+  }, [])
   return (
     <Fragment>
       <NavBar/>

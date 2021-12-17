@@ -2,7 +2,6 @@ import React, { Fragment, useState } from 'react'
 import styled from 'styled-components';
 import { passwordStrength } from 'check-password-strength'
 import { fetchSinToken } from '../../helpers/fetch';
-import { useHistory } from 'react-router';
 import AlertMassage from '../shared/AlertMessage';
 
 var emailTrue = require("email-validator");
@@ -12,7 +11,6 @@ const Logo = styled.div`
   padding: 35px;
 `;
 export const Registro = ({changeVista}) => {
-  let history = useHistory();
   const [status, setStatusBase] = React.useState("");
   const [ok, setOk] = useState(false)
   const [errorForm, setErrorForm] = useState(false)
@@ -37,13 +35,13 @@ export const Registro = ({changeVista}) => {
     e.preventDefault(); 
     // console.log(formValues);
 
-    if (name=='') {
+    if (name==='') {
       // console.log('Nombre no ingresado')
       
       setStatusBase({ msg: "Ingrese un nombre", key: Math.random() });
       setErrorForm(true)
     } else {
-      if (email==''){
+      if (email===''){
         // console.log('Correo no ingresado')
         setStatusBase({ msg: "Ingrese un Correo", key: Math.random() });
         setErrorForm(true)
@@ -55,7 +53,7 @@ export const Registro = ({changeVista}) => {
           setErrorForm(true)
 
         } else {
-        if (password=='') {
+        if (password==='') {
           // console.log('No se ha ingresado contraseña')
           setStatusBase({ msg: "Ingrese una contraseña", key: Math.random() });
           setErrorForm(true)
@@ -82,8 +80,8 @@ export const Registro = ({changeVista}) => {
                 'POST');
               const body = await resp.json();
               if (body.ok === false){
-                console.log("ERROR: ", body.msg)
-                setFormValues(initialValue)
+                setStatusBase({ msg: body.msg, key: Math.random() });
+                setErrorForm(true)
               }
               else {
                 console.log('Cuenta creada')
@@ -174,7 +172,14 @@ export const Registro = ({changeVista}) => {
             Ya tengo una cuenta
           </button>
         </div>
-        {errorForm ? <AlertMassage key={status.key} message={status.msg} severity="warning"/> : null}
+        {errorForm && (
+          <AlertMassage 
+          key={status.key} 
+          message={status.msg} 
+          severity="warning"
+          setState={setErrorForm}
+          />
+        )}
       </div>
     </Fragment>
   )

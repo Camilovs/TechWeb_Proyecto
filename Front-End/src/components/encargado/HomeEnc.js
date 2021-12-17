@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Footer } from '../shared/Footer';
 import { Header } from '../shared/Header';
@@ -11,6 +11,9 @@ import { Plantillas } from './vistaPlantilla/Plantillas';
 import { Profesores } from './vistaProfesores/Profesores';
 import { Salas } from './vistaSala/Salas';
 import { makeStyles } from "@material-ui/core";
+import { fetchConToken } from '../../helpers/fetch';
+import { useHistory } from 'react-router-dom';
+import { revisarToken } from '../shared/validarUsuario';
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => {
   return {
@@ -68,6 +71,8 @@ const Content = styled.div`
 `;
 export const HomeEnc = () => {
   const classes = useStyles();
+  let history = useHistory()
+
   const [rutasHeader, setRutasHeader] = useState([
     {
       label:"Home",
@@ -108,6 +113,21 @@ export const HomeEnc = () => {
       icon:"fa fa-scroll"
     },
   ]
+  const redirectToOut = () => {
+    console.log('redirectout')
+    history.push('/')
+  }
+  
+  useEffect(() => {
+    async function waitValidate(){
+
+      if(! await revisarToken('Encargado')){
+        redirectToOut()
+      }
+    }
+    waitValidate()
+    // revisarToken()
+  }, [])
   return (
     <Fragment>
       <NavBar/>
@@ -120,7 +140,7 @@ export const HomeEnc = () => {
           />
         </div>
         <Content className="col-sm-10 p-0">
-          <Header />
+          {/* <Header /> */}
           <Container>
               {(sideBarSelect==='Módulos') && (
                 <Modulos/>
@@ -149,8 +169,6 @@ export const HomeEnc = () => {
                 
                 <Plantillas/>
               </div>
-           
-               
                 
               )}
           </Container> 

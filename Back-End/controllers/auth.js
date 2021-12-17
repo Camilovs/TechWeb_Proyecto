@@ -10,7 +10,14 @@ const crearEstudiante = async (req, res = response) => {
   const {email,pass, pass2} = req.body;
 
   try {
-
+    
+    const verifEmail = email.split('@')
+    if(verifEmail[1] !== 'alumnos.utalca.cl'){
+      return res.status(400).json({
+        ok:false,
+        msg:"Correo no valido"
+      })
+    }
     //Consultar si existe un usuario en la base de datos
     let usuario = await Usuario.findOne({email})
     if(usuario){

@@ -13,12 +13,15 @@ const LogoMeAnoto = styled.div`
 export const Login = ({changeVista}) => {
   let history = useHistory();
   const [status, setStatusBase] = React.useState("");
+  const [msgError, setMsgError] = useState('')
+  const [error, setError] = useState(false)
+  const [warning, setWarning] = useState(false)
   const initialValue = {
     email:'',
     password:'',
     checkRemember:0
   };
-  const [formValues, setFormValues] = useState(initialValue)  
+  const [formValues, setFormValues] = useState(initialValue)
   const {email, password} = formValues;
 
   const RedirectTo = (usuario) => {
@@ -60,14 +63,17 @@ export const Login = ({changeVista}) => {
 
       const resp = await fetchSinToken('auth', {"email":email, "pass":password}, 'POST')
       const usuario = await resp.json();
-      
+
       if (usuario.ok === false){
-        console.log("ERROR", usuario.msg)
-        setFormValues(initialValue)
-        setStatusBase({ msg: usuario.msg, key: Math.random() });
+        if(usuario.errors){
+          setMsgError('ERROR: Alguno de los campos tiene un formato incorrecto, porfavor revisa correo y contraseña.')
+        }
+        else{
+          setMsgError(usuario.msg)
+        }
+        setError(true)
       }
       else {
-        // console.log(usuario)
         localStorage.setItem('userToken', usuario.token)
         localStorage.setItem('uid', usuario.uid)
         setSemestreActual()
@@ -76,11 +82,12 @@ export const Login = ({changeVista}) => {
     }
     else {
       setStatusBase({ msg: "Ingrese un Correo y Contraseña", key: Math.random() });
+      setWarning(true)
     }
   };
 
-  
-  
+
+
   return (
     <Fragment>
       <LogoMeAnoto>
@@ -96,10 +103,10 @@ export const Login = ({changeVista}) => {
           <label htmlFor="email" className="form-label">
             Correo electrónico
           </label>
-          <input 
-            type="email" 
-            className="form-control" 
-            name="email" 
+          <input
+            type="email"
+            className="form-control"
+            name="email"
             id="loginEmail"
             value={email}
             onChange={handleInputChange}
@@ -107,13 +114,13 @@ export const Login = ({changeVista}) => {
           <label htmlFor="email" className="form-label">
             Contraseña
           </label>
-          <input 
-            type="password" 
-            className="form-control" 
-            name="password" 
+          <input
+            type="password"
+            className="form-control"
+            name="password"
             id="loginPassword"
             value={password}
-            onChange={handleInputChange}  
+            onChange={handleInputChange}
           />
           <div className="form-group form-check">
             <input type="checkbox" className="form-check-input" id="remember"></input>
@@ -135,7 +142,19 @@ export const Login = ({changeVista}) => {
           </button>
         </div>
       </div>
-      {status ? <AlertMassage key={status.key} message={status.msg} /> : null}
+      {error && (
+        <AlertMassage
+          message={msgError}
+          setState={setError}
+          severity='error'
+        />
+      )}
+      {warning && (
+        <AlertMassage
+          message={status.msg}
+          setState={setWarning}
+        />
+      )}
     </Fragment>
   )
 }
