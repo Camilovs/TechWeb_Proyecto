@@ -284,9 +284,11 @@ export const Instituciones = () => {
                           {row.encargados[0].email}
                         </TableCell>
                         <TableCell align="right">
+{/*
                           <Button variant="outlined" size="small">
                             <EditIcon />
                           </Button>
+*/}
                           <Button
                             variant="outlined"
                             size="small"
