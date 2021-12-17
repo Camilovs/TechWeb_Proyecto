@@ -27,11 +27,13 @@ export const Modulos = ({accion, setAccion}) => {
   const [modulos, setModulos] = useState([])
   const [reloadTable, setReloadTable] = useState(true)
   const [idModulo, setIdModulo] = useState('sin id');
+
   const getModulos = async(semestre, name,e) => {
     console.log(e.target.id)
     setLoading(true)
+    const profeId = localStorage.getItem('uid')
     const queryModulos = await fetchConToken(
-      `modulos/bysemestre/${semestre}`,
+      `modulos/byProfe/${semestre}/${profeId}`,
       {}, 
       'GET'
     )
@@ -42,28 +44,35 @@ export const Modulos = ({accion, setAccion}) => {
     setLoading(false) 
   }
   
-  useEffect( async() => {
-    const querySemestres = await fetchConToken(
-      'semestres',
-      {}, 
-      'GET'
-    )
-    const respSemestres = await querySemestres.json();
-    respSemestres.semestres.map(async(semestre)=>{
-      if(semestre.actual){
-        const queryModulos = await fetchConToken(
-          `modulos/bysemestre/${semestre._id}`,
-          {}, 
-          'GET'
-        )
-        const respModulos = await queryModulos.json();
-        if(respModulos.ok){
-          setModulos(respModulos.modulos)
+  useEffect( () => {
+
+    async function fetchdata() {
+      const querySemestres = await fetchConToken(
+        'semestres',
+        {}, 
+        'GET'
+      )
+      const profeId = localStorage.getItem('uid')
+      const respSemestres = await querySemestres.json();
+      respSemestres.semestres.map( async(semestre)=>{
+        if(semestre.actual){
+          const queryModulos = await fetchConToken(
+            `modulos/byProfe/${semestre._id}/${profeId}`,
+            {}, 
+            'GET'
+          )
+          const respModulos = await queryModulos.json();
+          if(respModulos.ok){
+            setModulos(respModulos.modulos)
+          }
         }
-      }
-    })
-    setSemestres(respSemestres.semestres)
-    setLoading(false) 
+      })
+      setSemestres(respSemestres.semestres)
+      setLoading(false) 
+    }
+    fetchdata()
+
+    
 
   }, [reloadTable])
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Fragment } from 'react';
 import { Header } from '../shared/Header';
 import { NavBar } from '../shared/NavBar'
@@ -7,6 +7,8 @@ import { useState } from 'react';
 import { SideBar } from '../shared/SideBar';
 import { Modulos } from './Modulos';
 import { Footer } from '../shared/Footer';
+import { useHistory } from 'react-router-dom';
+import { revisarToken } from '../shared/validarUsuario';
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -28,7 +30,7 @@ const Content = styled.div`
 `;
 
 export const HomeProfe = () => {
-
+  let history = useHistory()
   const [accion, setAccion] = useState('lista');
   const [sideBarSelect, setSideBarSelect] = useState('Módulos')
 
@@ -40,7 +42,20 @@ export const HomeProfe = () => {
       icon:"fa fa-archive"
     }
   ]
-
+  const redirectToOut = () => {
+    console.log('redirectout')
+    history.push('/')
+  }
+  
+  useEffect(() => {
+    async function waitValidate(){
+      if(! await revisarToken('Profesor')){
+        redirectToOut()
+      }
+    }
+    waitValidate()
+    // revisarToken()
+  }, [])
   return (
     <Fragment>
       <NavBar/>

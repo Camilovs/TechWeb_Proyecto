@@ -333,6 +333,45 @@ const getModuloBySemestre = async(req, res=response) => {
   
 }
 
+const getModulosBySemestreByProfe = async(req, res=response) => {
+  
+  const semestreId = req.params.semestreId;
+  const profesorId = req.params.profeId;
+  if(semestreId===''){
+    return res.status(404).json({
+      ok:false,
+      msg:"Semestre no existe"
+    })
+  }
+
+
+  try {
+    const semestre = await Semestre.findById(semestreId);
+    if(!semestre){
+      return res.status(404).json({
+        ok:false,
+        msg:"Semestre no existe"
+      })
+    }
+    const modulos = await Modulo.find({semestre:semestreId, profesor:profesorId })
+    if(!modulos){
+      return res.status(404).json({
+        ok:false,
+        msg:"no hay modulos"
+      })
+    }
+    res.status(200).json({
+      ok:true,
+      msg:'Modulos encontrados',
+      modulos
+    })
+  } catch (error) {
+    
+  }
+  
+
+}
+
 
 module.exports = {
   crearModulo,
@@ -342,5 +381,6 @@ module.exports = {
   getModuloById,
   addUsuarioToModulo,
   addClaseToModulo,
-  getModuloBySemestre
+  getModuloBySemestre,
+  getModulosBySemestreByProfe
 }

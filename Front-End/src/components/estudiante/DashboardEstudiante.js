@@ -1,5 +1,9 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Button, Grid, makeStyles } from "@material-ui/core";
+import {
+  Button,
+  Grid,
+  makeStyles,
+} from "@material-ui/core";
 
 import { useHistory } from "react-router-dom";
 
@@ -12,6 +16,7 @@ import { CursoCard } from "./CursoCard";
 import { NavBar } from "../shared/NavBar";
 import { Footer } from "../shared/Footer";
 import { VistaReservas } from "./VistaReservas";
+import { revisarToken } from "../shared/validarUsuario";
 import { fetchConToken } from "../../helpers/fetch";
 import { Loading } from "../shared/Loading";
 
@@ -109,7 +114,24 @@ export function DashboardEstudiante() {
     setValue(newValue);
     console.log(newValue);
   };
+  function cambiarNombre(){
+    cursos[0].nombre="curso extraño";
+  }
+  const redirectToOut = () => {
+    console.log('redirectout')
+    history.push('/')
+  }
+  
+  useEffect(() => {
+    async function waitValidate(){
 
+      if(! await revisarToken('Estudiante')){
+        redirectToOut()
+      }
+    }
+    waitValidate()
+    // revisarToken()
+  }, [])
   return (
     <Fragment>
       {loading ? (
