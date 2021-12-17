@@ -1,9 +1,9 @@
 import React from 'react'
 
-export const AsignarSala = () => {
+export const EditEstudiante = () => {
   return (
     <div>
-      <h1>Asignar Sala</h1>
+      
     </div>
   )
 }

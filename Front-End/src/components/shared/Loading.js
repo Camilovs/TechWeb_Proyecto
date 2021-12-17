@@ -6,10 +6,11 @@ const BoxLoading = styled.div`
   display: flex;
   align-items: center;
   justify-items: center;
-`;
+  `
+;
 export const Loading = () => {
   return (
-    <BoxLoading >    
+    <BoxLoading>
         <CircularProgress color="inherit"/>  
         <h5 className="m-3" >Cargando...</h5>  
     </BoxLoading>

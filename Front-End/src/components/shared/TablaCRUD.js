@@ -9,7 +9,6 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 import { useConfirm } from "material-ui-confirm";
-import { fetchConToken } from '../../helpers/fetch';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   
@@ -21,33 +20,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     fontSize:15
   
 }));
-
-const defaultHead = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
-  {
-    id: 'population',
-    label: 'Population',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'density',
-    label: 'Density',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2),
-  },
-];
-
 /*
 Tabla que muestra los datos con paginación incluida. Recibe los head, que 
 son los titulos de la tabla y la data, que es un arreglo de objetos
@@ -56,7 +28,7 @@ que iran en cada fila de la tabla. Como ejemplos consultar "defaultHead" y
 */
 export const TablaCRUD = (
   { 
-    head = defaultHead, 
+    head , 
     data = {},
     updateAccion,
     updateId,

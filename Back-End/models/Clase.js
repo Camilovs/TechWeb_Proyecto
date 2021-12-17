@@ -26,7 +26,11 @@ const ClaseSchema = Schema({
     ref:'Sala'
   },
   salaNombre:String,
-  fechaUnica:Date
+  fechaUnica:Date,
+  estudiantes:[{
+    type:Schema.Types.Mixed
+  }]
+
 });
 
 module.exports = model('Clase', ClaseSchema);

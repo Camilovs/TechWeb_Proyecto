@@ -62,7 +62,7 @@ export const HomeProfe = () => {
         </Content>   
       </Body>
 
-      <Footer/>
+      {/* <Footer/> */}
     </Fragment>
   )
 }

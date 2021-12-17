@@ -3,6 +3,7 @@ import { Fade, Modal, Backdrop } from '@mui/material';
 import { Box } from '@mui/system';
 import { bloques } from '../../../api/bloques';
 import { fetchConToken } from '../../../helpers/fetch';
+import { dias } from '../../../api/dias';
 
 const style = {
   position: 'absolute',
@@ -13,14 +14,6 @@ const style = {
   bgcolor: 'white',
   boxShadow: 24,
 };
-const diasDefecto = [
-  "Lunes",
-  "Martes",
-  "Miercoles",
-  "Jueves",
-  "Viernes",
-  "Sabado"
-]
 
 export const AddClase = (
   {
@@ -264,7 +257,7 @@ export const AddClase = (
                     value={claseNueva.horario_dia}
                     onChange={handleInputChange}
                   >
-                    {diasDefecto.map((dia, i) => (
+                    {dias.map((dia, i) => (
                       <option key={i} value={dia}>
                         {dia}
                       </option>
