@@ -27,11 +27,13 @@ export const Modulos = ({accion, setAccion}) => {
   const [modulos, setModulos] = useState([])
   const [reloadTable, setReloadTable] = useState(true)
   const [idModulo, setIdModulo] = useState('sin id');
+
   const getModulos = async(semestre, name,e) => {
     console.log(e.target.id)
     setLoading(true)
+    const profeId = localStorage.getItem('uid')
     const queryModulos = await fetchConToken(
-      `modulos/bysemestre/${semestre}`,
+      `modulos/byProfe/${semestre}/${profeId}`,
       {}, 
       'GET'
     )

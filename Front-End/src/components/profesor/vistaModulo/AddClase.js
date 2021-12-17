@@ -30,6 +30,18 @@ export const AddClase = (
   const [horarioDisp, setHorarioDisp] = useState(false);
   const [unica, setUnica] = useState(false)
   const [salasDisp, setSalasDisp] = useState([])
+  const [salaElegida, setSalaElegida] = useState('')
+
+
+  const resetData = () => {
+    seTmoduloBloqueado(false)
+    setHorarioDisp(false)
+    setUnica(false)
+    setSalasDisp([])
+    setSalaElegida('')
+    setClaseNueva({})
+  }
+  
 
   const guardaClase = async (e) => {
     e.preventDefault()
@@ -50,7 +62,7 @@ export const AddClase = (
   
   const handleInputChange = ({target}) => {
     console.log(target.name, ' ',target.value)
-    
+
     if(target.name === 'tipo'){
       if(target.value === 'Unica'){
         setUnica(true)
@@ -62,6 +74,7 @@ export const AddClase = (
     if(target.name === 'sala'){
       const salafind = salasDisp.find( (sala) => sala._id === target.value)
       console.log(salafind)
+      setSalaElegida(target.value)
       setClaseNueva(
         {
           ...claseNueva,
@@ -69,7 +82,6 @@ export const AddClase = (
           salaNombre:salafind.nombre
         }
       )
-      verificarDisponibilidad(target.value)
     }
     else{
       setClaseNueva({
@@ -77,8 +89,11 @@ export const AddClase = (
         [target.name]:target.value
       })
     }
+    if(salaElegida!==''){
+      console.log('salaElegida', salaElegida)
+    }
   }
-  const verificarDisponibilidad = async(id) => {
+  const verificarDisponibilidadSala = async() => {
     const data = {
       dia:claseNueva.horario_dia,
       inicio:claseNueva.horario_inicio,
@@ -86,7 +101,7 @@ export const AddClase = (
     }
     console.log(data)
     const query = await fetchConToken(
-      `salas/dispHoraria/${id}`,
+      `salas/dispHoraria/${salaElegida}`,
       data,
       'POST'
     )
@@ -134,10 +149,19 @@ export const AddClase = (
     getNumBloques()
   }, [])
 
+  useEffect(() => {
+    if(salaElegida!==''){
+      verificarDisponibilidadSala()
+    }
+  }, [claseNueva])
+
   return (
     <Modal
         open={true}
-        onClose={() => setAddClase(!addClase)}
+        onClose={() => {
+          setAddClase(!addClase)
+          resetData()
+        }}
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         closeAfterTransition
