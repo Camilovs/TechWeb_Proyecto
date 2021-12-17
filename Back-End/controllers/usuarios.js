@@ -176,6 +176,35 @@ const getProfesores = async(req ,res = response) =>{
 
 }
 
+const getEstudiantes = async(req ,res = response) =>{
+
+  try{
+    const estudiantes = await Usuario.find({rol:"Estudiante"})
+
+    if(!estudiantes){
+      return res.status(404).json({
+        ok:false,
+        msg:"No existen estudiantes"
+      })
+    }
+    return(
+      res.status(200).json({
+        ok:true,
+        msg:"estudiantes encontrados",
+        estudiantes
+      })
+    )
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      ok:false,
+      msg:"error en bd, obtener estudiantes"
+    })
+  }
+
+}
+
 const getUsuarioById = async (req, res = response) =>{
   const iduser = req.params.id;
   try {
@@ -199,11 +228,52 @@ const getUsuarioById = async (req, res = response) =>{
     })
   }
 }
+
+const crearEstudiante = async (req, res = response) => {
+  
+  const {email,pass} = req.body
+  console.log(req.body)
+  try {
+    const estudiante = await Usuario.findOne({email})
+    if(estudiante){
+      return res.status(400).json({
+        ok:false,
+        msg:"Ya existe un alumno con ese correo"
+      })
+    }
+
+    const salt = bcrypt.genSaltSync();
+    const passEncrypt = bcrypt.hashSync(pass, salt);
+    
+    const newStudentData ={
+      ...req.body,
+      verificado:true,
+      rol:'Estudiante',
+      modulos:[],
+      pass:passEncrypt
+    }
+
+    const newStudent = new Usuario(newStudentData)
+    await newStudent.save()
+
+    res.status(201).json({
+      ok:true,
+      msg:'creacion de estudiante correcta',
+      estudiante:newStudent
+    })
+
+  } catch (error) {
+    
+  }
+}
+
 module.exports = {
   crearUsuario,
   actualizarUsuario,
   eliminarUsuario,
   getUsuarios,
   getProfesores,
-  getUsuarioById
+  getUsuarioById,
+  getEstudiantes,
+  crearEstudiante
 }

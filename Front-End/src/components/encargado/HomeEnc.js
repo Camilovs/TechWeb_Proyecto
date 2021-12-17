@@ -131,18 +131,14 @@ export const HomeEnc = () => {
               {(sideBarSelect==='Profesores') && (
                 
                 <div className={classes.page}>
-                
-                <Profesores/>
-              </div>
+                  <Profesores/>
+                </div>
               )}
               {(sideBarSelect==='Estudiantes') && (
                 <div className={classes.page}>
-                
-                <Estudiantes/>
-              </div>
-
-  
-                
+                  <Estudiantes/>
+                </div>
+            
               )}
               {(sideBarSelect==='Clases') && (
                 <Clases/>

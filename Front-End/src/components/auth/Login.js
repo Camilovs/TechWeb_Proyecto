@@ -2,8 +2,8 @@ import React, { Fragment, useState } from 'react'
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { fetchConToken, fetchSinToken } from '../../helpers/fetch';
-import Container from "@material-ui/core/Container";
-import AlertMassage from "./AlertMessage";
+import AlertMassage from '../shared/AlertMessage';
+
 
 const LogoMeAnoto = styled.div`
   text-align: center;

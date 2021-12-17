@@ -11,47 +11,6 @@ const StyledTableCell = styled(TableCell)`
   }
 `
 
-const AlumnosDefecto=[
-  {
-    nombre: "Pedrito Perez"
-  },
-  {
-    nombre: "Juanito Diaz"
-  },
-  {
-    nombre: "Camila Navarro"
-  },
-  {
-    nombre: "Diego Salazar"
-  },
-  {
-    nombre: "Rocio Villalobos"
-  },
-  {
-    nombre: "Henry Agusto"
-  },
-  {
-    nombre: "Carlos Peñaloza"
-  },
-  {
-    nombre: "Carlos Peñaloza"
-  },
-  {
-    nombre: "Carlos Peñaloza"
-  },
-  {
-    nombre: "Carlos Peñaloza"
-  },
-  {
-    nombre: "Carlos Peñaloza"
-  },
-  {
-    nombre: "Carlos Peñaloza"
-  },
-  {
-    nombre: "Carlos Peñaloza"
-  },
-]
 export const TableAlumnos = ({id, inscritos}) => {
 
   console.log('inscritos ',inscritos);

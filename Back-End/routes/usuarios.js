@@ -8,7 +8,9 @@ const {
   actualizarUsuario,
   crearUsuario, 
   getProfesores,
-  getUsuarioById
+  getUsuarioById,
+  getEstudiantes,
+  crearEstudiante
 } = require("../controllers/usuarios");
 const { validarCampos } = require("../middlewares/validar-campos");
 const { validarJWT } = require("../middlewares/validar-jwt");
@@ -29,6 +31,15 @@ router.post('/newuser',
   ], 
   crearUsuario);
 
+router.post('/newalumno',
+  [
+    check('nombre', 'El nombre debe ser un String').isString(),
+    check('email', 'El email no tiene formato correcto').isEmail(),
+    validarCampos
+
+  ],
+  crearEstudiante);
+
 router.put('/:id', 
   [
     check('nombre', 'El nombre debe ser un String').isString(),
@@ -42,5 +53,6 @@ router.put('/:id',
 router.delete('/:id', eliminarUsuario);
 router.get('/', getUsuarios);
 router.get('/profesores', getProfesores);
+router.get('/estudiantes', getEstudiantes);
 router.get('/:id', getUsuarioById);
 module.exports = router;

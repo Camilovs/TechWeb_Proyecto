@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { passwordStrength } from 'check-password-strength'
 import { fetchSinToken } from '../../helpers/fetch';
 import { useHistory } from 'react-router';
-import AlertMassage from "./AlertMessage"
+import AlertMassage from '../shared/AlertMessage';
+
 var emailTrue = require("email-validator");
 
 const Logo = styled.div`
