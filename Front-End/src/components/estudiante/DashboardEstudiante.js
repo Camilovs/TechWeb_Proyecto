@@ -56,16 +56,8 @@ const useStyles = makeStyles((theme) => {
 export function DashboardEstudiante() {
   const [loading, setLoading] = useState(true);
   const [cursosAlumno, setCursosAlumno] = useState([]);
-const [nombreUsuario, setnombreUsuario] = useState("")
-  useEffect(async () => {
-    //Es necesario recargar la página para que algunos íconos se rendericen correctamente
-    if (!window.location.hash) {
-      window.location = window.location + "#loaded";
-      window.location.reload();
-    }
-    const id = localStorage.getItem("uid");
+  const [nombreUsuario, setnombreUsuario] = useState("")
 
- 
 
   const classes = useStyles();
   const history = useHistory();
@@ -140,8 +132,14 @@ const [nombreUsuario, setnombreUsuario] = useState("")
       }
       setLoading(false);
     }
-      fetchData()
-    
+    fetchData()
+
+    //Es necesario recargar la página para que algunos íconos se rendericen correctamente
+    if (!window.location.hash) {
+      window.location = window.location + "#loaded";
+      window.location.reload();
+    }
+    const id = localStorage.getItem("uid");
     // revisarToken()
   }, [])
   return (

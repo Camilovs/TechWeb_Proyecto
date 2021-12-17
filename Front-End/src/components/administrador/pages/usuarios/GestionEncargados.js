@@ -93,45 +93,29 @@ export const GestionEncargados = () => {
       setencargados(resp.usuarios);
     }
 
-    setencargados(resp.usuarios);
     const query2 = await fetchConToken("instituciones", {}, "GET");
+    
     const resp2 = await query2.json();
 
-    setinstituciones(resp2.instituciones);
+    if(resp2.ok){ 
+      setinstituciones(resp2.instituciones);
+    }
   }, [reloadTable]);
   
-  function eliminarEncargado() {
-    setabrirModal(true);
-    setDatos(
-      <form className={classes.root}>
-        ¿Seguro que quieres eliminar a este profesor?
-        <div>
-          <Button variant="contained">Cancelar</Button>
-          <Button
-            type="submit"
-            variant="contained"
-            style={{ backgroundColor: "#303e4e", WebkitTextFillColor: "white" }}
-          >
-            Eliminar
-          </Button>
-        </div>
-      </form>
-
   function buscarEnInstituciones(valor) {
     return instituciones.find((element) => {
       return element.encargados[0].id === valor._id;
     });
   }
- const eliminarEncargado= async (valores)=> {
+
+  const eliminarEncargado= async (valores)=> {
     const resp = await fetchConToken(
       `usuarios/${valores._id}`,
         {},
       "DELETE"
     );
     const body = await resp.json();
-   
     reload();
-    
   }
   return (
     <div>
