@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {  makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 import { Button } from "@material-ui/core";
 import EditIcon from "@mui/icons-material/Edit";
@@ -94,23 +94,16 @@ export const GestionAdministradores = () => {
     setpasswordAdmin("");
     setemailAdmin("");
   };
-  function eliminarAdmin() {
-    setabrirModal(true);
-    setDatos(
-      <form className={classes.root}>
-        ¿Seguro que quieres eliminar a este estudiante?
-        <div>
-          <Button variant="contained">Cancelar</Button>
-          <Button
-            type="submit"
-            variant="contained"
-            style={{ backgroundColor: "#303e4e", WebkitTextFillColor: "white" }}
-          >
-            Eliminar
-          </Button>
-        </div>
-      </form>
+  const eliminarAdmin= async (valores)=> {
+    
+    const resp = await fetchConToken(
+      `usuarios/${valores._id}`,
+        {},
+      "DELETE"
     );
+    const body = await resp.json();
+   
+    reload();
   }
   return (
     <div>
@@ -185,7 +178,9 @@ export const GestionAdministradores = () => {
           </TableHead>
           <TableBody>
             {administradores.length !== 0
-              ? administradores.filter((admin) => admin.rol === "Admin").map((row) => (
+              ? administradores
+                  .filter((admin) => admin.rol === "Admin")
+                  .map((row) => (
                     <TableRow
                       key={row.nombre}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -197,17 +192,20 @@ export const GestionAdministradores = () => {
                         {row.email}
                       </TableCell>
                       <TableCell align="right">
-                        <Button variant="outlined" size="small">
-                          <EditIcon />
-                        </Button>
-
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          onClick={() => eliminarAdmin()}
-                        >
-                          <DeleteIcon />
-                        </Button>
+                        {localStorage.getItem("uid") !== row._id ? (
+                          <div>
+ 
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              onClick={() => eliminarAdmin(row)}
+                            >
+                              <DeleteIcon />
+                            </Button>
+                          </div>
+                        ) : (
+                          ""
+                        )}
                       </TableCell>
                     </TableRow>
                   ))

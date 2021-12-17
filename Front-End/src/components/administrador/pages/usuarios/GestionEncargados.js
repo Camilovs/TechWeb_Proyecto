@@ -85,30 +85,33 @@ export const GestionEncargados = () => {
   const reload = () => {
     setReloadTable(!reloadTable);
   };
-
+  const [instituciones, setinstituciones] = useState([]);
   useEffect(async () => {
     const query = await fetchConToken("usuarios", {}, "GET");
     const resp = await query.json();
 
     setencargados(resp.usuarios);
+    const query2 = await fetchConToken("instituciones", {}, "GET");
+    const resp2 = await query2.json();
+
+    setinstituciones(resp2.instituciones);
   }, [reloadTable]);
-  function eliminarEncargado() {
-    setabrirModal(true);
-    setDatos(
-      <form className={classes.root}>
-        ¿Seguro que quieres eliminar a este profesor?
-        <div>
-          <Button variant="contained">Cancelar</Button>
-          <Button
-            type="submit"
-            variant="contained"
-            style={{ backgroundColor: "#303e4e", WebkitTextFillColor: "white" }}
-          >
-            Eliminar
-          </Button>
-        </div>
-      </form>
+
+  function buscarEnInstituciones(valor) {
+    return instituciones.find((element) => {
+      return element.encargados[0].id === valor._id;
+    });
+  }
+ const eliminarEncargado= async (valores)=> {
+    const resp = await fetchConToken(
+      `usuarios/${valores._id}`,
+        {},
+      "DELETE"
     );
+    const body = await resp.json();
+   
+    reload();
+    
   }
   return (
     <div>
@@ -200,16 +203,16 @@ export const GestionEncargados = () => {
                         {row.email}
                       </TableCell>
                       <TableCell align="right">
-                        <Button variant="outlined" size="small">
-                          <EditIcon />
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          onClick={() => eliminarEncargado()}
-                        >
-                          <DeleteIcon />
-                        </Button>
+                       
+                          <Button
+                          disabled={buscarEnInstituciones(row)}
+                            variant="outlined"
+                            size="small"
+                            onClick={() => eliminarEncargado(row)}
+                          >
+                            <DeleteIcon />
+                          </Button>
+                   
                       </TableCell>
                     </TableRow>
                   ))
